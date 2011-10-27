@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;maxCpuTime&apos; in &apos;Process.giveCpuTime(...)&apos; to &apos;givenCpuTime&apos;&#x0D;&#x0A;- Original project: &apos;TDT4186 - Oving 3&apos;&#x0D;&#x0A;- Original element: &apos;Process.giveCpuTime(long).maxCpuTime&apos;&#x0D;&#x0A;- Renamed element: &apos;maxCpuTime&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;maxCpuTime&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;{Process.java[Process~giveCpuTime~J@maxCpuTime!4606!4620!4611!4620!J!0!true" name="givenCpuTime" references="true" stamp="1319748842530" version="1.0"/>
+</session>

@@ -1,0 +1,150 @@
+\documentclass[norsk,a4paper,landscape]{article}
+
+% For norske bokstaver
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{wrapfig}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[a4paper,landscape]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{parskip} % for litt mellomrom mellom avsnittene
+\usepackage{amsmath,bussproofs}
+
+\title{TDT4136 Logic And Reasoning Systems\\
+{\Huge Exercise 3}}
+\author{Stian Hvatum (hvatum) og Bjørn Christian Seime (bjorncs)\\MTDT}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\newpage
+\pagenumbering{Roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+\section{Task 1}
+\framebox[\linewidth][c]{\parbox{0.9\linewidth} {
+A steeple-building robot looks for two blocks that are clear and puts one of
+them on top of the other (if the block being moved can be located as being on some other block or on the floor).
+\newline
+Write down the FOL expression that might be used to determine whether or not
+there exists two such blocks. } }
+
+ 
+\(\exists x,y Box(x) \land Box(y) \land (On\_floor(y) \lor On\_top(y)) \land
+(On\_floor(x) \lor On\_top(x) \land \lnot (x = y))
+\)
+
+\section{Task 2}
+\framebox[\linewidth][c]{\parbox{0.9\linewidth} {
+The function \(Cons(x,y)\) denotes the list formed by inserting the element
+\(x\) at the head of the list \(y\). We denote the empty list [] by \(Nil\);
+the list [2] by \(Cons(2,Nil);\) the list [1,2] by \(Cons(1,Cons(2,Nil));\) and
+so on. The formula \(Last(l,e)\) is intended to mean that \(e\) is the last
+element of the list \(l\). We have the following axioms:
+
+ \( \forall u (Last(Cons(u,Nil),u)) \)
+
+ \( \forall x,y,z (Last(y,z) \Rightarrow Last(Cons(x,y),z)) \)
+}  }
+
+\subsection{Prove the following theorem from these axioms by the method of
+resolution refutation}
+\framebox[\linewidth][c]{\parbox{0.9\linewidth} {
+\(\exists v Last(Cons(2,Cons(1,Nil)),v) \)
+} }
+
+Vi har aksiomene: \\
+\( \forall u (Last(Cons(u,Nil),u)) \) \\
+ \( \forall x,y,z (Last(y,z) \Rightarrow Last(Cons(x,y),z)) \) \\
+
+Vi begynner med å neglere påstanden: \\
+\(\lnot(\exists v Last(Cons(2,Cons(1,Nil)),v)) \) \\
+
+Vi har nå disse uttrykkene: \\
+\(  \forall u (Last(Cons(u,Nil),u)) \\
+    \forall x,y,z (Last(y,z) \Rightarrow Last(Cons(x,y),z)) \\
+    \lnot(\exists v Last(Cons(2,Cons(1,Nil)),v)) \) \\
+
+Vi erstatter kvantifikatorene med Skolem-funksjoner: \\
+\( Last(Cons(D(u),Nil),D(u)) \\
+     Last(B(y),C(z)) \Rightarrow Last(Cons(A(x),B(y)),C(z)) \\
+    \lnot Last(Cons(2,Cons(1,Nil)),E(v)) \) \\
+
+Så fjerner vi implikasjoner, og får KB: \\
+\(Last(Cons(D(u),Nil),D(u))\\
+  \lnot Last(B(y),C(z)) \lor Last(Cons(A(x),B(y)),C(z)) \) \\
+      
+og startutrykk: \\
+\(\lnot Last(Cons(2,Cons(1,Nil)),E(v)) \) \\
+
+Deretter viser vi at dette er en motsigelse: \\
+\begin{tabular}{|c|c|c|}
+\hline
+\(
+\lnot Last(B(y),C(z)) \lor Last(Cons(A(x),B(y)),C(z)) \) & \(\lnot
+ Last(Cons(2,Cons(1,Nil)),E(v)) \) & \(\Theta
+ \{A(x)/2,B(y)/Cons(1,Nil),C(z)/E(v)\}\)\\
+\hline
+\(Last(Cons(D(u),Nil),D(u))\) & \(\lnot Last(Cons(1,Nil),E(v)) \)  & \(\Theta
+D(u)/E(v),E(v)/1\}\) \\
+\hline 
+ \ & [ ] & \ &
+ \hline
+
+\end{tabular}
+
+\subsection{Use answer literal extraction to find v, the last element of the
+\(list [2,1]\)}
+Vi ser av siste setning i beviset at \(E(v)\) må være 1
+
+\newpage
+\section{Task 3}
+\subsection{Create a Full-Adder}
+\(XOR(i1, i2, oa) \land AND(i1, i2, ob) \land AND(ci, oa, oc) \land OR(ob, oc,
+co) \land XOR(oa, ci, o) \Rightarrow ADD(i1, i2, ci, o, co)
+\)
+
+\subsection{Queries for verification}
+Vi ville brukt alle mulige kombinasjoner av denne typen, og sjekket at de var
+sanne: \\
+ \(ADD(0,0,0,0,0) \) \\
+\(ADD(1,1,1,1,1) \) \\
+\(ADD(1,1,0,0,1) \) \\
+\(ADD(1,0,0,1,0) \) \\
+
+Og tilsvarende sjekket at utsagn av denne typen var falske: \\
+ \(ADD(0,1,0,0,0) \) \\
+\(ADD(1,1,1,0,1) \) \\
+\(ADD(1,1,0,1,1) \) \\
+\(ADD(1,0,0,0,0) \) \\
+
+\section{Task 4}
+\subsection{}
+Bruk KB:
+\lstinputlisting[language=prolog]{ex3t4-1.pl}
+og kjør:\\
+?- last(cons(2, cons(1, nil)), V).
+
+Denne spørringen svarer V = 1
+
+\subsection{}
+Bruk KB:
+\lstinputlisting[language=prolog]{ex3t4-2.pl}
+Kjør: \\
+?- cons(1,[],A), cons(2, A, B), last(B, V).
+
+Denne spørringen svarer \\
+A = [1] \\
+B = [2, 1] \\
+V = 1 \\
+    
+\subsection{}
+Vi definerer programmet slik:
+\lstinputlisting[language=prolog]{ex3t4-3.pl}
+
+\subsection{}
+Vi definerer programmet slik:
+\lstinputlisting[language=prolog]{ex3t4-4.pl}
+\end{document}

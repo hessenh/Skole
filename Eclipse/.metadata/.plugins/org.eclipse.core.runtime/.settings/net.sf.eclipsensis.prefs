@@ -1,0 +1,6 @@
+#Thu Oct 27 19:53:15 CEST 2011
+instructions=net.sf.eclipsensis.settings.NSISPreferences.instructions.ser
+symbols=net.sf.eclipsensis.settings.NSISPreferences.symbols.ser
+eclipse.preferences.version=1
+pluginVersion=0.9.8.1
+nsisHome=C\:\\Program Files (x86)\\NSIS

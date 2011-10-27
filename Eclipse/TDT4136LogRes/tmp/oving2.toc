@@ -1,0 +1,19 @@
+\select@language {norsk}
+\contentsline {section}{\numberline {1}Propositional Logic}{1}
+\contentsline {subsection}{\numberline {1.1}Truth and proofs}{1}
+\contentsline {subsubsection}{\numberline {1.1.1}Truth table for \relax $((p \Rightarrow q) \land (\neg q \Rightarrow r)\land r) \Rightarrow p\relax \GenericError { }{LaTeX Error: Bad math environment delimiter}{See the LaTeX manual or LaTeX Companion for explanation.}{Your command was ignored.\MessageBreak Type I <command> <return> to replace it with another command,\MessageBreak or <return> to continue without it.}}{1}
+\contentsline {subsubsection}{\numberline {1.1.2}How many models can you find for the formula: \relax $((p \Rightarrow q) \land (-q \Rightarrow r)\land r) \Rightarrow p\relax \GenericError { }{LaTeX Error: Bad math environment delimiter}{See the LaTeX manual or LaTeX Companion for explanation.}{Your command was ignored.\MessageBreak Type I <command> <return> to replace it with another command,\MessageBreak or <return> to continue without it.}?}{1}
+\contentsline {subsubsection}{\numberline {1.1.3}Is the formula \relax $((p \Rightarrow q) \land (\neg q \Rightarrow r)\land r) \Rightarrow p\relax \GenericError { }{LaTeX Error: Bad math environment delimiter}{See the LaTeX manual or LaTeX Companion for explanation.}{Your command was ignored.\MessageBreak Type I <command> <return> to replace it with another command,\MessageBreak or <return> to continue without it.} satisfiable?}{1}
+\contentsline {subsubsection}{\numberline {1.1.4}The iacme-algorithm}{1}
+\contentsline {subsubsection}{\numberline {1.1.5}Express the following sentences in Propositional Logic:}{1}
+\contentsline {subsubsection}{\numberline {1.1.6}Convert the above formulas to Conjunctive Normal Form and prove with resolution that: ``John\IeC {\textquoteright }s car is not working.''}{2}
+\contentsline {subsubsection}{\numberline {1.1.7}The Deduction Theorem}{2}
+\contentsline {section}{\numberline {2}First Order Predicate Logic}{3}
+\contentsline {subsection}{\numberline {2.1}Express the following sentences in first order predicate logic}{3}
+\contentsline {subsubsection}{\numberline {2.1.1}A boy kisses a girl}{3}
+\contentsline {subsubsection}{\numberline {2.1.2}Francine talked to every person in the room}{3}
+\contentsline {subsubsection}{\numberline {2.1.3}All paid jobs absorb and degrade the mind}{3}
+\contentsline {subsection}{\numberline {2.2}Express the following sentences in first order predicate logic}{3}
+\contentsline {subsubsection}{\numberline {2.2.1}Jack loves a girl who doesn\IeC {\textquoteright }t love him}{3}
+\contentsline {subsubsection}{\numberline {2.2.2}Jack was given a rose by all the girls, except by the one he loves}{3}
+\contentsline {subsubsection}{\numberline {2.2.3}Not everything that can be counted counts, and not everything that counts can be counted}{3}

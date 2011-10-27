@@ -1,0 +1,72 @@
+\documentclass[norsk,a4paper]{article}
+
+% For norske bokstaver
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{wrapfig}
+\usepackage{listings}
+\usepackage{color}
+\lstset{frame=shadowbox, rulesepcolor=\color{blue}}
+\usepackage{qtree}
+% \usepackage[a4paper,landscape]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{parskip} % for litt mellomrom mellom avsnittene
+\usepackage{amsmath,bussproofs}
+
+\title{TDT4136 Logic And Reasoning Systems\\
+{\Huge Exercise 4}}
+\author{Stian Hvatum (hvatum)\\MTDT}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\newpage
+\pagenumbering{Roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+\section{Task 1}
+
+\framebox[\linewidth][c]{\parbox{0.9\linewidth} {
+The following Prolog code defines a predicate \(p\). \\ 
+ \(p(X,[X|Y]).\) \\
+ \(p(X,[Y|Z]) :- p(X,Z).\)
+}  }
+\subsection{}
+\framebox[\linewidth][c]{\parbox{0.9\linewidth} {
+Show the proof trees of the queries\\
+\(?- p(A,[1,2,3]).\)\\
+\(?-p(2,[1,A,4]).\)
+}}
+
+\Tree [.\(p(A,[1,2,3])\)
+    [.{\(p(A,[1,2,3])\)\\\(\Theta\)\{\(X/A,X/1,Y/[2,3]\)\}} \(A=1\) ]
+        [.{\(p(A,[1,2,3])\)\\\(\Theta\)\{\(X/A,Y/1,Z/[2,3]\)\}}
+                [.{\(p(A,[2,3])\)\\\(\Theta\)\{\(X/A,X/2,Y/[3]\)\}} \(A=2\) ]
+                [.\(p(A,[2,3])\)\\\(\Theta\)\{\(X/A,Y/2,Z/[3]\)\}
+                    [.{\(p(A,[3])\)\\\(\Theta\)\{\(X/A,X/3,Y/[]\)\}} \(A=3\) ]
+                    [.\(p(A,[3])\)\\\(\Theta\)\{\(X/A,X/3,Y/[]\)\} 
+                        [.\(p(A,[])\) False ]
+                        [.\(p(A,[])\) False ]
+                    ]
+                 ]
+        ]
+    ]
+
+\subsection{}
+\(p\) representerer \(member(element,list)\), funksjonen sjekker om A er
+element i lista.
+
+\newpage
+\section{Task 2}
+\subsection{Kode}
+Jeg har brukt \(insert\) fra forrige øving.
+\lstinputlisting[language=prolog]{ex4t2.pl}
+\subsection{Teori}
+\subsubsection{Deloppgave 2d)}
+Slow\_sort finner alle permutasjoner av lista, og sjekker om de er sorterte. Å
+sjekke om en vilkårlig liste er sortert, tar \(O(N)\) tid. Å finne
+permutasjoner alle \(N!\) permutasjonene tar \(O(N!)\). Vi må for hver
+permutasjon sjekke om denne er sortert, til sammen gir dette en kompleksitet på
+\(O(N\cdot N!)\).
+\end{document}

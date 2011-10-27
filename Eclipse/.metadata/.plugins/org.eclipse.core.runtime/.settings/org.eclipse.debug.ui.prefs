@@ -1,0 +1,6 @@
+#Thu Oct 27 20:31:10 CEST 2011
+pref_state_memento.org.eclipse.debug.ui.DebugVieworg.eclipse.debug.ui.DebugView=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<DebugViewMemento org.eclipse.debug.ui.BREADCRUMB_DROPDOWN_AUTO_EXPAND\="false"/>
+eclipse.preferences.version=1
+preferredDetailPanes=DefaultDetailPane\:DefaultDetailPane|org.eclipse.jdt.debug.ui.DETAIL_PANE_LINE_BREAKPOINT\:org.eclipse.jdt.debug.ui.DETAIL_PANE_LINE_BREAKPOINT|
+preferredTargets=default\:default|default,org.eclipse.cdt.debug.ui.toggleCBreakpointTarget\:default|org.eclipse.cdt.debug.ui.toggleCBreakpointTarget\:org.eclipse.cdt.debug.ui.toggleCBreakpointTarget|
+org.eclipse.debug.ui.PREF_LAUNCH_PERSPECTIVES=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<launchPerspectives/>\r\n

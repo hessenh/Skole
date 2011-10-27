@@ -1,0 +1,13 @@
+#TeXlipse project settings
+#Sat Oct 01 13:32:45 CEST 2011
+builderNum=2
+outputDir=
+makeIndSty=
+bibrefDir=
+outputFormat=pdf
+tempDir=tmp
+mainTexFile=oving4.tex
+outputFile=oving4.pdf
+langSpell=no
+markDer=true
+srcDir=

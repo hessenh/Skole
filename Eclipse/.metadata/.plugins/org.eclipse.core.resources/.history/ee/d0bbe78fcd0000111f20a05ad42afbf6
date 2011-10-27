@@ -1,0 +1,97 @@
+\documentclass[norsk,a4paper]{article}
+
+% For norske bokstaver
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{wrapfig}
+\usepackage{listings,color,textcomp}
+\lstloadlanguages{prolog}
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\lstset{
+    backgroundcolor=\color{lbcolor},
+    tabsize=4,
+    rulecolor=,
+    language=prolog,
+        basicstyle=\scriptsize,
+        upquote=true,
+        aboveskip={1.5\baselineskip},
+        columns=fixed,
+        showstringspaces=false,
+        extendedchars=true,
+        breaklines=true,
+        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+        frame=single,
+        showtabs=false,
+        showspaces=false,
+        showstringspaces=false,
+        identifierstyle=\ttfamily,
+        keywordstyle=\color[rgb]{0,0,1},
+        commentstyle=\color[rgb]{0.133,0.545,0.133},
+        stringstyle=\color[rgb]{0.627,0.126,0.941},
+}
+\usepackage{qtree}
+% \usepackage[a4paper,landscape]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{parskip} % for litt mellomrom mellom avsnittene
+\usepackage{amsmath,bussproofs}
+
+\title{TDT4136 Logic And Reasoning Systems\\
+{\Huge Exercise 5 Production Systems}}
+\author{Stian Hvatum (hvatum)\\MTDT}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\newpage
+\pagenumbering{Roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+\section{``Manuel'' the lift operator}
+\subsection{Beskrivelse av hvordan jeg har løst oppgaven}
+I denne øvingen har jeg implementert et ekspertsystem som skal kunne avløse
+``Manuel'', som kjører heisen i Sentralbygg II.
+
+Koden består av en rekke fakta, etterfulgt av regler. Dette kjøres i et system
+kalt \emph{PROXY}, på toppen av programmeringsspråket \emph{Prolog}.
+
+Faktaene vi starer med, er \emph{scenariet} vi velger som startpunkt. Dette
+innerbærer stort sett om døren er åpen eller lukket, hvilken etasje heisen
+befinner seg på i utgangspunktet, og hvor mange etasjer som finnes i bygningen.
+Her skriver vi også opp hvem som har trykt på knappene til heisen før programmet starter.
+
+Jeg skriver faktane slik:
+\lstset{tabsize=2,language=prolog}
+\begin{lstlisting}
+facts
+    top_floor(10) and 
+    door(is_closed) and 
+    current_floor(3) and 
+    outside_down(2) and
+    inside_button(1) and 
+    outside_up(7) and 
+    inside_button(12).
+\end{lstlisting}
+\textbf{Dette betyr:}\\
+\begin{enumerate}
+\item øverste etasje er tiende
+\item døra er stengt (omvendt: \(door(is\_open)\)
+\item vi befinner oss nå i tredje etasje
+\item noen på utsiden av heisen trykker ``pil ned'' på 2
+\item noen på innsiden av heisen trykker 1
+\item noen trykker ``pil opp'' i syvende etasje
+\item noen trykker på 12 inne i heisen (denne knappen finnes ikke, test for å
+sjekke at heisen ikke går opp.
+\end{enumerate}
+Jeg har gått utifra at etasjen må være større enn 0 og >= \(top\_floor\) for å
+være gyldig. Døren åpnes og lukkes ved hvert stopp, og heisen snur ikke
+retningen før det ikke er flere mål i den retningen den har.
+
+Reglene i koden kjøres kontinuerlig på faktaene til det ikke er flere regler som
+passer, eller til faktaen \(stop\) blir sann. Det er reglene som sørger for
+``programflyten''.
+\newpage
+\subsection{Min kode}
+\lstinputlisting[language=prolog]{ex5.pl}
+\end{document}

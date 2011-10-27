@@ -1,0 +1,89 @@
+\documentclass[norsk,a4paper]{article}
+
+% For norske bokstaver
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{wrapfig}
+\usepackage{listings,color,textcomp}
+\lstloadlanguages{prolog}
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\lstset{
+    backgroundcolor=\color{lbcolor},
+    tabsize=4,
+    rulecolor=,
+    language=prolog,
+        basicstyle=\scriptsize,
+        upquote=true,
+        aboveskip={1.5\baselineskip},
+        columns=fixed,
+        showstringspaces=false,
+        extendedchars=true,
+        breaklines=true,
+        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+        frame=single,
+        showtabs=false,
+        showspaces=false,
+        showstringspaces=false,
+        identifierstyle=\ttfamily,
+        keywordstyle=\color[rgb]{0,0,1},
+        commentstyle=\color[rgb]{0.133,0.545,0.133},
+        stringstyle=\color[rgb]{0.627,0.126,0.941},
+}
+\usepackage{qtree}
+% \usepackage[a4paper,landscape]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{parskip} % for litt mellomrom mellom avsnittene
+\usepackage{amsmath,bussproofs}
+
+\title{TDT4136 Logic And Reasoning Systems\\
+{\Huge Oppgave 7 Heuristic search}}
+\author{Stian Hvatum (hvatum)\\MTDT}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\newpage
+\pagenumbering{Roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+\section{Oppgave 1}
+\subsection{}
+To admissible heuristikker for 8-puzzle-spillet kan være:
+\begin{enumerate}
+  \item[Gale plasseringer] - Vi kan telle antall gale plasseringer, og oppgi
+  dette som utregnet kostnad frem til mål. Denne er admissibel fordi den vil
+  aldri overestimere (vi trenger minst et flytt for hver galt plassert brikke),
+  men den vil ikke være spessielt kjapp. Denne er implementert
+  \emph{EightPuzzleCorrectPlacement.java}.
+  \item[Manhattan-avstand] - Vi kan bruke antall kanter vi må krysse for å få
+  hver brikke på rett plass. Vi tar da ikke hensyn til brikker som måtte stå i
+  veien. Denne er admissibel fordi det finnes ingen raskere måte å komme i mål
+  på enn å flytte brikkene en manhattan-distanse. Det er likevel sjeldent at det
+  er så enkelt å komme i mål. Implementert i
+  \emph{EightPuzzleManhattanDistance.java}
+\end{enumerate}
+
+\subsection{}
+\emph{estimate()} er implementert i alle \emph{-State.java}-klassene, mens
+\emph{successor()} er implementert i den abstrakte klassen
+\emph{EightPuzzleState.java}, da denne er lik for alle.
+
+\subsection{}
+På denne oppgaven slet jeg med å finne på noe bedre enn Manhattan-distansen, men
+jeg utvidet Manhattan-distansen ved å legge på en ekstra \textit{kostnad} for
+hver gang mål- og sluttbrikken var byttet om, siden det er ekstra arbeid å bytte
+to brikker, fremfor å flytte en brikke. Dette gav bedre resultater, men noen
+ganger overestimerte denne heuristikken, spesielt i trivielle tilfeller.
+
+
+\section{Oppgave 2}
+Jeg fant ut at \emph{IDAstar.java} gav mye kjappere resultater, ihvertfall på
+de heuristikkene jeg hadde implementert.
+
+\section{Litt leking med tallene}
+Jeg fant ut at en måte jeg kunne gjøre heuristikken veldig kjapp på, var å gange
+kostnaden med 1.4. Da traff jeg nærmere mål, og med \emph{IDAStar} klarte jeg på
+min maskin å finne løsningen på det vanskeligste eksempelet på 4ms.
+\end{document}

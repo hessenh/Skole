@@ -21,14 +21,17 @@ public class EightPuzzle extends IDAStar {
 		work.add(new EightPuzzleCorrectPlacementState(initarray1));
 		work.add(new EightPuzzleManhattanState(initarray1));
 		work.add(new EightPuzzleManhattanImprovedState(initarray1));
+		work.add(new EightPuzzleManhattanConstantState(initarray1));
 
 //		work.add(new EightPuzzleCorrectPlacementState(initarray2));
 		work.add(new EightPuzzleManhattanState(initarray2));
 		work.add(new EightPuzzleManhattanImprovedState(initarray2));
+		work.add(new EightPuzzleManhattanConstantState(initarray2));
 
 //		work.add(new EightPuzzleCorrectPlacementState(initarray3));
 		work.add(new EightPuzzleManhattanState(initarray3));
 		work.add(new EightPuzzleManhattanImprovedState(initarray3));
+		work.add(new EightPuzzleManhattanConstantState(initarray3));
 
 		for (EightPuzzleState state : work) {
 //			state.setVerbose(true);
