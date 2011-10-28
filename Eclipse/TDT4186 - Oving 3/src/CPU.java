@@ -50,4 +50,8 @@ public class CPU {
 	public void deallocate(Process p) {
 		p.updateStatistics(statistics);
 	}
+
+	public long getMaximumCpuTime() {
+		return maxCpuTime;
+	}
 }

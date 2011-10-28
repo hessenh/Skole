@@ -136,7 +136,7 @@ public class Simulator implements Constants
 			cpu.insertProcess(p);
 			p.leftMemoryQueue(clock);
 			// Also add new events to the event queue if needed
-
+			
 			// Try to use the freed memory:
 			flushMemoryQueue();
 			// Update statistics
@@ -159,6 +159,7 @@ public class Simulator implements Constants
 	 */
 	private void endProcess() {
 		cpu.endCurrentProcess();
+		eventQueue.insertEvent(new Event(SWITCH_PROCESS, clock + 1));
 	}
 
 	/**
