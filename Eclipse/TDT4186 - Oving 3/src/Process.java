@@ -45,6 +45,7 @@ public class Process implements Constants
 
 	/** The global time of the last event involving this process */
 	private long timeOfLastEvent;
+	private long cpuTimeSpent;
 
 	/**
 	 * Creates a new process with given parameters. Other parameters are randomly
@@ -119,6 +120,7 @@ public class Process implements Constants
 
 	public void giveCpuTime(long givenCpuTime) {
 		cpuTimeNeeded -= givenCpuTime;
+		cpuTimeSpent += givenCpuTime;
 	}
 
 	public long getCpuNeeded() {

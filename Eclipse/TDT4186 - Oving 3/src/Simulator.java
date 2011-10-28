@@ -42,7 +42,7 @@ public class Simulator implements Constants
 		statistics = new Statistics();
 		eventQueue = new EventQueue();
 		memory = new Memory(memoryQueue, memorySize, statistics);
-		cpu = new CPU(cpuQueue, maxCpuTime, statistics);
+		cpu = new CPU(cpuQueue, maxCpuTime, statistics, eventQueue);
 		clock = 0;
 		// Add code as needed
     }
@@ -136,6 +136,7 @@ public class Simulator implements Constants
 			cpu.insertProcess(p);
 			p.leftMemoryQueue(clock);
 			// Also add new events to the event queue if needed
+			cpu.work(clock);
 			
 			// Try to use the freed memory:
 			flushMemoryQueue();
@@ -152,13 +153,15 @@ public class Simulator implements Constants
 	 */
 	private void switchProcess() {
 		cpu.switchProcess();
+		cpu.work(clock);
 	}
 
 	/**
 	 * Ends the active process, and deallocates any resources allocated to it.
 	 */
 	private void endProcess() {
-		cpu.endCurrentProcess();
+		Process p = cpu.endCurrentProcess();
+		memory.processCompleted(p);
 		eventQueue.insertEvent(new Event(SWITCH_PROCESS, clock + 1));
 	}
 
