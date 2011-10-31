@@ -1,5 +1,7 @@
-#Fri Oct 28 08:23:46 CEST 2011
+#Mon Oct 31 23:12:26 CET 2011
 spacesForTabs=true
 eclipse.preferences.version=1
 overviewRuler_migration=migrated_3.1
+matchingBracketsColor=192,192,192
+matchingBrackets=true
 lineNumberRuler=true

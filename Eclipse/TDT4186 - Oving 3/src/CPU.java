@@ -37,6 +37,10 @@ public class CPU {
 		}
 	}
 
+	/**
+	 * Round-robin-algoritmen går her. Kommentarer og testing av denne finnes i resultater.ods/.xls
+	 * @param clock
+	 */
 	public void work(long clock) {
 		if (currentProcess != null) {
 			long timeNeeded = currentProcess.getCpuNeeded();

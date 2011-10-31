@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="SimulationGui"/>
+<fullyQualifiedTypeName name="java.lang.StringBuilder"/>
+<fullyQualifiedTypeName name="Constants"/>
+<fullyQualifiedTypeName name="Simulator"/>
+<fullyQualifiedTypeName name="Statistics"/>
+<fullyQualifiedTypeName name="Player"/>
+<fullyQualifiedTypeName name="HumanPlayer"/>
+<fullyQualifiedTypeName name="MinMaxImprovedPlayer"/>
+<fullyQualifiedTypeName name="java.lang.Thread"/>
+<fullyQualifiedTypeName name="java.lang.Math"/>
+</qualifiedTypeNameHistroy>

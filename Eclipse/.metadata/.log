@@ -1331,3 +1331,6 @@ Caused by: java.nio.channels.UnresolvedAddressException
 
 !ENTRY org.eclipse.help.base 4 0 2011-10-31 08:53:09.981
 !MESSAGE Text Analyzer could not be created for locale {0}.  An analyzer that extends org.eclipse.help.luceneAnalyzer extension point needs to be plugged in for locale no_NO, or Java Virtual Machine needs to be upgraded to version with proper support for locale {0}.
+
+!ENTRY org.eclipse.jdt.ui 2 0 2011-10-31 20:14:37.403
+!MESSAGE The 'org.eclipse.jdt.ui.JavaAllCompletionProposalComputer' proposal computer from the 'org.eclipse.jdt.ui' plug-in did not complete normally. The extension took too long to return from the 'computeCompletionProposals()' operation.

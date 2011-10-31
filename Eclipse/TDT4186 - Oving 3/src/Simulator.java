@@ -103,6 +103,14 @@ public class Simulator implements Constants
 				switchProcess();
 				break;
 			case END_PROCESS:
+				if (!eventQueue.isEmpty()) {
+				Event e = eventQueue.getNextEvent();
+				eventQueue.insertEvent(e);
+				int t = e.getType();
+				if (t == IO_REQUEST) {
+					System.err.println("bug");
+				}
+				}
 				endProcess();
 				break;
 			case IO_REQUEST:
