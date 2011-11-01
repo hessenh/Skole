@@ -45,7 +45,7 @@ public class Process implements Constants
 
 	/** The global time of the last event involving this process */
 	private long timeOfLastEvent;
-	private long cpuTimeSpent;
+	private long avgIotime;
 
 	/**
 	 * Creates a new process with given parameters. Other parameters are randomly
@@ -53,7 +53,7 @@ public class Process implements Constants
 	 * @param memorySize	The size of the memory unit.
 	 * @param creationTime	The global time when this process is created.
 	 */
-	public Process(long memorySize, long creationTime) {
+	public Process(long memorySize, long avgIoTime, long creationTime) {
 		// Memory need varies from 100 kB to 25% of memory size
 		memoryNeeded = 100 + (long)(Math.random()*(memorySize/4-100));
 		// CPU time needed varies from 100 to 10000 milliseconds
@@ -69,6 +69,8 @@ public class Process implements Constants
 		int green = 64+(int)((processId*47)%128);
 		int blue = 64+(int)((processId*53)%128);
 		color = new Color(red, green, blue);
+		
+		this.avgIotime = avgIoTime;
 	}
 
 	/**
@@ -99,6 +101,16 @@ public class Process implements Constants
 		  timeOfLastEvent = clock;
     }
 
+    public void leftCpuQueue(long clock) {
+    	timeSpentInReadyQueue += clock - timeOfLastEvent;
+    	timeOfLastEvent = clock;
+    }
+    
+    public void leftIoQueue(long clock) {
+    	timeSpentWaitingForIo += clock - timeOfLastEvent;
+    	timeOfLastEvent = clock;
+    }
+
     /**
 	 * Returns the amount of memory needed by this process.
      * @return	The amount of memory needed by this process.
@@ -115,16 +127,44 @@ public class Process implements Constants
      */
 	public void updateStatistics(Statistics statistics) {
 		statistics.totalTimeSpentWaitingForMemory += timeSpentWaitingForMemory;
+		statistics.totalTimeSpentWaitingForCpu += timeSpentInReadyQueue;
+		statistics.totalTimeSpentWaitingForIO += timeSpentWaitingForIo;
 		statistics.nofCompletedProcesses++;
 	}
 
 	public void giveCpuTime(long givenCpuTime) {
 		cpuTimeNeeded -= givenCpuTime;
-		cpuTimeSpent += givenCpuTime;
+		timeSpentInCpu += givenCpuTime;
+		updateTimeToIO();
+//		System.out.println("Proc " + processId +  ": " + cpuTimeNeeded + " :: " + timeSpentInCpu + " \\ " + getCPUTimeToNextIO());
 	}
 
 	public long getCpuNeeded() {
 		return cpuTimeNeeded;
+	}
+
+	public long getCPUTimeToNextIO() {
+		return timeToNextIoOperation;
+	}
+	
+	public long doIO() {
+		long ioTime = (long) (((Math.random()) + 0.5)*avgIotime);
+		timeSpentInIo += ioTime; 
+		avgIoInterval = ((1 + (long)(Math.random()*25))*((long)(cpuTimeNeeded + timeSpentInCpu))/100) + timeSpentInCpu;
+		updateTimeToIO();
+		return ioTime;
+	}
+
+	private void updateTimeToIO() {
+		timeToNextIoOperation = avgIoInterval - timeSpentInCpu;
+	}
+
+	public void addedToReadyQueue() {
+		nofTimesInReadyQueue++;
+	}
+
+	public void addedToIoQueue() {
+		nofTimesInIoQueue++;
 	}
 
 	// Add more methods as needed

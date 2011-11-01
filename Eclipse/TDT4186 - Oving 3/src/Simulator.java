@@ -21,6 +21,8 @@ public class Simulator implements Constants
 	private long avgArrivalInterval;
 	// Add member variables as needed
 	private CPU cpu;
+	private long avgIoTime;
+	private IO io;
 
 	/**
 	 * Constructs a scheduling simulator with the given parameters.
@@ -42,8 +44,10 @@ public class Simulator implements Constants
 		statistics = new Statistics();
 		eventQueue = new EventQueue();
 		memory = new Memory(memoryQueue, memorySize, statistics);
-		cpu = new CPU(cpuQueue, maxCpuTime, statistics, eventQueue);
+		cpu = new CPU(cpuQueue, maxCpuTime, statistics, eventQueue, gui);
+		io = new IO(ioQueue, statistics, eventQueue, gui);
 		clock = 0;
+		this.avgIoTime = avgIoTime;
 		// Add code as needed
     }
 
@@ -70,6 +74,7 @@ public class Simulator implements Constants
 			memory.timePassed(timeDifference);
 			gui.timePassed(timeDifference);
 			cpu.timePassed(timeDifference);
+			io.timePassed(timeDifference);
 			// Deal with the event
 			if (clock < simulationLength) {
 				processEvent(event);
@@ -77,9 +82,9 @@ public class Simulator implements Constants
 
 			// Note that the processing of most events should lead to new
 			// events being added to the event queue!
-
 		}
 		System.out.println("..done.");
+		
 		// End the simulation by printing out the required statistics
 		statistics.printReport(simulationLength);
 	}
@@ -98,6 +103,14 @@ public class Simulator implements Constants
 				switchProcess();
 				break;
 			case END_PROCESS:
+				if (!eventQueue.isEmpty()) {
+				Event e = eventQueue.getNextEvent();
+				eventQueue.insertEvent(e);
+				int t = e.getType();
+				if (t == IO_REQUEST) {
+					System.err.println("bug");
+				}
+				}
 				endProcess();
 				break;
 			case IO_REQUEST:
@@ -114,7 +127,7 @@ public class Simulator implements Constants
 	 */
 	private void createProcess() {
 		// Create a new process
-		Process newProcess = new Process(memory.getMemorySize(), clock);
+		Process newProcess = new Process(memory.getMemorySize(), avgIoTime, clock);
 		memory.insertProcess(newProcess);
 		flushMemoryQueue();
 		// Add an event for the next process arrival
@@ -133,15 +146,13 @@ public class Simulator implements Constants
 		// As long as there is enough memory, processes are moved from the memory queue to the cpu queue
 		while(p != null) {
 			
-			cpu.insertProcess(p);
+			cpu.insertProcess(p, clock);
 			p.leftMemoryQueue(clock);
 			// Also add new events to the event queue if needed
-			cpu.work(clock);
 			
 			// Try to use the freed memory:
 			flushMemoryQueue();
-			// Update statistics
-			p.updateStatistics(statistics);
+			
 
 			// Check for more free memory
 			p = memory.checkMemory(clock);
@@ -162,7 +173,7 @@ public class Simulator implements Constants
 	private void endProcess() {
 		Process p = cpu.endCurrentProcess();
 		memory.processCompleted(p);
-		eventQueue.insertEvent(new Event(SWITCH_PROCESS, clock + 1));
+		p.updateStatistics(statistics);
 	}
 
 	/**
@@ -170,7 +181,9 @@ public class Simulator implements Constants
 	 * perform an I/O operation.
 	 */
 	private void processIoRequest() {
-		// Incomplete
+		Process p = cpu.fetchCurrentProcess();
+		p.leftCpuQueue(clock);
+		io.insertProcess(p, clock);
 	}
 
 	/**
@@ -178,7 +191,11 @@ public class Simulator implements Constants
 	 * is done with its I/O operation.
 	 */
 	private void endIoOperation() {
-		// Incomplete
+		Process p = io.getCompletedProcess();
+		io.doIo(clock);
+		p.leftIoQueue(clock);
+		cpu.insertProcess(p, clock);
+		
 	}
 
 	/**
