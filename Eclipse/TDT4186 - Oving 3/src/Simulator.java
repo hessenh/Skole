@@ -103,14 +103,6 @@ public class Simulator implements Constants
 				switchProcess();
 				break;
 			case END_PROCESS:
-				if (!eventQueue.isEmpty()) {
-				Event e = eventQueue.getNextEvent();
-				eventQueue.insertEvent(e);
-				int t = e.getType();
-				if (t == IO_REQUEST) {
-					System.err.println("bug");
-				}
-				}
 				endProcess();
 				break;
 			case IO_REQUEST:
@@ -130,6 +122,7 @@ public class Simulator implements Constants
 		Process newProcess = new Process(memory.getMemorySize(), avgIoTime, clock);
 		memory.insertProcess(newProcess);
 		flushMemoryQueue();
+		
 		// Add an event for the next process arrival
 		long nextArrivalTime = clock + 1 + (long)(2*Math.random()*avgArrivalInterval);
 		eventQueue.insertEvent(new Event(NEW_PROCESS, nextArrivalTime));
@@ -184,6 +177,7 @@ public class Simulator implements Constants
 		Process p = cpu.fetchCurrentProcess();
 		p.leftCpuQueue(clock);
 		io.insertProcess(p, clock);
+		eventQueue.insertEvent(new Event(SWITCH_PROCESS, clock));
 	}
 
 	/**

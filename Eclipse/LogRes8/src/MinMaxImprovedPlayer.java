@@ -18,7 +18,7 @@
 
 public class MinMaxImprovedPlayer extends Player {
 
-   int plydepth = 3;  // Always looks three moves ahead
+   int plydepth = 2;  // Always looks three moves ahead
    int evals;         // Calculates a stat that are never used
 
     // Just calls super, passing along the information

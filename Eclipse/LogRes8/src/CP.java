@@ -44,7 +44,7 @@ import java.lang.Thread;
 
 public class CP extends Applet implements KeyListener {
 
-	// For simplicity we define some basicw
+	// For simplicity we define some basic
 	public static final int arenaWidth = 20; // Arena width
 	public static final int arenaHeight = 20; // Arena height
 
@@ -58,8 +58,8 @@ public class CP extends Applet implements KeyListener {
 	protected boolean game = false;
 	protected Vector players; // actually playercontrollers
 	protected GameState gamestate;
-	private int initialYAlphaBeta;
-	private int initialXPosAlphaBeta;
+	private int initialYAlphaBeta = 10;
+	private int initialXPosAlphaBeta = 0;
 
 	public void init() {
 		this.removeAll();
@@ -100,13 +100,8 @@ public class CP extends Applet implements KeyListener {
 			playerstates.addElement(new PlayerState(initialXPosHuman,
 					initialYPosHuman, 0, 0, 0));
 
-			Player h2 = new HumanPlayer(this, "Computer using MinMax");
+			Player h2 = new MinMaxImprovedPlayer(this, "Computer using MinMax");
 			players.addElement(h2);
-			playerstates.addElement(new PlayerState(initialXPosAlphaBeta,
-					initialYAlphaBeta, 0, 0, 0));
-
-			Player h3 = new HumanPlayer(this, "Computer using MinMax");
-			players.addElement(h3);
 			playerstates.addElement(new PlayerState(initialXPosMinMax,
 					initialYPosMinMax, 0, 0, 0));
 

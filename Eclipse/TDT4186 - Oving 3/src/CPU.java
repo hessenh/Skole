@@ -53,13 +53,15 @@ public class CPU {
 			} else if (timeNeeded > nextIO && nextIO <= maxCpuTime) { // we must check if process need IO before it is finsihed
 				currentProcess.giveCpuTime(nextIO);
 				eventQueue.insertEvent(new Event(Simulator.IO_REQUEST, clock + nextIO));
-				eventQueue.insertEvent(new Event(Simulator.SWITCH_PROCESS, clock + nextIO + 1));
+//				eventQueue.insertEvent(new Event(Simulator.SWITCH_PROCESS, clock + nextIO + 1));
 				statistics.cpuTimeSpent += nextIO;
 			} else if (timeNeeded <= maxCpuTime) {
 				currentProcess.giveCpuTime(timeNeeded);
 				eventQueue.insertEvent(new Event(Simulator.END_PROCESS, clock + timeNeeded));
 				eventQueue.insertEvent(new Event(Simulator.SWITCH_PROCESS, clock + timeNeeded + 1));
 				statistics.cpuTimeSpent += timeNeeded;
+			} else {
+				System.out.println("Test");
 			}
 		}
 	}
