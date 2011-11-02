@@ -1,12 +1,7 @@
 public class IO {
-	private long maxCpuTime;
 	private Queue ioQueue;
 	private Statistics statistics;
-
-	/** The amount of memory in the memory device */
-	private long memorySize;
-	/** The amount of free memory in the memory device */
-	private long freeMemory;
+	
 	private Process currentProcess;
 
 	private final EventQueue eventQueue;

@@ -177,7 +177,6 @@ public class Simulator implements Constants
 		Process p = cpu.fetchCurrentProcess();
 		p.leftCpuQueue(clock);
 		io.insertProcess(p, clock);
-		eventQueue.insertEvent(new Event(SWITCH_PROCESS, clock));
 	}
 
 	/**

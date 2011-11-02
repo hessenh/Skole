@@ -2,11 +2,7 @@ public class CPU {
 	private long maxCpuTime;
 	private Queue cpuQueue;
 	private Statistics statistics;
-
-	/** The amount of memory in the memory device */
-	private long memorySize;
-	/** The amount of free memory in the memory device */
-	private long freeMemory;
+ 
 	private Process currentProcess;
 
 	private final EventQueue eventQueue;
@@ -38,7 +34,7 @@ public class CPU {
 	}
 
 	/**
-	 * Round-robin-algoritmen går her. Kommentarer og testing av denne finnes i resultater.ods/.xls
+	 * Round-robin-algoritmen gï¿½r her. Kommentarer og testing av denne finnes i resultater.ods/.xls
 	 * @param clock
 	 */
 	public void work(long clock) {
@@ -53,7 +49,7 @@ public class CPU {
 			} else if (timeNeeded > nextIO && nextIO <= maxCpuTime) { // we must check if process need IO before it is finsihed
 				currentProcess.giveCpuTime(nextIO);
 				eventQueue.insertEvent(new Event(Simulator.IO_REQUEST, clock + nextIO));
-//				eventQueue.insertEvent(new Event(Simulator.SWITCH_PROCESS, clock + nextIO + 1));
+				eventQueue.insertEvent(new Event(Simulator.SWITCH_PROCESS, clock + nextIO + 1));
 				statistics.cpuTimeSpent += nextIO;
 			} else if (timeNeeded <= maxCpuTime) {
 				currentProcess.giveCpuTime(timeNeeded);
