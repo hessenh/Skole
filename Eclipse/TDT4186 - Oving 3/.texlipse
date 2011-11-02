@@ -1,0 +1,13 @@
+#TeXlipse project settings
+#Wed Nov 02 08:56:01 CET 2011
+builderNum=2
+outputDir=
+makeIndSty=
+bibrefDir=
+outputFormat=pdf
+tempDir=
+mainTexFile=ex3.tex
+outputFile=ex3.pdf
+langSpell=
+markDer=true
+srcDir=

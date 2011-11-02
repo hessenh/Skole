@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.9.15)  2 NOV 2011 08:52
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.9.15)  2 NOV 2011 09:13
 entering extended mode
-**oving4.tex
-(G:\Skole\Eclipse\TDT4136LogRes\oving4.tex
+**ex3.tex
+("G:\Skole\Eclipse\TDT4186 - Oving 3\ex3.tex"
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
 abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
@@ -112,138 +112,10 @@ Package: ltxcmds 2011/04/18 v1.20 LaTeX kernel commands for general use (HO)
 )
 \Gread@gobject=\count97
 ))
-(C:\Users\Stian\AppData\Roaming\MiKTeX\2.9\tex\latex\qtree\qtree.sty
-Package: 2008/12/12 v.3.1bQtree: tree-drawing for linguistics
-Package: qtree 2008/12/12 v.3.1bQtree: tree-drawing for linguistics
-(C:\Users\Stian\AppData\Roaming\MiKTeX\2.9\tex\latex\pict2e\pict2e.sty
-Package: pict2e 2011/04/05 v0.2y Improved picture commands (HjG,RN,JT)
-
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\pict2e.cfg"
-File: pict2e.cfg 2005/12/29 v1.0 MiKTeX 'pict2e' configuration
-)
-Package pict2e Info: Driver file: pdftex.def on input line 119.
-Package pict2e Info: Driver file for pict2e: p2e-pdftex.def on input line 121.
-
-(C:\Users\Stian\AppData\Roaming\MiKTeX\2.9\tex\latex\pict2e\p2e-pdftex.def
-File: p2e-pdftex.def 2011/04/05 v0.1t Driver-dependant file (RN,HjG,JT)
-)
-("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\trig.sty"
-Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
-)
-\pIIe@GRAPH=\toks17
-\@arclen=\dimen110
-\@arcrad=\dimen111
-\@tempdimd=\dimen112
-)
-\c@treecount=\count98
-\c@branchcount=\count99
-\parentbox=\box29
-\treebox=\box30
-\treeboxone=\box31
-\treeboxtwo=\box32
-\treeboxthree=\box33
-\treeboxfour=\box34
-\treeboxfive=\box35
-\treeboxsix=\box36
-\treeboxseven=\box37
-\treeboxeight=\box38
-\treeboxnine=\box39
-\treeboxten=\box40
-\treeboxeleven=\box41
-\treeboxtwelve=\box42
-\treeboxthirteen=\box43
-\treeboxfourteen=\box44
-\treeboxfifteen=\box45
-\treeboxsixteen=\box46
-\treeboxseventeen=\box47
-\treeboxeighteen=\box48
-\treeboxnineteen=\box49
-\treeboxtwenty=\box50
-\treeoffsetone=\skip43
-\treeoffsettwo=\skip44
-\treeoffsetthree=\skip45
-\treeoffsetfour=\skip46
-\treeoffsetfive=\skip47
-\treeoffsetsix=\skip48
-\treeoffsetseven=\skip49
-\treeoffseteight=\skip50
-\treeoffsetnine=\skip51
-\treeoffsetten=\skip52
-\treeoffseteleven=\skip53
-\treeoffsettwelve=\skip54
-\treeoffsetthirteen=\skip55
-\treeoffsetfourteen=\skip56
-\treeoffsetfifteen=\skip57
-\treeoffsetsixteen=\skip58
-\treeoffsetseventeen=\skip59
-\treeoffseteighteen=\skip60
-\treeoffsetnineteen=\skip61
-\treeoffsettwenty=\skip62
-\treeshiftone=\skip63
-\treeshifttwo=\skip64
-\treeshiftthree=\skip65
-\treeshiftfour=\skip66
-\treeshiftfive=\skip67
-\treeshiftsix=\skip68
-\treeshiftseven=\skip69
-\treeshifteight=\skip70
-\treeshiftnine=\skip71
-\treeshiftten=\skip72
-\treeshifteleven=\skip73
-\treeshifttwelve=\skip74
-\treeshiftthirteen=\skip75
-\treeshiftfourteen=\skip76
-\treeshiftfifteen=\skip77
-\treeshiftsixteen=\skip78
-\treeshiftseventeen=\skip79
-\treeshifteighteen=\skip80
-\treeshiftnineteen=\skip81
-\treeshifttwenty=\skip82
-\treewidthone=\skip83
-\treewidthtwo=\skip84
-\treewidththree=\skip85
-\treewidthfour=\skip86
-\treewidthfive=\skip87
-\treewidthsix=\skip88
-\treewidthseven=\skip89
-\treewidtheight=\skip90
-\treewidthnine=\skip91
-\treewidthten=\skip92
-\treewidtheleven=\skip93
-\treewidthtwelve=\skip94
-\treewidththirteen=\skip95
-\treewidthfourteen=\skip96
-\treewidthfifteen=\skip97
-\treewidthsixteen=\skip98
-\treewidthseventeen=\skip99
-\treewidtheighteen=\skip100
-\treewidthnineteen=\skip101
-\treewidthtwenty=\skip102
-\daughteroffsetone=\skip103
-\daughteroffsettwo=\skip104
-\daughteroffsetthree=\skip105
-\daughteroffsetfour=\skip106
-\branchwidthone=\skip107
-\branchwidthtwo=\skip108
-\branchwidththree=\skip109
-\branchwidthfour=\skip110
-\parentoffset=\skip111
-\treeoffset=\skip112
-\daughteroffset=\skip113
-\branchwidth=\skip114
-\parentwidth=\skip115
-\treewidth=\skip116
-\qta=\toks18
-\qtb=\toks19
-\nbranches=\count100
-\qroofx=\count101
-\qroofy=\count102
-\@qrscratchbox=\box51
-)
 ("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\inputenc.sty"
 Package: inputenc 2008/03/30 v1.1d Input encoding file
-\inpenc@prehook=\toks20
-\inpenc@posthook=\toks21
+\inpenc@prehook=\toks17
+\inpenc@posthook=\toks18
 
 ("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
@@ -462,7 +334,7 @@ Package: parskip 2001/04/09 non-zero parskip adjustments
 )
 ("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\ams\math\amsmath.sty"
 Package: amsmath 2000/07/18 v2.13 AMS math features
-\@mathmargin=\skip117
+\@mathmargin=\skip43
 
 For additional information on amsmath, use the `?' option.
 ("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\ams\math\amstext.sty"
@@ -470,174 +342,161 @@ Package: amstext 2000/06/29 v2.01
 
 ("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\ams\math\amsgen.sty"
 File: amsgen.sty 1999/11/30 v2.0
-\@emptytoks=\toks22
-\ex@=\dimen113
+\@emptytoks=\toks19
+\ex@=\dimen110
 ))
 ("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\ams\math\amsbsy.sty"
 Package: amsbsy 1999/11/29 v1.2d
-\pmbraise@=\dimen114
+\pmbraise@=\dimen111
 )
 ("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\ams\math\amsopn.sty"
 Package: amsopn 1999/12/14 v2.01 operator names
 )
-\inf@bad=\count103
+\inf@bad=\count98
 LaTeX Info: Redefining \frac on input line 211.
-\uproot@=\count104
-\leftroot@=\count105
+\uproot@=\count99
+\leftroot@=\count100
 LaTeX Info: Redefining \overline on input line 307.
-\classnum@=\count106
-\DOTSCASE@=\count107
+\classnum@=\count101
+\DOTSCASE@=\count102
 LaTeX Info: Redefining \ldots on input line 379.
 LaTeX Info: Redefining \dots on input line 382.
 LaTeX Info: Redefining \cdots on input line 467.
-\Mathstrutbox@=\box52
-\strutbox@=\box53
-\big@size=\dimen115
+\Mathstrutbox@=\box29
+\strutbox@=\box30
+\big@size=\dimen112
 LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
-\macc@depth=\count108
-\c@MaxMatrixCols=\count109
+\macc@depth=\count103
+\c@MaxMatrixCols=\count104
 \dotsspace@=\muskip10
-\c@parentequation=\count110
-\dspbrk@lvl=\count111
-\tag@help=\toks23
-\row@=\count112
-\column@=\count113
-\maxfields@=\count114
-\andhelp@=\toks24
-\eqnshift@=\dimen116
-\alignsep@=\dimen117
-\tagshift@=\dimen118
-\tagwidth@=\dimen119
-\totwidth@=\dimen120
-\lineht@=\dimen121
-\@envbody=\toks25
-\multlinegap=\skip118
-\multlinetaggap=\skip119
-\mathdisplay@stack=\toks26
+\c@parentequation=\count105
+\dspbrk@lvl=\count106
+\tag@help=\toks20
+\row@=\count107
+\column@=\count108
+\maxfields@=\count109
+\andhelp@=\toks21
+\eqnshift@=\dimen113
+\alignsep@=\dimen114
+\tagshift@=\dimen115
+\tagwidth@=\dimen116
+\totwidth@=\dimen117
+\lineht@=\dimen118
+\@envbody=\toks22
+\multlinegap=\skip44
+\multlinetaggap=\skip45
+\mathdisplay@stack=\toks23
 LaTeX Info: Redefining \[ on input line 2666.
 LaTeX Info: Redefining \] on input line 2667.
 )
 (C:\Users\Stian\AppData\Roaming\MiKTeX\2.9\tex\latex\bussproofs\bussproofs.sty
 Proof Tree (bussproofs) style macros. Version 1.0.
-\theLevel=\count115
-\myMaxLevel=\count116
-\myBoxA=\box54
-\myBoxB=\box55
-\myBoxC=\box56
-\myBoxD=\box57
-\myBoxLL=\box58
-\myBoxRL=\box59
-\thisAboveSkip=\dimen122
-\thisBelowSkip=\dimen123
-\newScoreStart=\dimen124
-\newScoreEnd=\dimen125
-\newCenter=\dimen126
-\displace=\dimen127
-\leftLowerAmt=\dimen128
-\rightLowerAmt=\dimen129
-\scoreHeight=\dimen130
-\scoreDepth=\dimen131
-\htLbox=\dimen132
-\htRbox=\dimen133
-\htAbox=\dimen134
-\htCbox=\dimen135
-) (G:\Skole\Eclipse\TDT4136LogRes\oving4.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-\c@lstlisting=\count117
+\theLevel=\count110
+\myMaxLevel=\count111
+\myBoxA=\box31
+\myBoxB=\box32
+\myBoxC=\box33
+\myBoxD=\box34
+\myBoxLL=\box35
+\myBoxRL=\box36
+\thisAboveSkip=\dimen119
+\thisBelowSkip=\dimen120
+\newScoreStart=\dimen121
+\newScoreEnd=\dimen122
+\newCenter=\dimen123
+\displace=\dimen124
+\leftLowerAmt=\dimen125
+\rightLowerAmt=\dimen126
+\scoreHeight=\dimen127
+\scoreDepth=\dimen128
+\htLbox=\dimen129
+\htRbox=\dimen130
+\htAbox=\dimen131
+\htCbox=\dimen132
+) (C:\Users\Stian\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstlang1.sty
+File: lstlang1.sty 2004/09/05 1.3 listings language file
+)
+(C:\Users\Stian\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstlang2.sty
+File: lstlang2.sty 2004/09/05 1.3 listings language file
+)
+
+! Package Listings Error: Option `upquote' requires `textcomp'package.
+(Listings)                The option has been disabled.
+
+See the Listings package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.36 }
+      
+Add \usepackage{textcomp} to your preamble.
+
+("G:\Skole\Eclipse\TDT4186 - Oving 3\ex3.aux")
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 42.
+LaTeX Font Info:    ... okay on input line 42.
+\c@lstlisting=\count112
 
 (C:\Users\Stian\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count118
-\scratchdimen=\dimen136
-\scratchbox=\box60
-\nofMPsegments=\count119
-\nofMParguments=\count120
-\everyMPshowfont=\toks27
-\MPscratchCnt=\count121
-\MPscratchDim=\dimen137
-\MPnumerator=\count122
-\makeMPintoPDFobject=\count123
-\everyMPtoPDFconversion=\toks28
+\scratchcounter=\count113
+\scratchdimen=\dimen133
+\scratchbox=\box37
+\nofMPsegments=\count114
+\nofMParguments=\count115
+\everyMPshowfont=\toks24
+\MPscratchCnt=\count116
+\MPscratchDim=\dimen134
+\MPnumerator=\count117
+\makeMPintoPDFobject=\count118
+\everyMPtoPDFconversion=\toks25
 ) [1
 
 {C:/Users/Stian/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-(G:\Skole\Eclipse\TDT4136LogRes\oving4.toc)
+("G:\Skole\Eclipse\TDT4186 - Oving 3\ex3.toc")
 \tf@toc=\write3
  [1]
-Overfull \hbox (40.65686pt too wide) in paragraph at lines 42--55
-[][] [] 
- []
-
-[1] (C:\Users\Stian\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstlang1.sty
+(C:\Users\Stian\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstlang1.sty
 File: lstlang1.sty 2004/09/05 1.3 listings language file
-) (C:\Users\Stian\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstlang2.sty
-File: lstlang2.sty 2004/09/05 1.3 listings language file
 )
-(G:\Skole\Eclipse\TDT4136LogRes\ex4t2.pl
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 74.
 
-! Package inputenc Error: Unicode char \u8:�\lst@FillFixed@ not set up for use 
-with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.9 % fra tidligere øving
-                          
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! Package inputenc Error: Keyboard character used is undefined
-(inputenc)                in inputencoding `utf8'.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.9 % fra tidligere øving
-                          
-You need to provide a definition with \DeclareInputText 
-or \DeclareInputMath before using this key.
-
-) [2] (G:\Skole\Eclipse\TDT4136LogRes\oving4.aux) ) 
+("F:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\t1cmtt.fd"
+File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+) [1]
+("G:\Skole\Eclipse\TDT4186 - Oving 3\ex3.aux") ) 
 Here is how much of TeX's memory you used:
- 4744 strings out of 494045
- 59228 string characters out of 3145969
- 156364 words of memory out of 3000000
- 7977 multiletter control sequences out of 15000+200000
- 14352 words of font info for 37 fonts, out of 3000000 for 9000
+ 4378 strings out of 494045
+ 55004 string characters out of 3145969
+ 167778 words of memory out of 3000000
+ 7625 multiletter control sequences out of 15000+200000
+ 14747 words of font info for 38 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
- 27i,8n,43p,248b,1162s stack positions out of 5000i,500n,10000p,200000b,50000s
- <C:\Users\Stian\AppData\Loc
-al\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1000.pk> <C:\Users\Stian\A
-ppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1200.pk> <C:\Use
-rs\Stian\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1000.p
-k> <C:\Users\Stian\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\
-ecbx1000.pk> <C:\Users\Stian\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\
-ec\dpi600\ecbx1440.pk> <C:\Users\Stian\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour
-\jknappen\ec\dpi600\ecrm1200.pk> <C:\Users\Stian\AppData\Local\MiKTeX\2.9\fonts
-\pk\ljfour\jknappen\ec\dpi600\ecrm2488.pk> <C:\Users\Stian\AppData\Local\MiKTeX
-\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1728.pk><F:/Program Files (x86)/MiK
-TeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><F:/Program Files (x86)/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><F:/Program Files (x86)/MiKTeX 2
-.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on oving4.pdf (4 pages, 98189 bytes).
+ 27i,6n,40p,221b,1313s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Users\Stian\AppData\Local\
+MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi525\ectt0800.pk> <C:\Users\Stian\AppD
+ata\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm0700.pk> <C:\Users\
+Stian\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1200.pk> 
+<C:\Users\Stian\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecr
+m1000.pk> <C:\Users\Stian\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\
+dpi600\ecbx1000.pk> <C:\Users\Stian\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jk
+nappen\ec\dpi600\ecbx1440.pk> <C:\Users\Stian\AppData\Local\MiKTeX\2.9\fonts\pk
+\ljfour\jknappen\ec\dpi600\ecrm1200.pk> <C:\Users\Stian\AppData\Local\MiKTeX\2.
+9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm2488.pk> <C:\Users\Stian\AppData\Local
+\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1728.pk>
+Output written on ex3.pdf (3 pages, 83405 bytes).
 PDF statistics:
- 223 PDF objects out of 1000 (max. 8388607)
+ 275 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

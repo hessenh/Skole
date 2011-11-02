@@ -1,0 +1,95 @@
+\documentclass[norsk,a4paper]{article}
+
+% For norske bokstaver
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{wrapfig}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[utf8]{inputenc}
+\usepackage{parskip} % for litt mellomrom mellom avsnittene
+\usepackage{amsmath,bussproofs}
+
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\lstset{
+    backgroundcolor=\color{lbcolor},
+    tabsize=2,
+    rulecolor=,
+    language=prolog,
+        basicstyle=\scriptsize,
+        upquote=true,
+        aboveskip={1.0\baselineskip},
+        columns=fixed,
+        showstringspaces=false,
+        extendedchars=true,
+        breaklines=true,
+        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+        frame=single,
+        showtabs=false,
+        showspaces=false,
+        showstringspaces=false,
+        identifierstyle=\ttfamily,
+        keywordstyle=\color[rgb]{0,0,1},
+        commentstyle=\color[rgb]{0.133,0.545,0.133},
+        stringstyle=\color[rgb]{0.627,0.126,0.941},
+}
+
+\title{TDT4186 Operating Systems\\
+{\Huge Exercise 3}}
+\author{Stian Hvatum (hvatum)\\MTDT}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\newpage
+\pagenumbering{Roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+\section{Description of Code}
+\subsection{CPU}
+
+\subsection{IO}
+
+\subsection{Simulator}
+In the Simulator class, I added three variables,
+\begin{enumerate}
+     \item private CPU cpu 
+     \item private long avgIoTime 
+     \item private IO io 
+\end{enumerate}
+
+These variables represents the CPU, the I/O unit and the average I/O-time for
+each operation. The I/O-time is given as a system parameter, but it was never
+keept nor used (as I could find).
+
+I initialized the CPU and I/O just like the memory-unit, but I also gave them a
+handle for the eventQueue and the GUI, so that they could dispatch events and
+display ``what's going on'' to the user.
+
+Code:
+\lstset{language=java}
+\begin{lstlisting}
+public Simulator(...) {
+  ...
+  memory = new Memory(memoryQueue, memorySize, statistics);
+  cpu = new CPU(cpuQueue, maxCpuTime, statistics, eventQueue, gui);
+  io = new IO(ioQueue, statistics, eventQueue, gui);
+  this.avgIoTime = avgIoTime;
+  ...
+}
+\end{lstlisting}
+
+\subsection{Statistics}
+
+\subsection{Event}
+I added a toString-method to the Event-class, for easier use of debugger, stack
+traces and outputs. This has nothing to do with the program logic, only for my
+own understanding of the code.
+
+\section{Experimenting with the system}
+\subsection{System parameters and their impact on performance}
+\subsection{Alternative algorithms}
+
+\end{document}
