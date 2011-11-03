@@ -1,0 +1,4 @@
+\select@language {norsk}
+\contentsline {section}{\numberline {1}Ny algoritme}{1}
+\contentsline {section}{\numberline {2}Alpha-Beta}{1}
+\contentsline {section}{\numberline {3}Benchmark}{2}

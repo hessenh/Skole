@@ -18,7 +18,7 @@
 
 public class MinMaxImprovedPlayer extends Player {
 
-   int plydepth = 2;  // Always looks three moves ahead
+   int plydepth = 5;  // Always looks three moves ahead
    int evals;         // Calculates a stat that are never used
 
     // Just calls super, passing along the information
@@ -32,13 +32,15 @@ public class MinMaxImprovedPlayer extends Player {
     // calls the createTree method and returns the
     // result to control.
    public void makeMove(){
-      evals = 0;
+      long time = System.currentTimeMillis();
+	   evals = 0;
       ValuedMove m = createTree(gamestate,0,gamestate.playerturn);
 
       // evals are now equal to number of calls to createTree
      
       // make the move
       control.makeMove(m);
+      System.out.println("Player " + getName() + " uses " + (System.currentTimeMillis() - time) + " ms to make a move! Max ply: " + plydepth + " Evals: " + evals);
    }
 
 
@@ -136,7 +138,7 @@ public class MinMaxImprovedPlayer extends Player {
 	int otherdrifty=otherp.y+otherp.dy*plydepth;
 	int manhattan = Math.abs(otherdriftx-driftx) + Math.abs(otherdrifty-drifty);
 	int maxManhattan = 40;
-	return maxManhattan-manhattan; // We want to get close
+	return (maxManhattan-manhattan) * 10; // We want to get close
 	
 	// No gain or loss from this move, return 0
 	// return 0;

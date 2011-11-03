@@ -95,12 +95,12 @@ public class CP extends Applet implements KeyListener {
 			Vector playerstates = new Vector();
 			players = new Vector();
 
-			Player h1 = new MinMaxImprovedPlayer(this, "Computer using MinMaxImproved");
+			Player h1 = new AlphaBetaPlayer(this, "Computer using AlphaBeta");
 			players.addElement(h1);
 			playerstates.addElement(new PlayerState(initialXPosHuman,
 					initialYPosHuman, 0, 0, 0));
 
-			Player h2 = new MinMaxImprovedPlayer(this, "Computer using MinMax");
+			Player h2 = new MinMaxImprovedPlayer(this, "Computer using MinMaxImproved");
 			players.addElement(h2);
 			playerstates.addElement(new PlayerState(initialXPosMinMax,
 					initialYPosMinMax, 0, 0, 0));
@@ -133,6 +133,7 @@ public class CP extends Applet implements KeyListener {
 				msg += " (";
 				msg += arena.playerToColorName(winner);
 				msg += ") WON! - Press a key to restart ";
+				System.out.println(msg);
 				arena.setMessage(msg);
 				game = false;
 				updateGUI();
@@ -150,13 +151,6 @@ public class CP extends Applet implements KeyListener {
 			game = false;
 			updateGUI();
 		}
-if (!humanPlayerExists()) {
-	try {
-		Thread.sleep(200);
-	} catch (InterruptedException e) {
-		e.printStackTrace();
-	}
-}
 	}
 
 	// This method will create a new GameState object from
