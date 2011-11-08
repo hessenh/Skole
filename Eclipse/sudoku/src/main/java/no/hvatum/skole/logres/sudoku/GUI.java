@@ -1,6 +1,8 @@
 package no.hvatum.skole.logres.sudoku;
 
-import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -9,19 +11,26 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileFilter;
 
 import no.hvatum.skole.logres.sudoku.console.Console;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 
+/**
+ * Enkelt GUI for å finne en fil, løse den via algoritmen, og fyllte output i en TextArea (gjennom Console-klassen)
+ * @author Stian
+ *
+ */
 public class GUI {
 	private JFrame frame;
+	private JSpinner spinner;
 
 	public GUI() {
-		this.frame = new JFrame("Sudoku - Logres �ving 9 - hvatum - mtdt");
+		frame = new JFrame("Sudoku - Logres øving 9 - hvatum - mtdt");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		final JFileChooser chooser = new JFileChooser();
 		chooser.setFileFilter(new FileFilter() {
 
@@ -68,6 +77,13 @@ public class GUI {
 			}
 		});
 		panel.add(btnNewButton);
+
+		JLabel lblVerbosity = new JLabel("Verbosity");
+		panel.add(lblVerbosity);
+
+		spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(9, 0, 10, 1));
+		panel.add(spinner);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setBounds(0, 0, 800, 600);
@@ -82,6 +98,7 @@ public class GUI {
 				SudokuBoard sb;
 				try {
 					sb = new SudokuBoard(selectedFile);
+					sb.setVerbosity((Integer) spinner.getValue());
 					sb.addDefaultConstraints();
 					sb.printBoard();
 					long time = System.currentTimeMillis();

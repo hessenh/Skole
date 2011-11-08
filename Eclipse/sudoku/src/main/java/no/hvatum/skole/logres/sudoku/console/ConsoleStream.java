@@ -1,5 +1,6 @@
 package no.hvatum.skole.logres.sudoku.console;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -11,7 +12,9 @@ public class ConsoleStream extends OutputStream {
 
 	public ConsoleStream(PrintStream outStream, Console console, boolean isErr) {
 		this.console = console;
-		this.outStream = outStream;
+		
+		// Sleng på litt godt med buffer, så går ikke stasj så tregt
+		this.outStream = new BufferedOutputStream(outStream, 1024*1024);
 	}
 
 	public ConsoleStream(PrintStream outStream, Console console) {

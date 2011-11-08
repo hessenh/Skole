@@ -1,5 +1,10 @@
 package no.hvatum.skole.logres.sudoku.constraints;
 
+/**
+ * Logikken er kliss lik, men litt enklere en BoxConstraint, se den først
+ * @author Stian
+ *
+ */
 public class ColumnConstraint implements Constraint {
 
 	private int[] number;

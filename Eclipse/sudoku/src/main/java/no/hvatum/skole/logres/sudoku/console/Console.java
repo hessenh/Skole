@@ -3,15 +3,14 @@ package no.hvatum.skole.logres.sudoku.console;
 import java.awt.Color;
 import java.io.PrintStream;
 
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.BoxLayout;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 
 /**
- * Hello world!
+ * En klasse jeg skrev til et annet prosjekt jeg hadde, for å kopiere konsollteksten automagisk inn i en text-area.
  */
 public class Console extends JPanel {
 	
