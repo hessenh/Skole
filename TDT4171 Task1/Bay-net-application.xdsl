@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<smile version="1.0" id="Network2" numsamples="1000" discsamples="10000">
+	<nodes>
+		<cpt id="ContainsPrize">
+			<state id="A" />
+			<state id="B" />
+			<state id="C" />
+			<probabilities>0.3333333333333333 0.3333333333333333 0.3333333333333333</probabilities>
+		</cpt>
+		<cpt id="MyChoise">
+			<state id="A" />
+			<state id="B" />
+			<state id="C" />
+			<probabilities>0.3333333333333333 0.3333333333333333 0.3333333333333333</probabilities>
+		</cpt>
+		<cpt id="OpenedByOfficial">
+			<state id="A" />
+			<state id="B" />
+			<state id="C" />
+			<parents>MyChoise ContainsPrize</parents>
+			<probabilities>0 0.5 0.5 0 0 1 0 1 0 0 0 1 0.5 0 0.5 1 0 0 0 1 0 1 0 0 0.5 0.5 0</probabilities>
+		</cpt>
+	</nodes>
+	<extensions>
+		<genie version="1.0" app="GeNIe 2.0.4334.1" name="Network2" faultnameformat="nodestate">
+			<node id="ContainsPrize">
+				<name>ContainsPrize</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>538 133 651 179</position>
+				<barchart active="true" width="128" height="68" />
+			</node>
+			<node id="MyChoise">
+				<name>MyChoise</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>487 235 546 271</position>
+				<barchart active="true" width="128" height="68" />
+			</node>
+			<node id="OpenedByOfficial">
+				<name>OpenedByOfficial</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>551 347 643 404</position>
+				<barchart active="true" width="128" height="68" />
+			</node>
+		</genie>
+	</extensions>
+</smile>

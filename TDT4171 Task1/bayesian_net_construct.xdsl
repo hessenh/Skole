@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<smile version="1.0" id="Network1" numsamples="1000" discsamples="10000">
+	<nodes>
+		<cpt id="Working_parents">
+			<state id="both" />
+			<state id="father" />
+			<state id="mother" />
+			<state id="none" />
+			<probabilities>0.5 0.5 0 0</probabilities>
+		</cpt>
+		<cpt id="Religion">
+			<state id="christianity" />
+			<state id="judaism" />
+			<state id="islam" />
+			<state id="buddhism" />
+			<state id="atheism" />
+			<state id="other" />
+			<probabilities>0.5 0.5 0 0 0 0</probabilities>
+		</cpt>
+		<cpt id="Household_income">
+			<state id="income_0_to_60000" />
+			<state id="income_60000_to_100000" />
+			<state id="income_100000_and_up" />
+			<parents>Working_parents</parents>
+			<probabilities>0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0</probabilities>
+		</cpt>
+		<cpt id="Number_of_children">
+			<state id="none" />
+			<state id="one" />
+			<state id="two" />
+			<state id="three" />
+			<state id="four_and_up" />
+			<parents>Working_parents Religion Household_income</parents>
+			<probabilities>0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0 0.5 0.5 0 0 0</probabilities>
+		</cpt>
+		<cpt id="Fish_eating_habits">
+			<state id="often_fish" />
+			<state id="rarely_fish" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="Fiber_eating_habits">
+			<state id="lots_of_fiber" />
+			<state id="not_much_fiber" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="Drinking_habits">
+			<state id="never_alcohol" />
+			<state id="wine_once_in_a_while" />
+			<state id="often_wine" />
+			<state id="wine_every_day" />
+			<parents>Working_parents Religion</parents>
+			<probabilities>0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0 0.5 0.5 0 0</probabilities>
+		</cpt>
+		<cpt id="History_of_illness">
+			<state id="cases_of_severe_illness" />
+			<state id="often_minor_illnesses" />
+			<state id="rarely_minor_illness" />
+			<parents>Fish_eating_habits Fiber_eating_habits Drinking_habits</parents>
+			<probabilities>0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0</probabilities>
+		</cpt>
+		<cpt id="Illness_at_the_moment">
+			<state id="severe_illness" />
+			<state id="minor_illness" />
+			<state id="no_illness" />
+			<parents>Number_of_children History_of_illness</parents>
+			<probabilities>0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0</probabilities>
+		</cpt>
+	</nodes>
+	<extensions>
+		<genie version="1.0" app="GeNIe 2.0.4334.1" name="Network1" faultnameformat="nodestate">
+			<node id="Illness_at_the_moment">
+				<name>Illness at the moment</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>227 316 366 344</position>
+			</node>
+			<node id="History_of_illness">
+				<name>History of illness</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>390 289 478 344</position>
+			</node>
+			<node id="Number_of_children">
+				<name>Number of children</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>256 238 356 300</position>
+			</node>
+			<node id="Working_parents">
+				<name>Working parents</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>269 112 357 167</position>
+			</node>
+			<node id="Religion">
+				<name>Religion</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>313 195 363 226</position>
+			</node>
+			<node id="Household_income">
+				<name>Household income</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>200 173 296 233</position>
+			</node>
+			<node id="Fish_eating_habits">
+				<name>Fish-eating habits</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>421 165 515 223</position>
+			</node>
+			<node id="Fiber_eating_habits">
+				<name>Fiber-eating habits</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>456 230 556 292</position>
+			</node>
+			<node id="Drinking_habits">
+				<name>Drinking habits</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>363 229 444 279</position>
+			</node>
+		</genie>
+	</extensions>
+</smile>
