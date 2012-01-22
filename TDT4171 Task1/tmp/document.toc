@@ -1,2 +1,9 @@
 \select@language {english}
-\contentsline {section}{\numberline {1}Propositional Logic}{1}
+\contentsline {section}{\numberline {I}5-card Poker Hands}{2}
+\contentsline {subsection}{\numberline {a}Atomic events}{2}
+\contentsline {subsection}{\numberline {b}The probability of an atomic event}{2}
+\contentsline {subsection}{\numberline {c}The probability of special hands}{2}
+\contentsline {subsubsection}{\numberline {c.1}The probability of a Royal Straight Flush}{2}
+\contentsline {subsubsection}{\numberline {c.2}The probability of a Three of a Kind}{2}
+\contentsline {section}{\numberline {II}Bayesian Network Construction}{3}
+\contentsline {section}{\numberline {III}Bayesian Network Application}{5}
