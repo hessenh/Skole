@@ -45,23 +45,23 @@ disp(char(10));
 
 % Task 1.7: Change element x=2,y=4 in A to 2 (remember Matlab indexes start with 1)
 disp('1.7');
-A(4,2) = 2;
+A(4,2) = 2
 disp(char(10));
 
 % Task 1.8: Set all elements in matrix A with x index 2 and 5 and y index from 2 to 3 to 4 without using any loops
 disp('1.8');
-A(3 , 2:5)  = 4;
+A(2:3, [2 5])  = 4
 disp(char(10));
 
 % Task 1.9: Add 0.5 to the first row in matrix B (again no loops)
 disp('1.9');
-B(1,:) = 0.5;
+B(1,:) = B(1,:) + 0.5
 disp(char(10));
 
 
 % Task 1.10: Substract 0.5 from all elements in B that are above 1 (again no loops)
 disp('1.10');
-B( B > 1 ) = -.5
+B( B > 1 ) =  B( B > 1 ) - 0.5
 disp(char(10));
 
 
@@ -111,20 +111,26 @@ disp('3.2')
 grayscale = rgb2gray(img);
 
 % Task 3.3: Convert image to floating point (double) representation
-double = double(img);
+disp('3.3')
+double = im2double(img);
 
 % Task 3.4: Show image on screen (remember to put figure; before this and all other commands that displays something on screen to insure that all images are shown)
-figure, imshow(img), figure, imshow(grayscale), figure, imshow(double);
+disp('3.4')
+figure, imshow(img), figure, imshow(grayscale), figure, imshow(double), figure, hist(im2double(img));
 
 % Task 3.5: For all pixels (elements in the image matrix) with values above 0.7 set the pixel value to 1.0 (recall task 1.10)
-newpic = img;
-newpic(newpic > 0.7) = 0;
+disp('3.5')
+newpic = im2double(img);
+newpic(newpic > 0.7) = 1.0;
 
 % Task 3.6: Show image on screen
+disp('3.6')
 figure, imshow(newpic);
 
 % Task 3.7: Create and show histogram of image
-hist(newpic);
+disp('3.7')
+figure, hist(newpic);
 
 % Task 3.8: Save image to disk and call it result.png
-
+disp('3.8')
+imwrite(newpic, 'result.png');
