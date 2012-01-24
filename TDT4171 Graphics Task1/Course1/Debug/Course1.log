@@ -1,0 +1,14 @@
+﻿Build started 24.01.2012 12:34:42.
+     1>Project "D:\Skole\TDT4171 Graphics Task1\Course1\Course1.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Debug\Course1.unsuccessfulbuild".
+       ClCompile:
+         d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt visuals.cpp
+         visuals.cpp
+     1>d:\program files (x86)\microsoft visual studio 10.0\vc\include\stdlib.h(353): error C2381: 'exit' : redefinition; __declspec(noreturn) differs
+                 d:\skole\tdt4171 graphics task1\course1\gl\glut.h(146) : see declaration of 'exit'
+     1>Done Building Project "D:\Skole\TDT4171 Graphics Task1\Course1\Course1.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.21
