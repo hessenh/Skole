@@ -4127,3 +4127,58 @@ java.io.FileNotFoundException: D:\Skole\.metadata\.plugins\org.eclipse.core.reso
 	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1108)
 	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:51)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+
+!ENTRY org.eclipse.core.externaltools 4 0 2012-01-24 09:49:10.140
+!MESSAGE The file does not exist for the external tool named DOT-parser.
+
+!ENTRY org.eclipse.core.resources 4 568 2012-01-24 09:53:40.298
+!MESSAGE Could not write metadata for '/Prolog'.
+!STACK 0
+java.io.FileNotFoundException: D:\Skole\.metadata\.plugins\org.eclipse.core.resources\.projects\Prolog\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.openAppend(Native Method)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:192)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:116)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:45)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:41)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1684)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1166)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1108)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:51)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+
+!ENTRY org.eclipse.core.resources 4 568 2012-01-24 09:58:45.291
+!MESSAGE Could not write metadata for '/Prolog'.
+!STACK 0
+java.io.FileNotFoundException: D:\Skole\.metadata\.plugins\org.eclipse.core.resources\.projects\Prolog\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.openAppend(Native Method)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:192)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:116)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:45)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:41)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1684)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1767)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1166)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1108)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:51)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+
+!ENTRY org.eclipse.ui.ide 4 4 2012-01-24 10:03:00.402
+!MESSAGE Problems saving workspace
+
+!ENTRY org.eclipse.ui.ide 4 1 2012-01-24 10:03:00.402
+!MESSAGE Problems occurred while trying to save the state of the workbench.
+!SUBENTRY 1 org.eclipse.core.resources 4 568 2012-01-24 10:03:00.402
+!MESSAGE Could not write metadata for '/Prolog'.
+!STACK 0
+java.io.FileNotFoundException: D:\Skole\.metadata\.plugins\org.eclipse.core.resources\.projects\Prolog\.markers (The system cannot find the path specified)
+	at java.io.FileOutputStream.open(Native Method)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:194)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:145)
+	at org.eclipse.core.internal.localstore.SafeFileOutputStream.<init>(SafeFileOutputStream.java:47)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSave(SaveManager.java:1575)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSave(SaveManager.java:1655)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1141)
+	at org.eclipse.core.internal.resources.Workspace.save(Workspace.java:2375)
+	at org.eclipse.ui.internal.ide.application.IDEWorkbenchAdvisor$5.run(IDEWorkbenchAdvisor.java:508)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:121)
