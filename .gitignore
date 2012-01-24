@@ -2,3 +2,4 @@
 */.svn/**/*
 */.settings/**/*
 */target/**/*
+*/tmp/**/*
