@@ -108,29 +108,28 @@ img = imread('assignment.png');
 
 % Task 3.2: Convert image to grayscale
 disp('3.2')
-grayscale = rgb2gray(img);
+img = rgb2gray(img);
 
 % Task 3.3: Convert image to floating point (double) representation
 disp('3.3')
-double = im2double(img);
+img = im2double(img);
 
 % Task 3.4: Show image on screen (remember to put figure; before this and all other commands that displays something on screen to insure that all images are shown)
 disp('3.4')
-figure, imshow(img), figure, imshow(grayscale), figure, imshow(double), figure, hist(im2double(img));
+figure, imshow(img);
 
 % Task 3.5: For all pixels (elements in the image matrix) with values above 0.7 set the pixel value to 1.0 (recall task 1.10)
 disp('3.5')
-newpic = im2double(img);
-newpic(newpic > 0.7) = 1.0;
+img(img > 0.7) = 1.0;
 
 % Task 3.6: Show image on screen
 disp('3.6')
-figure, imshow(newpic);
+figure, imshow(img);
 
 % Task 3.7: Create and show histogram of image
 disp('3.7')
-figure, hist(newpic);
+figure, hist(img);
 
 % Task 3.8: Save image to disk and call it result.png
 disp('3.8')
-imwrite(newpic, 'result.png');
+imwrite(img, 'result.png');
