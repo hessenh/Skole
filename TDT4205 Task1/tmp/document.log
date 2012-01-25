@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.1.14)  24 JAN 2012 22:55
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.1.14)  25 JAN 2012 14:48
 entering extended mode
  Source specials enabled.
  %&-line parsing enabled.
@@ -97,9 +97,9 @@ File: NDF.pdf Graphic file (type pdf)
 
 <use NDF.pdf>
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 43.
+(Font)              <7> on input line 49.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 43.
+(Font)              <5> on input line 49.
  [2 <./NDF.pdf>] (./document.aux) ) 
 Here is how much of TeX's memory you used:
  933 strings out of 494937
@@ -115,7 +115,7 @@ m/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr12.pfb>
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/
 texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texli
 ve/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on document.pdf (2 pages, 79452 bytes).
+Output written on document.pdf (2 pages, 79915 bytes).
 PDF statistics:
  43 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
