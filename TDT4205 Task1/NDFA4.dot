@@ -1,0 +1,25 @@
+//NFA for lang 1(0|1)*00(0|1)*
+digraph G {
+    rankdir=LR;
+   shape=circle;
+   start->a
+   a ->b  [label="digit"];
+   b->b [label="digit"];
+   b->c [label="."];
+   c->d [label="digit"];
+   d->d [label="digit"]; 
+   d->e [label="e"];
+   d->e [label="E"];
+   e->f [label="f"];
+   e->f [label="F"];
+   e->f [label="l"];
+   e->f [label="L"];
+
+   a[shape=circle];
+   b[shape=circle];
+   c[shape=circle];
+   d[shape=circle];
+   e[shape=doublecircle];
+   f[shape=doublecircle];
+   start[shape=plaintext];
+}

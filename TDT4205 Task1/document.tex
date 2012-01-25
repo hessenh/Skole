@@ -3,6 +3,7 @@
 \documentclass{article}
 
 \usepackage{graphicx}
+\usepackage{}
 
 \title{TDT4205 Compilers\\
 \Huge Exercise 1}
@@ -31,26 +32,46 @@ and desides if it satisfies the syntax of the programming language.
 \section{Task 3}
 \subsection{}
 \begin{figure}[h]
-\includegraphics[width=327px, height=136px]{NDF.pdf}
+\includegraphics[width=327px, height=136px]{NDFA31.pdf}
 \caption{NDF for 1(0|1)*00(0|1)*}
 \end{figure}
 
 \subsection{}
-This language includes
+This language includes:
 \begin{itemize}
   \item The word 100
   \item All words starting with 100
+  \item All words starting with 1 and ending with 00
+  \item All words starting with 1 and containing 00
+\end{itemize}
+given the alphabeth is the set of {0 1}
+
+Examples are 
+\begin{itemize}
+  \item 1111111111111111100111111111111111111
+  \item 10011111111111111111111
+  \item 10011001100110011001
+  \item 10001
 \end{itemize}
 
 
 
 \subsection{}
 \begin{figure}[h]
-\begin{tabular}{|l|c|r|}
+\begin{tabular}{|l||c|c|c|c|}
 \hline
-1 & 2 & 3 \\
+ & a & b & c & d\\
+\hline
+\hline
+1 & b & b & - & d\\
+0 & - & \{b c\} & d & d \\
 \hline
 \end{tabular}
 \caption{Transition table for 1(0|1)*00(0|1)*}
+\end{figure}
+\section{}
+\begin{figure}[h]
+\includegraphics[width=327px, height=136px]{NDFA4.pdf}
+\caption{DFA for float}
 \end{figure}
 \end{document}

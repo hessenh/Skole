@@ -1,0 +1,7 @@
+floating_constant -: <int><decimal><fraction>(<e>|<E>)[suffix]
+decimal           -: <.>
+int               -: <digit>+
+fraction          -: <digit>+
+suffix            -: (f|F|l|L)
+
+<digit>+<.><digit>+(<e>|<E>)[(f|F|l|L)]
