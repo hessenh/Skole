@@ -1,12 +1,13 @@
+#include <stdlib.h>
+#include <Windows.h>
+#include <time.h>
 #include <stdio.h>     // - Just for some ASCII messages
 #include "gl/glut.h"   // - An interface and windows 
                        //   management library
 #include "visuals.h"   // Header file for our OpenGL functions
-#include <stdlib.h>
-#include <time.h>
 
 void randomColor() {
-	glColor3f((float)(rand()) /RAND_MAX, (float)(rand()) / RAND_MAX, (float)(rand())/RAND_MAX);
+	glColor3f((float)(rand())/RAND_MAX, (float)(rand())/RAND_MAX, (float)(rand())/RAND_MAX);
 }
 
 void Render()
@@ -17,16 +18,17 @@ void Render()
   glMatrixMode(GL_MODELVIEW); 
   glLoadIdentity();
   
-  randomColor();
-  //glColor3f(1.0, 0.5, 0.2);							   // Set drawing colour = orange
+  randomColor();					   // Set drawing colour = orange
 
-  glutSolidTeapot( 20.0 );							   // Draw a built-in primitive
-  //glutWireTeapot(20.0);
-  //glutSolidSphere(20.0,30,24);
+  for (float f = 0.0f; f < 20.0f; f++) {
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // Clean up the colour of the window
+													   // and the depth buffer
+		glutSolidTeapot( f );	// Draw a built-in primitive
+		glutSwapBuffers();  
+		Sleep(100);
+	  
+  }
 
-  glutSwapBuffers();             // All drawing commands applied to the 
-                                 // hidden buffer, so now, bring forward
-                                 // the hidden buffer and hide the visible one
 }
 
 //-----------------------------------------------------------
