@@ -1,18 +1,16 @@
-INDEX VERSION 1.126+F:\Workspaces\Skole\.metadata\.plugins\org.eclipse.jdt.core
-2834511949.index
-3872136265.index
-279750358.index
-320569029.index
-2486474747.index
-4209512452.index
-3549441637.index
-4088909137.index
-901278838.index
-1806572550.index
-789766365.index
-1492981190.index
-2941528565.index
-3816462271.index
-4223274552.index
-3598506696.index
-974627502.index
+INDEX VERSION 1.126+/home/stian/workspaces/Skole/.metadata/.plugins/org.eclipse.jdt.core
+1769448193.index
+2722831586.index
+925624498.index
+1193566714.index
+1796948596.index
+3992927010.index
+3223902160.index
+2040264796.index
+2889915287.index
+406065318.index
+1654635368.index
+1189062746.index
+1393721363.index
+2686503099.index
+516116778.index
