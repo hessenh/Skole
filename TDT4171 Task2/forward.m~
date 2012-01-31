@@ -1,5 +1,0 @@
-% The Markow assumption, Eq. 15.5 in AIMA
-
-function f_next = forward(e,x) % 
-	(e(t+1)|x(t+1))*sum()
-end
