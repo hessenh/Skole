@@ -1,0 +1,20 @@
+function sv = forwardbackward(ev, prior, T) % ev is the set of evidence for 1..t, pripor is the initial state P(X_0)
+  fv(:,:,1) = prior;
+  ev_size = size(ev);	% ev is a vector of 1 to t, so t is the length of this vector
+  t = ev_size(3);
+  b = ones(t);	% b is initially a vector of ones, with dimension t
+  sv = zeros(t);
+  
+  for i = 2.0:t
+      disp(i);
+    fv(:,:,i) = forward(fv(:,:,i-1),ev(i), T);
+  end
+  
+  disp(fv);
+  
+  for i = 1.0:-1.0:t
+    sv(:,:,i) = normalize(fv(:,:,i)*b);
+    b = backward(b, ev(i), T);
+  end
+end
+      

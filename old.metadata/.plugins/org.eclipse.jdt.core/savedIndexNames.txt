@@ -1,0 +1,21 @@
+INDEX VERSION 1.126+/home/stian/workspaces/Skole/.metadata/.plugins/org.eclipse.jdt.core
+1769448193.index
+392690181.index
+4048533526.index
+925624498.index
+1796948596.index
+1193566714.index
+3223902160.index
+3992927010.index
+2040264796.index
+1236557133.index
+2889915287.index
+406065318.index
+1654635368.index
+3476229311.index
+1189062746.index
+1232177781.index
+1393721363.index
+2686503099.index
+516116778.index
+860024828.index
