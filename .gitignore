@@ -1,4 +1,6 @@
+.metadata
 .metadata/**/*
+*/.svn
 */.svn/**/*
 */.settings/**/*
 */target/**/*
