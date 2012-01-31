@@ -31,7 +31,7 @@ digraph G {
    b[shape=circle];
    c[shape=doublecircle];
    d[shape=circle];
-   e[shape=doublecircle];
+   e[shape=circle];
    f[shape=doublecircle];
    g[shape=doublecircle];
    start[shape=plaintext];
