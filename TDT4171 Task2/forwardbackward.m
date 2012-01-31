@@ -19,10 +19,15 @@ function sv = forwardbackward(ev, prior, T) % ev is the set of evidence for 1..t
   disp('Finnished forward-algorithm, tmp results:');
   disp(fv);
   
-  for i = t:-1.0:1.0
+  for i = t:-1.0:2.0
     sv(:,:,i) = normalize(fv(:,:,i)*b(:,:,i));
-    disp(sv(:,:,i));
-    b(:,:,i) = backward(b(:,:,i), ev(:,:,i), T);
+    b(:,:,i-1) = backward(b(:,:,i), ev(:,:,i), T);
   end
+  
+  disp('Finnished backward-algorithm, tmp results:');
+  disp(b);
+  
+  disp('Finnished smoothing-algorithm, tmp results:');
+  disp(sv);
 end
       
