@@ -2,7 +2,7 @@ function sv = forwardbackward(ev, prior, T) % ev is the set of evidence for 1..t
   fv(:,1) = prior;
   ev_size = size(ev);	% ev is a vector of 1 to t, so t is the length of this vector
   t = ev_size(3);
-  b = [1.0 1.0];
+  b = [1.0  1.0];
   for i = 2.0:t
     b(:,:,i) = [1.0 1.0];	% b is initially a vector of ones, with dimension t    
   end  
@@ -13,21 +13,11 @@ function sv = forwardbackward(ev, prior, T) % ev is the set of evidence for 1..t
   end  
   
   for i = 2.0:t
-    fv(:,:,i) = forward(fv(:,:,i-1),ev(:,:,i), T);
+    fv(:,i) = forward(fv(:,i-1),ev(:,:,i), T);
   end
-  
-  disp('Finnished forward-algorithm, tmp results:');
-  disp(fv);
-  
+
   for i = t:-1.0:2.0
-    sv(:,:,i) = normalize(fv(:,:,i)*b(:,:,i));
+    sv(:,:,i) = normalize(fv(:,i)'.*b(:,:,i));
     b(:,:,i-1) = backward(b(:,:,i), ev(:,:,i), T);
   end
-  
-  disp('Finnished backward-algorithm, tmp results:');
-  disp(b);
-  
-  disp('Finnished smoothing-algorithm, tmp results:');
-  disp(sv);
 end
-      

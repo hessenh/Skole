@@ -6,23 +6,70 @@
 \usepackage[utf8]{inputenc}
 \usepackage{parskip} % for litt mellomrom mellom avsnittene
 \usepackage{amsmath}
+\usepackage{tocloft}
 \usepackage{graphicx}
 \usepackage{subfig}
 
-\renewcommand{\thesection}{\Roman{section}}
-\renewcommand{\thesubsection}{\alph{subsection}}
+\renewcommand{\thesection}{Part \Alph{section}}
+\renewcommand{\thesubsection}{\arabic{subsection}}
 
 \title{TDT4171 Artificial Intelligence Methods\\
-\Huge Exercise 1}
+\Huge Exercise 2}
 \author{Stian Hvatum (hvatum)\\MTDT}
 
 \begin{document}
 \maketitle
-\line(1,0){340} % 120mm is aprox. width of text field
-\tableofcontents
-\newpage
-\section{5-card Poker Hands}
-\subsection{Atomic events}
+\pagenumbering{arabic}
+\section{The Umbrella domain as an HMM}
+\begin{itemize}
+  \item The set of unobserved variable for a given time-slice \(t\) is the
+  single variable \(Rain_t\).
+  \item The set of observed variables, or evidence, for a given time-slice is
+  the single variable \(Umbrella_t\).
+  \item The \emph{dynamic model} P\((X_t|X_{t-1})\) is:
+\[ \left(
+   \begin{array}{cc}
+    0.7 & 0.3 \\
+	0.3 & 0.7
+	\end{array}
+\right)\] 
+where each \(value_{i,j}\) is the probability for changing from state \(i\) to
+state \(j\).
+  \item The \emph{observation model} P\((E_t|X_t)\) is:
+\[ \left(
+   \begin{array}{cc}
+    0.9 & 0 \\
+	0 & 0.2
+	\end{array}
+\right)\]
+where the observation \(Umbrella_t\) is \emph{true},  
+\[ \left(
+   \begin{array}{cc}
+    0.1 & 0 \\
+	0 & 0.8
+	\end{array}
+\right)\] 
+where the observation is \emph{false}. Notice that the matrix for \emph{false}
+is the \emph{identity}-matrix - the \emph{true}-matrix.
+
+\item In this model, we assume that the process is a \emph{stationary process}.
+A \emph{stationary process} is a process where the laws that transist the state
+from one to another never changes. In this specific case, this means that we
+assume that the probaility for rain today given rain (or not rain) yesterday is
+always the same. Yet we also assumes that rain today only depends on rain
+yesterday, thus making it a \emph{first-order Markov process}.
+
+These assumptions are probably not sufficient for a weather-forecasting-system,
+but introducing either more sensors or more orders to the Markov process will
+add much complexity and add little value to this example scenario.
+\end{itemize}
+
+\section{Filtering with \texttt{FORWARD}}
+The calculation is given in the MATLAB-file \emph{partB.m}. Since MATLAB
+indexing starts with 1 and not 0, the probabilities for day 2 is in
+\(ans(1:1:3)\).
+
+\section{Smoothing using \texttt{FORWARD-BACKWARD}}
 
 
 \end{document}

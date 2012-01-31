@@ -1,3 +1,4 @@
 \select@language {english}
-\contentsline {section}{\numberline {I}5-card Poker Hands}{2}
-\contentsline {subsection}{\numberline {a}Atomic events}{2}
+\contentsline {section}{\numberline {Part A}The Umbrella domain as an HMM}{2}
+\contentsline {section}{\numberline {Part B}Filtering with \texttt {FORWARD}}{2}
+\contentsline {section}{\numberline {Part C}Smoothing using \texttt {FORWARD-BACKWARD}}{2}
