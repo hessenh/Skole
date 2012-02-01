@@ -1,0 +1,18 @@
+% Setting up the transition matrix
+T = [0.7 0.3 ; 0.3 0.7];
+
+% Setting up evidence
+% Stupid MATLAB, beginning at 1, not 0
+% State 1 is state 0 in the book, state 2 is first "real" state
+O = [0 0 ; 0 0]; % Dummy-state for "nothing"
+O(:,:,2) = [0.9 0.0 ; 0.0 0.2];
+O(:,:,3) = [0.9 0.0 ; 0.0 0.2];
+
+% Initial state
+fv(:,:,1) = [0.5 0.5];
+
+for i = 2:3
+  fv(:,:,i) = forward(fv(:,:,i-1), O(:,:,i), T);
+end
+
+disp(fv);

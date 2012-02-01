@@ -7,12 +7,17 @@ T = [0.7 0.3 ; 0.3 0.7];
 O = [0 0 ; 0 0]; % Dummy-state for "nothing"
 O(:,:,2) = [0.9 0.0 ; 0.0 0.2];
 O(:,:,3) = [0.9 0.0 ; 0.0 0.2];
+O(:,:,4) = [0.1 0.0 ; 0.0 0.8];
+O(:,:,5) = [0.9 0.0 ; 0.0 0.2];
+O(:,:,6) = [0.9 0.0 ; 0.0 0.2];
 
 % Initial state
 fv(:,:,1) = [0.5 0.5];
 
-for i = 2:3
-  fv(:,:,i) = forward(fv(:,i-1), O(:,:,i), T);
-end
+% Calculate forward messages
+  for i = 2:6
+    fv(:,:,i) = forward(fv(:,:,i-1),O(:,:,i), T);
+  end
 
+disp('Forward-messages:');
 disp(fv);

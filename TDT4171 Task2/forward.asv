@@ -1,6 +1,0 @@
-% The Markow assumption, Eq. 15.5 in AIMA
-
-function f_next = forward(f,e,T) % 
-    
-  return f_next;
-end
