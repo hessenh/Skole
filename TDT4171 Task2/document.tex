@@ -20,6 +20,7 @@
 \begin{document}
 \maketitle
 \pagenumbering{arabic}
+\newpage
 \section{The Umbrella domain as an HMM}
 \begin{itemize}
   \item The set of unobserved variable for a given time-slice \(t\) is the single variable \(Rain_t\).
@@ -40,7 +41,7 @@ state \(j\).
 	0 & 0.2
 	\end{array}
 \right)\]
-where the observation \(Umbrella_t\) is \emph{true},  
+where the observation \(Umbrella_t\) is \emph{true}, and 
 \[ \left(
    \begin{array}{cc}
     0.1 & 0 \\
@@ -62,11 +63,12 @@ but introducing either more sensors or more orders to the Markov process will
 add much complexity and add little value to this example scenario.
 \end{itemize}
 
+\newpage
 \section{Filtering with \texttt{FORWARD}}
 \subsection{}
 The calculation is given in the MATLAB-file \emph{partB1.m}. Since MATLAB
 indexing starts with 1 and not 0, the probabilities for day 2 is in
-\(ans(1,1,3)\).
+\(ans(1,1,3)\). Answer is 0.88336.
 
 \subsection{}
 These calculations are given in the MATLAB-file \emph{partB2.m}.
@@ -92,7 +94,7 @@ Day & \(Rain\) & \(\lnot Rain\) \\
 \subsection{}
 The calculation is given in the MATLAB-file \emph{partC1.m}. Since MATLAB
 indexing starts with 1 and not 0, the probabilities for day 2 is in
-\(ans(1,1,:)\).
+\(ans(:,:,3)\), and is \(\langle 0.88336, 0.11664\rangle\).
 
 \subsection{}
 These calculations are given in the MATLAB-file \emph{partC2.m}.
@@ -107,16 +109,34 @@ Day & \(Rain\) & \(\lnot Rain\) \\
 2 & 0.37627 & 0.62373\\
 3 & 0.65334 & 0.34666\\
 4 & 0.62727 & 0.37273\\
+5 & 0.50000 & 0.50000\\
+\hline
+\end{tabular}
+\caption{Normalized Backward-messages from \texttt{FORWARD-BACKWARD}}
+\end{figure}
+\begin{figure}[h]
+\begin{tabular}{|l||c|c|}
+\hline
+Day & \(Rain\) & \(\lnot Rain\) \\
+\hline
+\hline
+0 & 0.044385 & 0.024223\\
+1 & 0.066118 & 0.045508\\
+2 & 0.090639 & 0.150251\\
+3 & 0.45930 & 0.24370\\
+4 & 0.69000 & 0.41000\\
 5 & 1.00000 & 1.00000\\
 \hline
 \end{tabular}
 \caption{Backward-messages from \texttt{FORWARD-BACKWARD}}
 \end{figure}
 
+\newpage
 \section{Code}
-All code is written for Octave 3.2.4, but should also work with MATLAB
-\footnote{I have successfully tested the code on MATLAB R11 x64}. The files
-included should be:
+All code is written for Octave, but should also work with MATLAB
+\footnote{All code runs successfully on MATLAB R2011b x64. Answers
+given in this report is calculated with Octave 3.2.4.}.
+The files included should be:
 \begin{itemize}
   \item forward.m
   \item backward.m

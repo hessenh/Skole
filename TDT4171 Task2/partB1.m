@@ -1,3 +1,8 @@
+% Clear old variables
+clear O
+clear T
+clear fv
+
 % Setting up the transition matrix
 T = [0.7 0.3 ; 0.3 0.7];
 
@@ -11,8 +16,10 @@ O(:,:,3) = [0.9 0.0 ; 0.0 0.2];
 % Initial state
 fv(:,:,1) = [0.5 0.5];
 
+% Calculate forward messages
 for i = 2:3
   fv(:,:,i) = forward(fv(:,:,i-1), O(:,:,i), T);
 end
 
+% Display calculated forward messages
 disp(fv);

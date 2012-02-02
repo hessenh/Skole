@@ -1,3 +1,8 @@
+% Clear old variables
+clear O
+clear T
+clear fv
+
 % Setting up the transition matrix
 T = [0.7 0.3 ; 0.3 0.7];
 
@@ -19,5 +24,6 @@ fv(:,:,1) = [0.5 0.5];
     fv(:,:,i) = forward(fv(:,:,i-1),O(:,:,i), T);
   end
 
+% Display forward messages
 disp('Forward-messages:');
 disp(fv);

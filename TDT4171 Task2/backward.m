@@ -1,5 +1,7 @@
 % Eq. 15.9 in AIMA
-
-function sv = backward(b, e, T)
-	sv = normalize(T*e*b.');
+% 
+% Eq. 15.13 is the eqivalent equation using matrixes,
+% this is its implementation in MATLAB
+function sv = backward(b, O, T)
+	sv = T*O*b;
 end
