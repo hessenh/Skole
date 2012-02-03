@@ -93,6 +93,7 @@ end
 
 mamm_pref = gaussian(0.5, 0.25);
 
+
 % Task 1.5 - Load the image space.tif. Show the histogram and use HE to try
 % to spread the intensity values. Look at both images. What happens? 
 % Try to use Local adaptive Histogram Equalization instead and experiment 
