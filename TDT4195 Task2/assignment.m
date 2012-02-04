@@ -12,18 +12,19 @@
 % Then use the imadjust function to make the image more visible, 
 
 im_dark = imread('images/dark.tif');
-figure('Name', 'Original'), imshow(im_dark);
-figure('Name', 'Original Hist'), imhist(im_dark);
+%figure('Name', 'Original'), imshow(im_dark);
+%figure('Name', 'Original Hist'), imhist(im_dark);
 
 % show the new image and its histogram on screen
 im_adj = imadjust(im_dark);
-figure('Name', 'Adjusted'), imshow(im_adj);
-figure('Name', 'Adjusted Hist'), imhist(im_adj);
+%figure('Name', 'Adjusted'), imshow(im_adj);
+%figure('Name', 'Adjusted Hist'), imhist(im_adj);
+
 
 % Task 1.2 - Use the built-in Histogram Equalization function on the
 % dark.png image
 hist_eq = histeq(im_dark);
-figure('Name', 'Histogram Equalization'), imshow(hist_eq);
+%figure('Name', 'Histogram Equalization'), imshow(hist_eq);
 
 % Task 1.3 - Create a 4x4 image with random values from 0 to 7. Make a
 % program that performs Histogram Equalization on this image. (do not use
@@ -37,9 +38,9 @@ n = 4*4; % total size of image
 
 % Make Histogram
 histogram = zeros(1,8); 
-figure, imshow(image);
-disp('Image');
-disp(image);
+%figure, imshow(image);
+%disp('Image');
+%disp(image);
 
 % Because of MATLAB-indexing starting at 1,
 % not 0, we have to put all values at index
@@ -49,13 +50,13 @@ for i = 1 : 4
         histogram(image(i,j) + 1) = histogram(image(i,j) + 1) + 1;
     end
 end
-disp('Histogram');
-disp(histogram);
+%disp('Histogram');
+%disp(histogram);
 
 % Normalize histogram
 norm_histogram = histogram/sum(histogram);
-disp('Normalized histogram');
-disp(norm_histogram);
+%disp('Normalized histogram');
+%disp(norm_histogram);
 
 % Make cumulative distribution function (CDF)
 cdf = zeros(1,8);
@@ -64,19 +65,19 @@ for i = 1:8
     cdf(i) = cdf(i) + norm_histogram(j);
     end
 end
-disp('CDF');
-disp(cdf);
+%disp('CDF');
+%disp(cdf);
 
 % Do intensity transformation based on CDF
 t_img = zeros(4,4);
 for i = 1:4
   for j = 1:4
     t_img(i,j) = image(i,j).*cdf(image(i,j) + 1);
-   end
+  end
 end
-figure, imshow(t_img);
-disp('Intensity transformed Image');
-disp(t_img);
+%figure, imshow(t_img);
+%disp('Intensity transformed Image');
+%disp(t_img);
 
 % Task 1.4 - Load the image mamm.tif and perform Histogram matching on this
 % image with a gaussian with mean 0.5 and std 0.25. You can use the
@@ -92,13 +93,18 @@ for i = 1 : length(mamm(:,1,1))
 end
 
 mamm_pref = gaussian(0.5, 0.25);
+img_histmatch = histeq(mamm, mamm_pref);
+%figure('Name', 'mamm.tif'), imshow(mamm);
+%figure('Name', 'mamm.tif Adjusted'), imshow(img_histmatch);
 
 % Task 1.5 - Load the image space.tif. Show the histogram and use HE to try
 % to spread the intensity values. Look at both images. What happens? 
 % Try to use Local adaptive Histogram Equalization instead and experiment 
 % with the number of tiles to create the best result. Show the histogram 
 % after local adaptive HE. What was best? Why?
-
+space = imread('images/space.tif');
+figure('Name', 'Space.tif'), imshow(space);
+figure('Name', 'Space.tif Histogram'), imhist(space);
 
 % === 2 - Spatial filtering ===
 
