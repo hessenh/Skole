@@ -97,6 +97,7 @@ img_histmatch = histeq(mamm, mamm_pref);
 %figure('Name', 'mamm.tif'), imshow(mamm);
 %figure('Name', 'mamm.tif Adjusted'), imshow(img_histmatch);
 
+
 % Task 1.5 - Load the image space.tif. Show the histogram and use HE to try
 % to spread the intensity values. Look at both images. What happens? 
 % Try to use Local adaptive Histogram Equalization instead and experiment 
