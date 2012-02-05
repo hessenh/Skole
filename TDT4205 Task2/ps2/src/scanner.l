@@ -33,6 +33,7 @@ ID [A-Za-z][A-Za-z0-9_]+
 
 {NUMBER}       { RETURN(NUMBER); }
 {COMMENT}       { ; }
+{WHITESPACE} { ; }
 FUNC {RETURN(FUNC);}
 PRINT {RETURN(PRINT);}
 RETURN {RETURN(RETURN);}

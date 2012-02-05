@@ -440,7 +440,7 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint8 yyprhs[] =
 {
        0,     0,     3,     5,     7,    10,    12,    15,    17,    21,
-      23,    27,    29,    31,    35,    39,    41,    42,    44,    45,
+      23,    27,    29,    31,    35,    39,    41,    43,    46,    47,
       48,    49,    56,    58,    60,    62,    64,    66,    68,    70,
       75,    79,    86,    89,    92,    94,   100,   108,   114,   118,
      122,   126,   130,   133,   137,   141,   143,   145,   150,   155,
@@ -454,7 +454,7 @@ static const yytype_int8 yyrhs[] =
       43,    -1,    35,    43,    -1,    56,    -1,    36,    25,    56,
       -1,    51,    -1,    37,    25,    51,    -1,    53,    -1,    54,
       -1,    38,    25,    53,    -1,    38,    25,    54,    -1,    37,
-      -1,    -1,    38,    -1,    -1,    41,    52,    -1,    -1,     7,
+      -1,    38,    -1,    41,    52,    -1,    -1,    -1,    -1,     7,
       53,    26,    40,    27,    43,    -1,    45,    -1,    46,    -1,
       47,    -1,    48,    -1,    49,    -1,    50,    -1,    44,    -1,
       28,    41,    35,    29,    -1,    53,     6,    51,    -1,    53,
@@ -473,12 +473,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    70,    70,    71,    71,    72,    72,    73,    73,    74,
-      74,    75,    75,    75,    75,    76,    76,    77,    77,    78,
-      78,    79,    80,    80,    80,    80,    80,    80,    80,    81,
-      82,    82,    83,    84,    85,    86,    86,    87,    88,    88,
-      88,    88,    88,    88,    88,    88,    88,    88,    88,    89,
-      90,    91,    92,    93,    93,    94
+       0,    70,    70,    73,    73,    76,    76,    79,    79,    82,
+      82,    85,    85,    85,    85,    88,    91,    94,    98,   101,
+     104,   106,   109,   109,   109,   109,   109,   109,   109,   112,
+     115,   115,   118,   121,   124,   127,   127,   130,   133,   133,
+     133,   133,   133,   133,   133,   133,   133,   133,   133,   136,
+     139,   142,   145,   148,   148,   151
 };
 #endif
 
@@ -517,7 +517,7 @@ static const yytype_uint16 yytoknum[] =
 static const yytype_uint8 yyr1[] =
 {
        0,    32,    33,    34,    34,    35,    35,    36,    36,    37,
-      37,    38,    38,    38,    38,    39,    39,    40,    40,    41,
+      37,    38,    38,    38,    38,    39,    40,    41,    39,    40,
       41,    42,    43,    43,    43,    43,    43,    43,    43,    44,
       45,    45,    46,    47,    48,    49,    49,    50,    51,    51,
       51,    51,    51,    51,    51,    51,    51,    51,    51,    52,
@@ -528,7 +528,7 @@ static const yytype_uint8 yyr1[] =
 static const yytype_uint8 yyr2[] =
 {
        0,     2,     1,     1,     2,     1,     2,     1,     3,     1,
-       3,     1,     1,     3,     3,     1,     0,     1,     0,     2,
+       3,     1,     1,     3,     3,     1,     1,     2,     0,     0,
        0,     6,     1,     1,     1,     1,     1,     1,     1,     4,
        3,     6,     2,     2,     1,     5,     7,     5,     3,     3,
        3,     3,     2,     3,     3,     1,     1,     4,     4,     2,
@@ -540,13 +540,13 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     0,     0,     2,     3,    50,     0,     1,     4,    18,
-      17,     0,    11,    12,     0,     0,     0,    13,    14,     0,
+       0,     0,     0,     2,     3,    50,     0,     1,     4,    19,
+      16,     0,    11,    12,     0,     0,     0,    13,    14,     0,
        0,    34,     0,     0,    20,    21,    28,    22,    23,    24,
       25,    26,    27,     0,    52,     0,    55,     0,     0,    33,
       53,    46,    45,     7,    54,    32,     0,     0,     0,     0,
        0,    51,    42,     0,     0,     0,     0,     0,     0,     0,
-      16,     0,     0,     0,     0,     0,     5,    19,    30,     0,
+      18,     0,     0,     0,     0,     0,     5,    17,    30,     0,
       44,     8,    43,    38,    39,    40,    41,    15,     0,     9,
        0,     0,     0,    49,    29,     6,     0,     0,    47,    48,
        0,    35,    37,     0,    10,     0,    31,    36
@@ -1452,19 +1452,206 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 55:
+        case 2:
 
 /* Line 1455 of yacc.c  */
-#line 96 "src/parser.y"
-    {
-    node_init ( root = malloc(sizeof(node_t)), program_n, NULL, 1, (yyvsp[(1) - (1)]));
-;}
+#line 71 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), program_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
+    break;
+
+  case 4:
+
+/* Line 1455 of yacc.c  */
+#line 74 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), function_list_n, NULL, 1, (yyvsp[(1) - (2)])); ;}
+    break;
+
+  case 6:
+
+/* Line 1455 of yacc.c  */
+#line 77 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), statement_list_n, NULL, 1, (yyvsp[(1) - (2)])); ;}
+    break;
+
+  case 8:
+
+/* Line 1455 of yacc.c  */
+#line 80 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), print_item_n, NULL, 1, (yyvsp[(1) - (3)])); ;}
+    break;
+
+  case 10:
+
+/* Line 1455 of yacc.c  */
+#line 83 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), expression_list_n, NULL, 1, (yyvsp[(1) - (3)])); ;}
+    break;
+
+  case 14:
+
+/* Line 1455 of yacc.c  */
+#line 86 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), variable_list_n, NULL, 1, (yyvsp[(1) - (3)])); ;}
+    break;
+
+  case 15:
+
+/* Line 1455 of yacc.c  */
+#line 89 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), argument_list_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
+    break;
+
+  case 16:
+
+/* Line 1455 of yacc.c  */
+#line 92 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), parameter_list_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
+    break;
+
+  case 17:
+
+/* Line 1455 of yacc.c  */
+#line 95 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), declaration_list_n, NULL, 1, (yyvsp[(1) - (2)])); ;}
+    break;
+
+  case 18:
+
+/* Line 1455 of yacc.c  */
+#line 98 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), argument_list_n, NULL, 0); ;}
+    break;
+
+  case 19:
+
+/* Line 1455 of yacc.c  */
+#line 101 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), parameter_list_n, NULL, 0); ;}
+    break;
+
+  case 20:
+
+/* Line 1455 of yacc.c  */
+#line 104 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), declaration_list_n, NULL, 0); ;}
+    break;
+
+  case 21:
+
+/* Line 1455 of yacc.c  */
+#line 107 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), function_n, NULL, 1, (yyvsp[(1) - (6)])); ;}
+    break;
+
+  case 28:
+
+/* Line 1455 of yacc.c  */
+#line 110 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), statement_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
+    break;
+
+  case 29:
+
+/* Line 1455 of yacc.c  */
+#line 113 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), block_n, NULL, 1, (yyvsp[(1) - (4)])); ;}
+    break;
+
+  case 31:
+
+/* Line 1455 of yacc.c  */
+#line 116 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), assignment_statement_n, NULL, 1, (yyvsp[(1) - (6)])); ;}
+    break;
+
+  case 32:
+
+/* Line 1455 of yacc.c  */
+#line 119 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), return_statement_n, NULL, 1, (yyvsp[(1) - (2)])); ;}
+    break;
+
+  case 33:
+
+/* Line 1455 of yacc.c  */
+#line 122 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), print_statement_n, NULL, 1, (yyvsp[(1) - (2)])); ;}
+    break;
+
+  case 34:
+
+/* Line 1455 of yacc.c  */
+#line 125 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), null_statement_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
+    break;
+
+  case 36:
+
+/* Line 1455 of yacc.c  */
+#line 128 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), if_statement_n, NULL, 1, (yyvsp[(1) - (7)])); ;}
+    break;
+
+  case 37:
+
+/* Line 1455 of yacc.c  */
+#line 131 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), while_statement_n, NULL, 1, (yyvsp[(1) - (5)])); ;}
+    break;
+
+  case 48:
+
+/* Line 1455 of yacc.c  */
+#line 134 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), expression_n, NULL, 1, (yyvsp[(1) - (4)])); ;}
+    break;
+
+  case 49:
+
+/* Line 1455 of yacc.c  */
+#line 137 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), declaration_n, NULL, 1, (yyvsp[(1) - (2)])); ;}
+    break;
+
+  case 50:
+
+/* Line 1455 of yacc.c  */
+#line 140 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), variable_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
+    break;
+
+  case 51:
+
+/* Line 1455 of yacc.c  */
+#line 143 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), variable_n, NULL, 1, (yyvsp[(1) - (4)])); ;}
+    break;
+
+  case 52:
+
+/* Line 1455 of yacc.c  */
+#line 146 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), integer_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
+    break;
+
+  case 54:
+
+/* Line 1455 of yacc.c  */
+#line 149 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), print_item_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
+    break;
+
+  case 55:
+
+/* Line 1455 of yacc.c  */
+#line 152 "src/parser.y"
+    { node_init ( root = malloc(sizeof(node_t)), text_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1468 "y.tab.c"
+#line 1655 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1676,7 +1863,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 100 "src/parser.y"
+#line 154 "src/parser.y"
 
 
 
