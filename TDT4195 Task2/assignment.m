@@ -59,21 +59,24 @@ norm_histogram = histogram/sum(histogram);
 %disp(norm_histogram);
 
 % Make cumulative distribution function (CDF)
+
+% Can also use cumsum(norm_histogram), but we should not used build-in functions in this sub-task?
 cdf = zeros(1,8);
 for i = 1:8
-  for j = i:-1:1
-    cdf(i) = cdf(i) + norm_histogram(j);
-    end
+	for j = i:-1:1
+		cdf(i) = cdf(i) + norm_histogram(j);
+	end	
 end
-%disp('CDF');
-%disp(cdf);
+disp('CDF');
+disp(cdf);
+
 
 % Do intensity transformation based on CDF
 t_img = zeros(4,4);
 for i = 1:4
-  for j = 1:4
-    t_img(i,j) = image(i,j).*cdf(image(i,j) + 1);
-  end
+	for j = 1:4
+		t_img(i,j) = image(i,j).*cdf(image(i,j) + 1);
+	end
 end
 %figure, imshow(t_img);
 %disp('Intensity transformed Image');
@@ -87,9 +90,9 @@ mamm = imread('images/mamm.tif');
 % Create histogram for this image 
 mamm_hist = zeros(1,256);
 for i = 1 : length(mamm(:,1,1))
-    for j = 1 : length(mamm(1,:,1))
-        mamm_hist(mamm(i,j) + 1) = mamm_hist(mamm(i,j) + 1) + 1;
-    end
+	for j = 1 : length(mamm(1,:,1))
+		mamm_hist(mamm(i,j) + 1) = mamm_hist(mamm(i,j) + 1) + 1;
+	end
 end
 
 mamm_pref = gaussian(0.5, 0.25);
@@ -107,6 +110,22 @@ space = imread('images/space.tif');
 figure('Name', 'Space.tif'), imshow(space);
 figure('Name', 'Space.tif Histogram'), imhist(space);
 
+spread_space = histeq(space);
+figure('Name', 'Space.tif spread'), imshow(spread_space);
+figure('Name', 'Space.tif spread Histogram'), imhist(spread_space);
+
+local_adapt_space = adapthisteq(space, 'NumTiles', [25 25]);
+figure('Name', 'Space.tif uniform'), imshow(local_adapt_space);
+figure('Name', 'Space.tif uniform Histogram'), imhist(local_adapt_space);
+
+%
+% --- What and why? ----
+%  When we spread the intensity, the image got a lot lighter. More details where visible, wich is good, but the image got unrealisticly white.
+%  When using tiles, we normalized sections of the image at a time, and the same details became visible, but without the whitening of the entire image.
+%  Using less tiles made the image less detailed, and somewhat lighter, but not much.
+%
+
+
 % === 2 - Spatial filtering ===
 
 % Task 2.1 - Implement a filter with an averaging mask for images as a function 
@@ -114,21 +133,34 @@ figure('Name', 'Space.tif Histogram'), imhist(space);
 % built-in filtering functions) Tip: Use the matlab function sum() to 
 % retrieve the sum of all values in an array
 
+ % --- Implemented in avgfilter.m
+
 % Task 2.2 - Implement the median filter for images as a function
 % and make it possible to set the size of the filtering area (do not use the 
 % built-in filtering/median functions). Tip: Use the matlab function 
 % median() to retrieve the median value of an array
 
-% Task 2.3 - Create a gaussian mask with standard deviation = 1.0 and size 3x3
+ % --- Implemented in medifilter.m ------ NOT FINISHED
 
+% Task 2.3 - Create a gaussian mask with standard deviation = 1.0 and size 3x3
+    
+    gaus = zeros(3,3);
+    for x = 1:3
+        for y = 1:3
+            posX = x - 1;
+            posY = y - 1;
+            gaus(y,x) = exp(-(posX*posX+posY*posY)^2/(2*1^2));
+        end
+    end
 
 % Task 2.4 - Load image assignment.png and convert it to grayscale and double 
 % (values from 0.0 to 1.0)
-
+assign_img = imread('images/assignment.png');
 
 % Task 2.5 - Filter the image with the gaussian mask in task 3 and show the
 % image on screen
-
+gaus_img = imfilter(assign_img, gaus);
+figure, imshow(gaus_img);
 
 % Task 2.6 - Create a copy of the image in task 4 with salt-and-pepper noise 
 % and another copy of the image with gaussian noise. Show both images on
@@ -165,6 +197,9 @@ figure('Name', 'Space.tif Histogram'), imhist(space);
 % hpfilter functions from the book, but not dftfilt. You can also use the
 % lpfilter2 and hpfilter2 functions uploaded on itslearning
 
+f = lpfilter2(3,3,0.9); % NOT CORRECT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+blured = imfilter(assign_img, f);
+figure, imshow(blured);
 
 % Task 3.2 - (optional) Load the image clown.png convert it to double(0.0 to 1.0) and
 % remove the periodic noise using a reject filter in the frequency domain.
