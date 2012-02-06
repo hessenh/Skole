@@ -131,7 +131,7 @@ while_statement: WHILE expression DO statement DONE
  { node_init ( root = malloc(sizeof(node_t)), while_statement_n, NULL, 1, $1); };
 
 expression: expression '+' expression | expression '-' expression | expression '*' expression | expression '/' expression | '-' expression | expression POWER expression | '(' expression ')' | integer | variable | variable '(' argument_list ')' | variable '[' expression ']'
- { node_init ( root = malloc(sizeof(node_t)), expression_n, NULL, 1, $1); };
+ { node_init ( root = malloc(sizeof(node_t)), expression_n, $2, 2, $1, $3); };
 
 declaration: VAR variable_list
  { node_init ( root = malloc(sizeof(node_t)), declaration_n, NULL, 1, $1); };
@@ -149,7 +149,7 @@ print_item: expression | text
  { node_init ( root = malloc(sizeof(node_t)), print_item_n, NULL, 1, $1); };
 
 text: STRING
- { node_init ( root = malloc(sizeof(node_t)), text_n, NULL, 1, $1); };
+ { txt* = STRDUP(yytext)); node_init ( $$ = malloc(sizeof(node_t)), text_n, txt, 0); };
 
 %%
 
