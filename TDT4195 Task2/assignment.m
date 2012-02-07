@@ -140,32 +140,39 @@ figure('Name', 'Space.tif uniform Histogram'), imhist(local_adapt_space);
 % built-in filtering/median functions). Tip: Use the matlab function 
 % median() to retrieve the median value of an array
 
- % --- Implemented in medifilter.m ------ NOT FINISHED
+ % --- Implemented in medifilter.m
 
 % Task 2.3 - Create a gaussian mask with standard deviation = 1.0 and size 3x3
     
     gaus = zeros(3,3);
     for x = 1:3
         for y = 1:3
-            posX = x - 1;
-            posY = y - 1;
+            posX = x - 1.5;
+            posY = y - 1.5;
             gaus(y,x) = exp(-(posX*posX+posY*posY)^2/(2*1^2));
         end
     end
 
+
 % Task 2.4 - Load image assignment.png and convert it to grayscale and double 
 % (values from 0.0 to 1.0)
 assign_img = imread('images/assignment.png');
+assign_gray = im2double(rgb2gray(assign_img));
+
 
 % Task 2.5 - Filter the image with the gaussian mask in task 3 and show the
 % image on screen
-gaus_img = imfilter(assign_img, gaus);
+figure, imshow(assign_gray);
+gaus_img = imfilter(assign_gray, gaus);
 figure, imshow(gaus_img);
 
 % Task 2.6 - Create a copy of the image in task 4 with salt-and-pepper noise 
 % and another copy of the image with gaussian noise. Show both images on
 % screen
-
+noise_pepper = imnoise(assign_gray, 'salt & pepper');
+noise_gaus = imnoise(assign_gray, 'gaussian');
+figure, imshow(noise_pepper);
+figure, imshow(noise_gaus);
 
 % Task 2.7 - For each noise type use an appropriate spatial filtering method to remove the noise 
 % and experiment with different parameter values for the filtering methods
@@ -197,9 +204,9 @@ figure, imshow(gaus_img);
 % hpfilter functions from the book, but not dftfilt. You can also use the
 % lpfilter2 and hpfilter2 functions uploaded on itslearning
 
-f = lpfilter2(3,3,0.9); % NOT CORRECT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+f = lpfilter2(3,3,50); % NOT CORRECT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 blured = imfilter(assign_img, f);
-figure, imshow(blured);
+%figure, imshow(blured);
 
 % Task 3.2 - (optional) Load the image clown.png convert it to double(0.0 to 1.0) and
 % remove the periodic noise using a reject filter in the frequency domain.

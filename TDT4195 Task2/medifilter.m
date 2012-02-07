@@ -1,11 +1,27 @@
- allocate outputPixelValue[image width][image height]
-   edgex := (window width / 2) rounded down
-   edgey := (window height / 2) rounded down
-   for x from edgex to image width - edgex
-       for y from edgey to image height - edgey
-           allocate colorArray[window width][window height]
-           for fx from 0 to window width
-               for fy from 0 to window height
-                   colorArray[fx][fy] := inputPixelValue[x + fx - edgex][y + fy - edgey]
-           sort all entries in colorArray[][]
-           outputPixelValue[x][y] := colorArray[window width / 2][window height / 2]
+function h = medifilter(img, M, N)
+  % This function creates a median filtered image
+
+    % Create mask
+    h = zeros(M,N);
+
+	median_array = zeros(M, N);
+
+imgSize = size(img);
+imgXSize = imgSize(2);
+imgYSize = imgSize(1);
+for x = 1:imgXSize
+	for y = 1:imgYSize
+	   for m = 1:M
+   	   for n = 1:N
+      	   posX = x - (n - ceil(N/2));
+            posY = y - (m - ceil(M/2));
+            if (posX > 0 && posY > 0 && posX <= imgXSize && posY <= imgYSize)
+	            median_array(m, n) = img(posY, posX);
+	         end
+			end
+		end
+%      disp(median_array(:));
+		h(y,x) = median(median_array(:));
+	end
+end
+end
