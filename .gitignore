@@ -1,4 +1,6 @@
 .metadata/**/*
+.metadata/.log
+.metadata/.plugins
 */.svn/**/*
 */.settings/**/*
 */target/**/*
