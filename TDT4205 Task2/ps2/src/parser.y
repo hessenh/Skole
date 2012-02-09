@@ -60,8 +60,9 @@ int* text_to_int_ptr(char* text) {
  * production.
  */
 %left '+' '-'
-%right POWER
+
 %left '*' '/'
+%right POWER
 %nonassoc UMINUS
 
 
@@ -100,13 +101,13 @@ variable_list   : variable           { node_init ( $$ = malloc(sizeof(node_t)), 
                 | indexed_variable   { node_init ( $$ = malloc(sizeof(node_t)), null_statement_n, NULL, 1, $1); };
 
 argument_list   : expression_list    { node_init ( $$ = malloc(sizeof(node_t)), argument_list_n, NULL, 1, $1); };
-                |                    { node_init ( $$ = malloc(sizeof(node_t)), null_statement_n, NULL, 0); };
+                |                    { $$ = NULL; }
 
 parameter_list  : variable_list      { node_init ( $$ = malloc(sizeof(node_t)), parameter_list_n, NULL, 1, $1); };
-                |                    { node_init ( $$ = malloc(sizeof(node_t)), null_statement_n, NULL, 0); };
+                |                    { $$ = NULL; }
 
 declaration_list: declaration_list declaration   { node_init ( $$ = malloc(sizeof(node_t)), declaration_list_n, NULL, 2, $1, $2); };
-                |                                { node_init ( $$ = malloc(sizeof(node_t)), null_statement_n, NULL, 0); };
+                |                    { $$ = NULL; }
 
 function        : FUNC variable '(' parameter_list ')' statement { node_init ( $$ = malloc(sizeof(node_t)), function_n, NULL, 3, $2, $4, $6); };
 
@@ -136,7 +137,7 @@ while_statement : WHILE expression DO statement DONE     { node_init ( $$ = mall
 
 expression      : integer                       { node_init ( $$ = malloc(sizeof(node_t)), expression_n, NULL, 1, $1); };
                 | variable                      { node_init ( $$ = malloc(sizeof(node_t)), expression_n, NULL, 1, $1); };
-                | '-' expression                { node_init ( $$ = malloc(sizeof(node_t)), expression_n, STRDUP("-"), 1, $2); };
+                | '-' expression %prec UMINUS   { node_init ( $$ = malloc(sizeof(node_t)), expression_n, STRDUP("-"), 1, $2); };
                 | '(' expression ')'            { node_init ( $$ = malloc(sizeof(node_t)), expression_n, NULL, 1, $2); };
                 | expression '+' expression     { node_init ( $$ = malloc(sizeof(node_t)), expression_n, STRDUP("+"), 2, $1, $3); };
                 | expression '-' expression     { node_init ( $$ = malloc(sizeof(node_t)), expression_n, STRDUP("-"), 2, $1, $3); };

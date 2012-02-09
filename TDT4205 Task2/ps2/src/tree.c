@@ -49,17 +49,21 @@ node_init ( node_t *nd, nodetype_t type, void *data, uint32_t n_children, ... )
 void
 node_finalize ( node_t *discard )
 {
+    if (discard != NULL)
+    {
   free(discard->data);
   free(discard->entry);
   // possibly we need to iterate though all children and free them one by one?
   free(discard->children);
   free(discard);
+    }
 }
 
 
 void
 destroy_subtree ( node_t *discard )
 {
+    if (discard != NULL)
   for (int i = 0; i < discard->n_children; i++)
     {
       destroy_subtree(discard->children[i]);

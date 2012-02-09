@@ -493,12 +493,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    81,    81,    83,    85,    87,    88,    90,    91,    93,
-      94,    96,    97,    99,   100,   102,   103,   105,   106,   108,
-     109,   111,   113,   114,   115,   116,   117,   118,   119,   121,
-     123,   124,   126,   128,   130,   132,   133,   135,   137,   138,
-     139,   140,   141,   142,   143,   144,   145,   146,   147,   149,
-     151,   153,   155,   156,   158,   160
+       0,    82,    82,    84,    86,    88,    89,    91,    92,    94,
+      95,    97,    98,   100,   101,   103,   104,   106,   107,   109,
+     110,   112,   114,   115,   116,   117,   118,   119,   120,   122,
+     124,   125,   127,   129,   131,   133,   134,   136,   138,   139,
+     140,   141,   142,   143,   144,   145,   146,   147,   148,   150,
+     152,   154,   156,   157,   159,   161
 };
 #endif
 
@@ -590,19 +590,19 @@ static const yytype_int8 yypact[] =
       88,   -43,    88,    88,   -43,   -43,   -43,   -43,   -43,   -43,
      -43,   -43,   -43,     3,   -43,    18,   -43,    88,    88,    25,
      117,   -43,   -43,   -43,   -14,   117,    98,   112,    62,    88,
-      88,   -43,   -12,   103,    82,    88,    88,    88,    88,    88,
+      88,   -43,   -43,   103,    82,    88,    88,    88,    88,    88,
       88,    88,    73,    73,     0,    17,   -43,   -43,   117,    34,
-     -43,   -43,   -12,   -12,   -12,   -43,   -43,    26,    31,   117,
-      75,    21,    35,     4,   -43,   -43,    53,    88,   -43,   -43,
-      73,   -43,   -43,    88,   117,    46,   117,   -43
+     -43,   -43,    32,   -12,   -12,    32,    32,    27,    31,   117,
+      75,    21,    42,     4,   -43,   -43,    54,    88,   -43,   -43,
+      73,   -43,   -43,    88,   117,    52,   117,   -43
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -43,   -43,   -43,   -43,   -43,   -43,     2,   -43,   -43,   -43,
-      66,   -42,   -43,   -43,   -43,   -43,   -43,   -43,   -43,   -19,
-     -43,    61,    60,    38,   -43,    -1
+     -43,   -43,   -43,   -43,   -43,   -43,     5,   -43,   -43,   -43,
+      72,   -42,   -43,   -43,   -43,   -43,   -43,   -43,   -43,   -19,
+     -43,    65,    60,    38,   -43,    -1
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -617,9 +617,9 @@ static const yytype_uint8 yytable[] =
       81,    82,     5,    85,    15,    19,    20,    21,    22,    14,
       68,    69,    23,    50,    90,    91,    72,    73,    74,    75,
       76,    79,    80,    16,    34,    24,    84,    33,    95,    51,
-      54,    87,    92,    55,    56,    57,    58,    59,    88,    93,
-      97,    33,    33,    13,    33,    86,    83,     5,    94,     8,
-      19,    20,    21,    22,    96,    17,    35,    23,     5,     0,
+      54,    55,    87,    55,    56,    57,    58,    59,    88,    92,
+      93,    33,    33,    13,    33,    86,    97,     5,    94,    83,
+      19,    20,    21,    22,    96,     8,    35,    23,     5,    17,
       64,    19,    20,    21,    22,    34,    36,     5,    23,    33,
       24,    34,    71,     5,    55,    56,    57,    58,    59,     0,
        0,    24,     0,    37,     0,     0,    89,     0,    38,    37,
@@ -636,9 +636,9 @@ static const yytype_int8 yycheck[] =
       62,    63,     5,    65,    27,     8,     9,    10,    11,    25,
       49,    50,    15,    30,    13,    14,    55,    56,    57,    58,
       59,    60,    61,    30,     3,    28,    29,    48,    90,    31,
-      25,    25,    17,    19,    20,    21,    22,    23,    27,     6,
-      14,    62,    63,    64,    65,    31,    64,     5,    87,     3,
-       8,     9,    10,    11,    93,    14,    16,    15,     5,    -1,
+      25,    19,    25,    19,    20,    21,    22,    23,    27,    17,
+       6,    62,    63,    64,    65,    31,    14,     5,    87,    64,
+       8,     9,    10,    11,    93,     3,    16,    15,     5,    14,
       18,     8,     9,    10,    11,     3,     4,     5,    15,    90,
       28,     3,    54,     5,    19,    20,    21,    22,    23,    -1,
       -1,    28,    -1,    21,    -1,    -1,    31,    -1,    26,    21,
@@ -1476,272 +1476,272 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 81 "src/parser.y"
+#line 82 "src/parser.y"
     { node_init ( root = malloc(sizeof(node_t)), program_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
   case 3:
-#line 83 "src/parser.y"
+#line 84 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), function_list_n, NULL, 2, (yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 4:
-#line 85 "src/parser.y"
+#line 86 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), function_list_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
   case 5:
-#line 87 "src/parser.y"
+#line 88 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), statement_list_n, NULL, 2, (yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 6:
-#line 88 "src/parser.y"
+#line 89 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), statement_list_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
   case 7:
-#line 90 "src/parser.y"
+#line 91 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), print_list_n, NULL, 2, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
     break;
 
   case 8:
-#line 91 "src/parser.y"
+#line 92 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), print_list_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
   case 9:
-#line 93 "src/parser.y"
+#line 94 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), expression_list_n, NULL, 2, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
     break;
 
   case 10:
-#line 94 "src/parser.y"
+#line 95 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), expression_list_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
   case 11:
-#line 96 "src/parser.y"
-    { node_init ( (yyval) = malloc(sizeof(node_t)), variable_list_n, NULL, 2, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
-    break;
-
-  case 12:
 #line 97 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), variable_list_n, NULL, 2, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
     break;
 
+  case 12:
+#line 98 "src/parser.y"
+    { node_init ( (yyval) = malloc(sizeof(node_t)), variable_list_n, NULL, 2, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
+    break;
+
   case 13:
-#line 99 "src/parser.y"
+#line 100 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), variable_list_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
   case 14:
-#line 100 "src/parser.y"
+#line 101 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), null_statement_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
   case 15:
-#line 102 "src/parser.y"
+#line 103 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), argument_list_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
   case 16:
-#line 103 "src/parser.y"
-    { node_init ( (yyval) = malloc(sizeof(node_t)), null_statement_n, NULL, 0); ;}
+#line 104 "src/parser.y"
+    { (yyval) = NULL; ;}
     break;
 
   case 17:
-#line 105 "src/parser.y"
+#line 106 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), parameter_list_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
   case 18:
-#line 106 "src/parser.y"
-    { node_init ( (yyval) = malloc(sizeof(node_t)), null_statement_n, NULL, 0); ;}
+#line 107 "src/parser.y"
+    { (yyval) = NULL; ;}
     break;
 
   case 19:
-#line 108 "src/parser.y"
+#line 109 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), declaration_list_n, NULL, 2, (yyvsp[(1) - (2)]), (yyvsp[(2) - (2)])); ;}
     break;
 
   case 20:
-#line 109 "src/parser.y"
-    { node_init ( (yyval) = malloc(sizeof(node_t)), null_statement_n, NULL, 0); ;}
+#line 110 "src/parser.y"
+    { (yyval) = NULL; ;}
     break;
 
   case 21:
-#line 111 "src/parser.y"
+#line 112 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), function_n, NULL, 3, (yyvsp[(2) - (6)]), (yyvsp[(4) - (6)]), (yyvsp[(6) - (6)])); ;}
     break;
 
   case 22:
-#line 113 "src/parser.y"
-    { node_init ( (yyval) = malloc(sizeof(node_t)), statement_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
-    break;
-
-  case 23:
 #line 114 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), statement_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
-  case 24:
+  case 23:
 #line 115 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), statement_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
-  case 25:
+  case 24:
 #line 116 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), statement_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
-  case 26:
+  case 25:
 #line 117 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), statement_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
-  case 27:
+  case 26:
 #line 118 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), statement_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
-  case 28:
+  case 27:
 #line 119 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), statement_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
+  case 28:
+#line 120 "src/parser.y"
+    { node_init ( (yyval) = malloc(sizeof(node_t)), statement_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
+    break;
+
   case 29:
-#line 121 "src/parser.y"
+#line 122 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), block_n, NULL, 2, (yyvsp[(2) - (4)]), (yyvsp[(3) - (4)])); ;}
     break;
 
   case 30:
-#line 123 "src/parser.y"
+#line 124 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), assignment_statement_n, NULL, 3, (yyvsp[(1) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(6) - (6)])); ;}
     break;
 
   case 31:
-#line 124 "src/parser.y"
+#line 125 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), assignment_statement_n, NULL, 2, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
     break;
 
   case 32:
-#line 126 "src/parser.y"
+#line 127 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), return_statement_n, NULL, 1, (yyvsp[(2) - (2)])); ;}
     break;
 
   case 33:
-#line 128 "src/parser.y"
+#line 129 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), print_statement_n, NULL, 1, (yyvsp[(2) - (2)])); ;}
     break;
 
   case 34:
-#line 130 "src/parser.y"
+#line 131 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), null_statement_n, NULL, 0); ;}
     break;
 
   case 35:
-#line 132 "src/parser.y"
+#line 133 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), if_statement_n, NULL, 3, (yyvsp[(2) - (7)]), (yyvsp[(4) - (7)]), (yyvsp[(6) - (7)])); ;}
     break;
 
   case 36:
-#line 133 "src/parser.y"
+#line 134 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), if_statement_n, NULL, 2, (yyvsp[(2) - (5)]), (yyvsp[(4) - (5)])); ;}
     break;
 
   case 37:
-#line 135 "src/parser.y"
+#line 136 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), while_statement_n, NULL, 2, (yyvsp[(2) - (5)]), (yyvsp[(4) - (5)])); ;}
     break;
 
   case 38:
-#line 137 "src/parser.y"
-    { node_init ( (yyval) = malloc(sizeof(node_t)), expression_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
-    break;
-
-  case 39:
 #line 138 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), expression_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
-  case 40:
+  case 39:
 #line 139 "src/parser.y"
+    { node_init ( (yyval) = malloc(sizeof(node_t)), expression_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
+    break;
+
+  case 40:
+#line 140 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), expression_n, STRDUP("-"), 1, (yyvsp[(2) - (2)])); ;}
     break;
 
   case 41:
-#line 140 "src/parser.y"
+#line 141 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), expression_n, NULL, 1, (yyvsp[(2) - (3)])); ;}
     break;
 
   case 42:
-#line 141 "src/parser.y"
+#line 142 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), expression_n, STRDUP("+"), 2, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
     break;
 
   case 43:
-#line 142 "src/parser.y"
+#line 143 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), expression_n, STRDUP("-"), 2, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
     break;
 
   case 44:
-#line 143 "src/parser.y"
+#line 144 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), expression_n, STRDUP("*"), 2, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
     break;
 
   case 45:
-#line 144 "src/parser.y"
+#line 145 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), expression_n, STRDUP("/"), 2, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
     break;
 
   case 46:
-#line 145 "src/parser.y"
+#line 146 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), expression_n, STRDUP("**"), 2, (yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])); ;}
     break;
 
   case 47:
-#line 146 "src/parser.y"
-    { node_init ( (yyval) = malloc(sizeof(node_t)), expression_n, NULL, 2, (yyvsp[(1) - (4)]), (yyvsp[(3) - (4)])); ;}
-    break;
-
-  case 48:
 #line 147 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), expression_n, NULL, 2, (yyvsp[(1) - (4)]), (yyvsp[(3) - (4)])); ;}
     break;
 
+  case 48:
+#line 148 "src/parser.y"
+    { node_init ( (yyval) = malloc(sizeof(node_t)), expression_n, NULL, 2, (yyvsp[(1) - (4)]), (yyvsp[(3) - (4)])); ;}
+    break;
+
   case 49:
-#line 149 "src/parser.y"
+#line 150 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), declaration_n, NULL, 1, (yyvsp[(2) - (2)])); ;}
     break;
 
   case 50:
-#line 151 "src/parser.y"
+#line 152 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), variable_n, NULL, 2, (yyvsp[(1) - (4)]), (yyvsp[(3) - (4)])); ;}
     break;
 
   case 51:
-#line 153 "src/parser.y"
+#line 154 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), integer_n, text_to_int_ptr(yytext), 0); ;}
     break;
 
   case 52:
-#line 155 "src/parser.y"
-    { node_init ( (yyval) = malloc(sizeof(node_t)), print_item_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
-    break;
-
-  case 53:
 #line 156 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), print_item_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
     break;
 
+  case 53:
+#line 157 "src/parser.y"
+    { node_init ( (yyval) = malloc(sizeof(node_t)), print_item_n, NULL, 1, (yyvsp[(1) - (1)])); ;}
+    break;
+
   case 54:
-#line 158 "src/parser.y"
+#line 159 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), text_n, STRDUP(yytext), 0); ;}
     break;
 
   case 55:
-#line 160 "src/parser.y"
+#line 161 "src/parser.y"
     { node_init ( (yyval) = malloc(sizeof(node_t)), variable_n, STRDUP(yytext), 0); ;}
     break;
 
@@ -1961,7 +1961,7 @@ yyreturn:
 }
 
 
-#line 162 "src/parser.y"
+#line 163 "src/parser.y"
 
 
 
