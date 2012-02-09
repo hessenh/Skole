@@ -14,15 +14,15 @@
 %}
 
 
-WS_TOK [\t\n ]
+WS_TOK [\s\n\t ]
 WHITESPACE {WS_TOK}+
 DIGIT [0-9]
 NUMBER {DIGIT}+
 COMMENT \/\/.*$
 RESERVED FUNC|PRINT|RETURN|CONTINUE|IF|THEN|ELSE|FI|WHILE|DO|DONE|VAR
 OPERATOR :=|\+|-|\/|\*|\*\*
-STRING \".*?\"
-ID [A-Za-z][A-Za-z0-9_]+
+STRING \"([^"]|\\\")*\"
+ID [A-Za-z_][A-Za-z0-9_]*
 
 
 %option array

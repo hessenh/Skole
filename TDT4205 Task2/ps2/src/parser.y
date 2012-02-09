@@ -18,9 +18,9 @@ extern int yylineno;
 
 /*
  * Since the return value of yyparse is an integer (as defined by yacc/bison),
- * we need the top level production to finalize parsing by setting the root
+ * we need the top level production to finalize parsing by setting the $$
  * node of the entire syntax tree inside its semantic rule instead. This global
- * variable will let us get a hold of the tree root after it has been
+ * variable will let us get a hold of the tree $$ after it has been
  * generated.
  */
 node_t *root;
@@ -32,6 +32,16 @@ node_t *root;
  */
 int yyerror ( const char *error );  /* Defined below */
 int yylex ( void );                 /* Defined in the generated scanner */
+
+/*
+ * Function to get INTEGER value right
+ */
+int* text_to_int_ptr(char* text) {
+    int i = atoi(yytext);
+    int* ptr = (int*) malloc(sizeof(int));
+    *ptr = i;
+    return ptr;
+}
 %}
 
 
@@ -50,6 +60,7 @@ int yylex ( void );                 /* Defined in the generated scanner */
  * production.
  */
 %left '+' '-'
+%right POWER
 %left '*' '/'
 %nonassoc UMINUS
 
@@ -67,89 +78,86 @@ int yylex ( void );                 /* Defined in the generated scanner */
  */ 
 
 %%
-program: function_list
- { node_init ( root = malloc(sizeof(node_t)), program_n, NULL, 1, $1); };
+program         : function_list             { node_init ( root = malloc(sizeof(node_t)), program_n, NULL, 1, $1); };
 
-function_list: function | function_list function
-  { node_init ( root = malloc(sizeof(node_t)), function_list_n, NULL, 1, $1); };
+function_list   : function_list function    { node_init ( $$ = malloc(sizeof(node_t)), function_list_n, NULL, 2, $1, $2); };
 
-statement_list:  statement | statement_list statement 
- { node_init ( root = malloc(sizeof(node_t)), statement_list_n, NULL, 1, $1); };
+function_list   : function                  { node_init ( $$ = malloc(sizeof(node_t)), function_list_n, NULL, 1, $1); };
 
-print_list:  print_item | print_list ', ' print_item 
- { node_init ( root = malloc(sizeof(node_t)), print_item_n, NULL, 1, $1); };
+statement_list  : statement_list statement  { node_init ( $$ = malloc(sizeof(node_t)), statement_list_n, NULL, 2, $1, $2); };
+                | statement                 { node_init ( $$ = malloc(sizeof(node_t)), statement_list_n, NULL, 1, $1); };
 
-expression_list:  expression | expression_list ', ' expression
- { node_init ( root = malloc(sizeof(node_t)), expression_list_n, NULL, 1, $1); };
+print_list      : print_list ',' print_item { node_init ( $$ = malloc(sizeof(node_t)), print_list_n, NULL, 2, $1, $3); };
+                | print_item                { node_init ( $$ = malloc(sizeof(node_t)), print_list_n, NULL, 1, $1); };
 
-variable_list: variable | indexed_variable | variable_list ', ' variable | variable_list ', ' indexed_variable
- { node_init ( root = malloc(sizeof(node_t)), variable_list_n, NULL, 1, $1); };
+expression_list : expression_list ',' expression { node_init ( $$ = malloc(sizeof(node_t)), expression_list_n, NULL, 2, $1, $3); };
+                | expression                 { node_init ( $$ = malloc(sizeof(node_t)), expression_list_n, NULL, 1, $1); };
 
-argument_list: expression_list
- { node_init ( root = malloc(sizeof(node_t)), argument_list_n, NULL, 1, $1); };
+variable_list   : variable_list ',' variable           { node_init ( $$ = malloc(sizeof(node_t)), variable_list_n, NULL, 2, $1, $3); };
+                | variable_list ',' indexed_variable   { node_init ( $$ = malloc(sizeof(node_t)), variable_list_n, NULL, 2, $1, $3); };
 
-parameter_list: variable_list
- { node_init ( root = malloc(sizeof(node_t)), parameter_list_n, NULL, 1, $1); };
+variable_list   : variable           { node_init ( $$ = malloc(sizeof(node_t)), variable_list_n, NULL, 1, $1); };
+                | indexed_variable   { node_init ( $$ = malloc(sizeof(node_t)), null_statement_n, NULL, 1, $1); };
 
-declaration_list: declaration_list declaration 
-{ node_init ( root = malloc(sizeof(node_t)), declaration_list_n, NULL, 1, $1); };
+argument_list   : expression_list    { node_init ( $$ = malloc(sizeof(node_t)), argument_list_n, NULL, 1, $1); };
+                |                    { node_init ( $$ = malloc(sizeof(node_t)), null_statement_n, NULL, 0); };
 
-argument_list:  
- { node_init ( root = malloc(sizeof(node_t)), argument_list_n, NULL, 0); };
+parameter_list  : variable_list      { node_init ( $$ = malloc(sizeof(node_t)), parameter_list_n, NULL, 1, $1); };
+                |                    { node_init ( $$ = malloc(sizeof(node_t)), null_statement_n, NULL, 0); };
 
-parameter_list: 
- { node_init ( root = malloc(sizeof(node_t)), parameter_list_n, NULL, 0); };
+declaration_list: declaration_list declaration   { node_init ( $$ = malloc(sizeof(node_t)), declaration_list_n, NULL, 2, $1, $2); };
+                |                                { node_init ( $$ = malloc(sizeof(node_t)), null_statement_n, NULL, 0); };
 
-declaration_list: 
- { node_init ( root = malloc(sizeof(node_t)), declaration_list_n, NULL, 0); };
+function        : FUNC variable '(' parameter_list ')' statement { node_init ( $$ = malloc(sizeof(node_t)), function_n, NULL, 3, $2, $4, $6); };
 
-function: FUNC variable '(' parameter_list ')' statement
- { node_init ( root = malloc(sizeof(node_t)), function_n, NULL, 1, $1); };
+statement       : assignment_statement  { node_init ( $$ = malloc(sizeof(node_t)), statement_n, NULL, 1, $1); };
+                | return_statement      { node_init ( $$ = malloc(sizeof(node_t)), statement_n, NULL, 1, $1); };
+                | print_statement       { node_init ( $$ = malloc(sizeof(node_t)), statement_n, NULL, 1, $1); };
+                | null_statement        { node_init ( $$ = malloc(sizeof(node_t)), statement_n, NULL, 1, $1); };
+                | if_statement          { node_init ( $$ = malloc(sizeof(node_t)), statement_n, NULL, 1, $1); };
+                | while_statement       { node_init ( $$ = malloc(sizeof(node_t)), statement_n, NULL, 1, $1); };
+                | block                 { node_init ( $$ = malloc(sizeof(node_t)), statement_n, NULL, 1, $1); };
 
-statement: assignment_statement | return_statement | print_statement | null_statement | if_statement | while_statement | block
- { node_init ( root = malloc(sizeof(node_t)), statement_n, NULL, 1, $1); };
+block           : '{' declaration_list statement_list '}' { node_init ( $$ = malloc(sizeof(node_t)), block_n, NULL, 2, $2, $3); };
 
-block: '{' declaration_list statement_list '}' 
- { node_init ( root = malloc(sizeof(node_t)), block_n, NULL, 1, $1); };
+assignment_statement: variable '[' expression ']' ASSIGN expression  { node_init ( $$ = malloc(sizeof(node_t)), assignment_statement_n, NULL, 3, $1, $3, $6); };
+                    | variable ASSIGN expression                     { node_init ( $$ = malloc(sizeof(node_t)), assignment_statement_n, NULL, 2, $1, $3); };
 
-assignment_statement: variable ASSIGN expression | variable '[' expression ']' ASSIGN expression
- { node_init ( root = malloc(sizeof(node_t)), assignment_statement_n, NULL, 1, $1); };
+return_statement: RETURN expression     { node_init ( $$ = malloc(sizeof(node_t)), return_statement_n, NULL, 1, $2); };
 
-return_statement: RETURN expression
- { node_init ( root = malloc(sizeof(node_t)), return_statement_n, NULL, 1, $1); };
+print_statement : PRINT print_list      { node_init ( $$ = malloc(sizeof(node_t)), print_statement_n, NULL, 1, $2); };
 
-print_statement: PRINT print_list
- { node_init ( root = malloc(sizeof(node_t)), print_statement_n, NULL, 1, $1); };
+null_statement  : CONTINUE              { node_init ( $$ = malloc(sizeof(node_t)), null_statement_n, NULL, 0); };
 
-null_statement: CONTINUE
- { node_init ( root = malloc(sizeof(node_t)), null_statement_n, NULL, 1, $1); };
+if_statement    : IF expression THEN statement ELSE statement FI    { node_init ( $$ = malloc(sizeof(node_t)), if_statement_n, NULL, 3, $2, $4, $6); };
+                | IF expression THEN statement FI                   { node_init ( $$ = malloc(sizeof(node_t)), if_statement_n, NULL, 2, $2, $4); };
 
-if_statement: IF expression THEN statement FI | IF expression THEN statement ELSE statement FI
- { node_init ( root = malloc(sizeof(node_t)), if_statement_n, NULL, 1, $1); };
+while_statement : WHILE expression DO statement DONE     { node_init ( $$ = malloc(sizeof(node_t)), while_statement_n, NULL, 2, $2, $4); };
 
-while_statement: WHILE expression DO statement DONE
- { node_init ( root = malloc(sizeof(node_t)), while_statement_n, NULL, 1, $1); };
+expression      : integer                       { node_init ( $$ = malloc(sizeof(node_t)), expression_n, NULL, 1, $1); };
+                | variable                      { node_init ( $$ = malloc(sizeof(node_t)), expression_n, NULL, 1, $1); };
+                | '-' expression                { node_init ( $$ = malloc(sizeof(node_t)), expression_n, STRDUP("-"), 1, $2); };
+                | '(' expression ')'            { node_init ( $$ = malloc(sizeof(node_t)), expression_n, NULL, 1, $2); };
+                | expression '+' expression     { node_init ( $$ = malloc(sizeof(node_t)), expression_n, STRDUP("+"), 2, $1, $3); };
+                | expression '-' expression     { node_init ( $$ = malloc(sizeof(node_t)), expression_n, STRDUP("-"), 2, $1, $3); };
+                | expression '*' expression     { node_init ( $$ = malloc(sizeof(node_t)), expression_n, STRDUP("*"), 2, $1, $3); };
+                | expression '/' expression     { node_init ( $$ = malloc(sizeof(node_t)), expression_n, STRDUP("/"), 2, $1, $3); };
+                | expression POWER expression   { node_init ( $$ = malloc(sizeof(node_t)), expression_n, STRDUP("**"), 2, $1, $3); };
+                | variable '(' argument_list ')'{ node_init ( $$ = malloc(sizeof(node_t)), expression_n, NULL, 2, $1, $3); }; 
+                | variable '[' expression ']'   { node_init ( $$ = malloc(sizeof(node_t)), expression_n, NULL, 2, $1, $3); };
 
-expression: expression '+' expression | expression '-' expression | expression '*' expression | expression '/' expression | '-' expression | expression POWER expression | '(' expression ')' | integer | variable | variable '(' argument_list ')' | variable '[' expression ']'
- { node_init ( root = malloc(sizeof(node_t)), expression_n, $2, 2, $1, $3); };
+declaration     : VAR variable_list             { node_init ( $$ = malloc(sizeof(node_t)), declaration_n, NULL, 1, $2); };
 
-declaration: VAR variable_list
- { node_init ( root = malloc(sizeof(node_t)), declaration_n, NULL, 1, $1); };
+indexed_variable: variable '[' integer ']'      { node_init ( $$ = malloc(sizeof(node_t)), variable_n, NULL, 2, $1, $3); };
 
-variable: IDENTIFIER
- { node_init ( root = malloc(sizeof(node_t)), variable_n, NULL, 1, $1); };
+integer         : NUMBER                        { node_init ( $$ = malloc(sizeof(node_t)), integer_n, text_to_int_ptr(yytext), 0); };
 
-indexed_variable: variable '[' integer ']'
- { node_init ( root = malloc(sizeof(node_t)), variable_n, NULL, 1, $1); };
+print_item      : expression                    { node_init ( $$ = malloc(sizeof(node_t)), print_item_n, NULL, 1, $1); };
+                | text                          { node_init ( $$ = malloc(sizeof(node_t)), print_item_n, NULL, 1, $1); };
 
-integer: NUMBER
- { node_init ( root = malloc(sizeof(node_t)), integer_n, NULL, 1, $1); };
+text            : STRING                        { node_init ( $$ = malloc(sizeof(node_t)), text_n, STRDUP(yytext), 0); };
 
-print_item: expression | text
- { node_init ( root = malloc(sizeof(node_t)), print_item_n, NULL, 1, $1); };
-
-text: STRING
- { txt* = STRDUP(yytext)); node_init ( $$ = malloc(sizeof(node_t)), text_n, txt, 0); };
+variable        : IDENTIFIER                    { node_init ( $$ = malloc(sizeof(node_t)), variable_n, STRDUP(yytext), 0); };
 
 %%
 
