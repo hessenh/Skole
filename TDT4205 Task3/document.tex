@@ -86,26 +86,52 @@ F & $\rightarrow$ & f I v A w S x \\
 A & $\rightarrow$ & P \\
 P & $\rightarrow$ & I P $| \epsilon$\\ 
 S & $\rightarrow$ & s S'\\
-S' & $\rightarrow$ & s S' $|$ s $| \epsilon$\\
+S' & $\rightarrow$ & s S' $| \epsilon$\\
 I & $\rightarrow$ & i\\
 \end{tabular}
 
 \subsubsection{{\ttfamily FIRST} and {\ttfamily FOLLOW} \& LL(1) Parsing table}
 \subsubsection*{{\ttfamily FIRST} and {\ttfamily FOLLOW}}
+Computing {\ttfamily FIRST}
+\begin{itemize}
+  \item f is in FIRST(F), since f is the first symbol in production of F, and f
+  is a terminal, and thereby FIRST(f) = f.
+  \item i is in FIRST(I), since FIRST(I) = FIRST(i) = i
+  \item i is in FIRST(P), since FIRST(P) = FIRST(I) = i 
+  \item $\epsilon$ is in FIRST(P), since P has a production P $\rightarrow
+  \epsilon$
+  \item i, $\epsilon$ is in FIRST(A), since FIRST(A) = FIRST(P) = i, $\epsilon$
+  \item s is in FIRST(S) since FIRST(S) = FIRST(s) = s 
+  \item s is in FIRST(S') since FIRST(S') = FIRST(s) = s 
+  \item $\epsilon$ is in FIRST(S'), since S' has a production S' $\rightarrow
+  \epsilon$
+\end{itemize}
+Computing {\ttfamily FOLLOW}
+\begin{itemize}
+  \item We start by adding \$ to F, since F is our \emph{start-symbol}.
+  \item We see from F $\rightarrow$ f I v A w S x that w is in FOLLOW(A), x
+  is in FOLLOW(S) and v is in FOLLOW(I)
+  \item FOLLOW(P) = FOLLOW(A) since A $\rightarrow$ P. 
+  \item FOLLOW(S') = FOLLOW(S) since S $\rightarrow$ S'.
+  \item FOLLOW(I) includes FIRST(P) except $\epsilon$ since P $\rightarrow$ I P $|
+  \epsilon$, and rule 3, wich makes FOLLOW(I) = i, v
+\end{itemize}
 \begin{tabular}{|c|c|c|c|}
 \hline
 NT & FIRST & FOLLOW \\
 \hline
 \hline
 F  & f & \$ \\
-A  & i & w \\
-P  & i & w \\
+A  & i, $\epsilon$ & w \\
+P  & i, $\epsilon$ & w \\
 S  & s & x \\
-S' & s & x \\
-I  & i & i, w \\
+S' & s, $\epsilon$ & x \\
+I  & i & i, v \\
 \hline
 \end{tabular}
 \subsubsection*{LL(1) Parsing table}
+Se side 224, Alg. 4.31
+
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
 Non- & \multicolumn{7}{c|}{Input Symbol}\\
@@ -113,11 +139,11 @@ Non- & \multicolumn{7}{c|}{Input Symbol}\\
 Terminal & f & i & v & w & s & x & \$ \\
 \hline
 \hline
-F  & F$\rightarrow$fIvAwSx & &F$\rightarrow$fIvAwSx &F$\rightarrow$fIvAwSx & &F$\rightarrow$fIvAwSx & \\
+F  & & & & & & & \\
 \hline
-A  & &  A $\rightarrow$ P  & & & & & \\
+A  & & & & & & & \\
 \hline
-P  & & P $\rightarrow$ I P, P $\rightarrow \epsilon$ & & & & & \\
+P  & & & & & & & \\
 \hline
 S  & & & & & & & \\
 \hline
