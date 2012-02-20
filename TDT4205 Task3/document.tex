@@ -5,7 +5,12 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{makeidx}
 \usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{multirow}
+
+\makeindex
 
 \hypersetup{
     %bookmarks=true,         % show bookmarks bar?
@@ -36,9 +41,9 @@
 
 \definecolor{listinggray}{gray}{0.9}
 \definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
-\input{styles/xml.tex}
+\input{styles/xml}
 
-\renewcommand{\thesection}{Part \arabic{section}}
+\renewcommand{\thesection}{PART \arabic{section}}
 \renewcommand{\thesubsection}{Task \arabic{section}.\arabic{subsection}}
 \renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
 
@@ -49,7 +54,79 @@
 \begin{document}
 \maketitle
 
-\section{}
-\subsection{}
+\section{Theory}
+\subsection{Parsing}
+\subsubsection{LL(k)}
+Even if LL(\textit{k}) in theory can be extended with an $\rightarrow infinitly$
+number of lookaheads, this will not resolve the problems with left recursion. For each
+lookahead-symbol extra, the parse table grows, and at the end it will become
+humongous. To create and use such a table is both space and time consuming, and
+we will never have neither space nor time to parse languages and grammars with arbitary use of left
+recursion, as it requires arbitary much space and time. Also, LL(\textit{k}) needs the
+\textit{k} to be defined, wich sets an upper bound for the number of lookaheads
+before we begin parsing. We may set the \textit{k} to 10000000000, and hope that
+the language will never exeed this number of recursions, but it will not be a
+\emph{valid} parser for that language, as it can only handle a subset of the
+possible language constructs.
 
+\subsubsection{Left-recursive grammars}
+The left-recursive grammar:\\
+\begin{tabular}{ccl}
+F & $\rightarrow$ & f I v A w S x \\ 
+A & $\rightarrow$ & P \\
+P & $\rightarrow$ & P I $| \epsilon$\\ 
+S & $\rightarrow$ & S s $|$ s\\
+I & $\rightarrow$ & i\\
+\end{tabular}
+
+
+The equivalent non-left-recursive grammer:\\
+\begin{tabular}{ccl}
+F & $\rightarrow$ & f I v A w S x \\ 
+A & $\rightarrow$ & P \\
+P & $\rightarrow$ & I P $| \epsilon$\\ 
+S & $\rightarrow$ & s S'\\
+S' & $\rightarrow$ & s S' $|$ s $| \epsilon$\\
+I & $\rightarrow$ & i\\
+\end{tabular}
+
+\subsubsection{{\ttfamily FIRST} and {\ttfamily FOLLOW} \& LL(1) Parsing table}
+\subsubsection*{{\ttfamily FIRST} and {\ttfamily FOLLOW}}
+\begin{tabular}{|c|c|c|c|}
+\hline
+NT & FIRST & FOLLOW \\
+\hline
+\hline
+F  & f & \$ \\
+A  & i & w \\
+P  & i & w \\
+S  & s & x \\
+S' & s & x \\
+I  & i & i, w \\
+\hline
+\end{tabular}
+\subsubsection*{LL(1) Parsing table}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+Non- & \multicolumn{7}{c|}{Input Symbol}\\
+\cline{2-8}
+Terminal & f & i & v & w & s & x & \$ \\
+\hline
+\hline
+F  & & & & & & & \\
+\hline
+A  & & & & & & & \\
+\hline
+P  & & & & & & & \\
+\hline
+S  & & & & & & & \\
+\hline
+S' & & & & & & & \\
+\hline
+I  & & & & & & & \\
+\hline
+\end{tabular}
+
+
+\printindex
 \end{document}
