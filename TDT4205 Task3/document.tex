@@ -113,8 +113,8 @@ Computing {\ttfamily FOLLOW}
   is in FOLLOW(S) and v is in FOLLOW(I)
   \item FOLLOW(P) = FOLLOW(A) since A $\rightarrow$ P. 
   \item FOLLOW(S') = FOLLOW(S) since S $\rightarrow$ S'.
-  \item FOLLOW(I) includes FIRST(P) except $\epsilon$ since P $\rightarrow$ I P $|
-  \epsilon$, and rule 3, wich makes FOLLOW(I) = i, v
+  \item FOLLOW(I) includes FIRST(P) except $\epsilon$ since P $\rightarrow$ I P
+  $| \epsilon$, and rule 3, wich makes FOLLOW(I) = i, v
 \end{itemize}
 \begin{tabular}{|c|c|c|c|}
 \hline
@@ -126,12 +126,13 @@ A  & i, $\epsilon$ & w \\
 P  & i, $\epsilon$ & w \\
 S  & s & x \\
 S' & s, $\epsilon$ & x \\
-I  & i & i, v \\
+I  & i & i, v, w \\
 \hline
 \end{tabular}
 \subsubsection*{LL(1) Parsing table}
-Se side 224, Alg. 4.31
-
+Se side 224, Alg. 4.31\\
+IF A $\rightarrow$ b AND FIRST(b) = c THEN add A $\rightarrow$ b to
+M(A,c)\\
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
 Non- & \multicolumn{7}{c|}{Input Symbol}\\
@@ -139,15 +140,15 @@ Non- & \multicolumn{7}{c|}{Input Symbol}\\
 Terminal & f & i & v & w & s & x & \$ \\
 \hline
 \hline
-F  & & & & & & & \\
+F  & F $\rightarrow$ f I v A w S x & & & & & & \\
 \hline
-A  & & & & & & & \\
+A  & & A $\rightarrow$ P & & & & & \\
 \hline
-P  & & & & & & & \\
+P  & & P $\rightarrow$ I P & & P $\rightarrow$ $\epsilon$ & & & \\
 \hline
-S  & & & & & & & \\
+S  & & & & & S $\rightarrow$ sS' & & \\
 \hline
-S' & & & & & & & \\
+S' & & & & & S' $\rightarrow$ sS' & & \\
 \hline
 I  & & I $\rightarrow$ i & & & & & \\
 \hline
