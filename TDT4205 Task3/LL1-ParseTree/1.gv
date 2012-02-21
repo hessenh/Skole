@@ -1,0 +1,7 @@
+//Parse tree for LL(1)
+//Parsing of f i v i i i i w s s s x 
+
+digraph "Parse tree" {
+   shape=circle;
+ F 
+}

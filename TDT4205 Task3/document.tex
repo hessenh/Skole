@@ -130,9 +130,11 @@ I  & i & i, v, w \\
 \hline
 \end{tabular}
 \subsubsection*{LL(1) Parsing table}
-Se side 224, Alg. 4.31\\
-IF A $\rightarrow$ b AND FIRST(b) = c THEN add A $\rightarrow$ b to
-M(A,c)\\
+Followed page 224, Alg. 4.31\\
+IF A $\rightarrow$ b AND FIRST(b) contains c THEN add A $\rightarrow$ b to
+M(A,c) and\\
+IF FIRST(b) contains $\epsilon$, THEN add A $\rightarrow \epsilon$ to M(A,c)
+M(A,b) M(A,c)\\
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
 Non- & \multicolumn{7}{c|}{Input Symbol}\\
@@ -142,18 +144,23 @@ Terminal & f & i & v & w & s & x & \$ \\
 \hline
 F  & F $\rightarrow$ f I v A w S x & & & & & & \\
 \hline
-A  & & A $\rightarrow$ P & & & & & \\
+A  & & A $\rightarrow$ P & & A $\rightarrow$ $\epsilon$ & & & \\
 \hline
 P  & & P $\rightarrow$ I P & & P $\rightarrow$ $\epsilon$ & & & \\
 \hline
 S  & & & & & S $\rightarrow$ sS' & & \\
 \hline
-S' & & & & & S' $\rightarrow$ sS' & & \\
+S' & & & & & S' $\rightarrow$ sS' & S' $\rightarrow$ $\epsilon$ & \\
 \hline
 I  & & I $\rightarrow$ i & & & & & \\
 \hline
 \end{tabular}
 
+\subsubsection{Parse tree for LL(1)}
+\begin{tabular}{ccc}
+\includegraphics[width=427px]{LL1-ParseTree/1.pdf}
+\includegraphics[width=427px]{LL1-ParseTree/LL1-ParseTree.pdf}
+\end{tabular}
 
 \printindex
 \end{document}
