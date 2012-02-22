@@ -12,6 +12,7 @@ digraph "Parse tree" {
  F->x_1
  
  I_1->i_1
+ I_2->i_2
  A_1->P_1
  
  P_1->I_2
@@ -26,6 +27,7 @@ digraph "Parse tree" {
  x_1[label="x"]
  
  i_1[label="i"]
+ i_2[label="i"]
  P_1[label="P"]
  P_2[label="P"]
  I_2[label="I"]
