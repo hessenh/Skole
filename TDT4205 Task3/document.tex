@@ -58,17 +58,24 @@
 \subsection{Parsing}
 \subsubsection{LL(k)}
 Even if LL(\textit{k}) in theory can be extended with an $\rightarrow infinitly$
-number of lookaheads, this will not resolve the problems with left recursion. For each
-lookahead-symbol extra, the parse table grows, and at the end it will become
-humongous. To create and use such a table is both space and time consuming, and
-we will never have neither space nor time to parse languages and grammars with arbitary use of left
-recursion, as it requires arbitary much space and time. Also, LL(\textit{k}) needs the
-\textit{k} to be defined, wich sets an upper bound for the number of lookaheads
-before we begin parsing. We may set the \textit{k} to 10000000000, and hope that
-the language will never exeed this number of recursions, but it will not be a
-\emph{valid} parser for that language, as it can only handle a subset of the
-possible language constructs.
+number of lookaheads, this will not resolve the problems with left recursion.
+LL(\textit{k}) parses in a naive way, and if there exists a left recursion, like
+S $\rightarrow$ Ss $| \epsilon$, it will allways match the first S, and will spin
+generating more S's. This means we will continue beond the number of s's in the
+parsed text, and things will go bad.
 
+Even if we could modify the LL(\textit{k})  to recognize patterns using the
+lookaheads, and match for a spesific number of recursive calls, we would run
+into practical problems. For each lookahead-symbol extra we need, the parse
+table grows, and at the end it will become humongous. To create and use such a
+table is both space and time consuming, and we will never have neither space
+nor time to parse languages and grammars with arbitary use of left recursion,
+as it requires arbitary much space and time. Also, LL(\textit{k}) needs the
+\textit{k} to be defined, wich sets an upper bound for the number of lookaheads
+before we begin parsing. We may set the \textit{k} to 10000000000, and hope
+that the language users will never exeed this number of recursions, but it will
+not be a \emph{valid} parser for that language, as it can only handle a subset of
+the possible language constructs.
 \subsubsection{Left-recursive grammars}
 The left-recursive grammar:\\
 \begin{tabular}{ccl}
@@ -157,9 +164,119 @@ I  & & I $\rightarrow$ i & & & & & \\
 \end{tabular}
 
 \subsubsection{Parse tree for LL(1)}
-\begin{tabular}{ccc}
-\includegraphics[width=427px]{LL1-ParseTree/1.pdf}
-\includegraphics[width=427px]{LL1-ParseTree/LL1-ParseTree.pdf}
+\begin{tabular}{c}
+\includegraphics[width=40px]{LL1-ParseTree/1.pdf}
+\includegraphics[width=160px]{LL1-ParseTree/2.pdf}
+\includegraphics[width=160px]{LL1-ParseTree/3.pdf}\\
+\includegraphics[width=160px]{LL1-ParseTree/4.pdf}
+\includegraphics[width=170px]{LL1-ParseTree/LL1-parse-tree.pdf}
+\end{tabular}
+
+\subsubsection{Buttom-up parsing}
+\begin{tabular}{|l|r|l|}
+\hline
+Symbol & Input & Action\\
+\hline
+\hline
+\$ &  f i v i i i i w s s s x \$& Shift f\\
+\$ f & i v i i i i w s s s x \$& Shift i\\
+\$ f i & v i i i i w s s s x \$& Reduce I $\rightarrow$ i\\
+\$ f I & v i i i i w s s s x \$& Shift v\\
+\$ f I v & i i i i w s s s x \$& Reduce P $\rightarrow \epsilon$\\
+\$ f I v P & i i i i w s s s x \$& Shift i\\
+\$ f I v P i & i i i w s s s x \$& Reduce I $\rightarrow$ i\\
+\$ f I v P I & i i i w s s s x \$& Reduce P I $\rightarrow$ P\\
+\$ f I v P & i i i w s s s x \$& Shift i\\
+\$ f I v P i & i i w s s s x \$& Reduce I $\rightarrow$ i\\
+\$ f I v P I & i i w s s s x \$& Reduce P I $\rightarrow$ P\\
+\$ f I v P & i i w s s s x \$& Shift i\\
+\$ f I v P i & i w s s s x \$& Reduce I $\rightarrow$ i\\
+\$ f I v P I & i w s s s x \$& Reduce P I $\rightarrow$ P\\
+\$ f I v P & i w s s s x \$& Shift i\\
+\$ f I v P i & w s s s x \$& Reduce I $\rightarrow$ i\\
+\$ f I v P I & w s s s x \$& Reduce P I $\rightarrow$ P\\
+\$ f I v P & w s s s x \$& Reduce A $\rightarrow$ P\\
+\$ f I v A & w s s s x \$& Reduce A $\rightarrow$ P\\
+\$ f I v A & w s s s x \$& Shift w\\
+\$ f I v A w & s s s x \$& Shift s\\
+\$ f I v A w s & s s x \$& Reduce  S $\rightarrow$ s\\
+\$ f I v A w S & s s x \$& Shift s\\
+\$ f I v A w S s & s x \$& Reduce  S $\rightarrow$ S s\\
+\$ f I v A w S & s x \$& Shift s\\
+\$ f I v A w S s & x \$& Reduce  S $\rightarrow$ S s\\
+\$ f I v A w S & x \$& Shift x\\
+\$ f I v A w S x & \$& Reduce F $\rightarrow$ f I v A w S x \\
+\$ F & \$ & Accept \\
+\hline
+\end{tabular}
+
+\subsection{Symbol tables}
+\subsubsection{Data structure}
+Symbol tables are often represented as one or more hash tables. Hash tables
+provide fast lookup, so that we have rapid access to the information about the
+current symbol. We may use multiple hash tables to ease the parsing though
+different scopes of the parsed program, eg. one hash table for each scope,
+stored in a hierarchy.
+
+\subsubsection{Function pointers}
+When we allow function pointers in our language, we may hit several problems
+during compile time. If the symbol table is just like a symbol table for
+programing languages without function pointers, we cannot know if {\ttfamily
+dostuff} is a variable or a function, neither do we know how many arguments it
+take or if it returns anything. Since we cannot raise errors about things we
+don't know about, we must just hope that the program runs correct at run-time.
+
+\subsubsection{Extending the symbol table}
+If we add type (FUNC / VAR / FUNC\_PTR), returns symbol (Y/N) and number of
+arguments to the symbol table, then we may raise errors during compile time if the user has mixed
+up types or number of arguments.
+
+\subsubsection{Structure of a symbol table entry}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Symbol} & \textbf{Mem loc} & \textbf{Type} & \textbf{Returns val} & \textbf{N
+args}\\
+\hline
+f & dostuff & FUNC\_PTR & - & -\\
+dostuff & {\ttfamily mem\_loc} & FUNC & false & 1\\
+\hline
+\end{tabular}
+
+Where
+\begin{itemize}
+  \item Symbol is the referance symbol.
+  \item Mem loc is the location in memory
+where the function or the variable is located, or the referance symbol if it
+references an other symbol.
+\item Type is wherever this is a function, a variable or a function pointer.
+\item Returns val is wherever the function, if it is a function, has a
+return statement.
+\item N args is the number of arguments the function takes, or 0 if it is not a
+function.
+\end{itemize}
+
+\subsection{Syntax-Directed Translations}
+\subsubsection{What is a SDD?}
+Syntax-directed definition is our grammar with added support for attributes.
+Attributes is any kind things we can store in memory, like numbers or strings.
+This is usefull when we need to add semantic actions to our parse tree, eg.
+create an AST, wich again is usefull for type checking and intermediate code
+generation.
+
+\subsubsection{L- and S-attributed SDD}
+What is the difference between L-attributed and S-attributed syntax-
+directed definitions? What does Bison support? Please explain.
+
+L- and S-attributed SDD's are two classes of SDD's that do guarantee evaluation
+order and does not permit dependency graphs with cycle.
+S-attributed SDD's are 
+
+\subsubsection{SDD and Grammars}
+\begin{tabular}{lll}
+E $\rightarrow$ & E + T & \{\}\\
+E $\rightarrow$ & T & \{\}\\
+T $\rightarrow$ & num , num & \{\}\\ 
+T $\rightarrow$ & num & \{\}\\
 \end{tabular}
 
 \printindex
