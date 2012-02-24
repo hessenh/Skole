@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<smile version="1.0" id="Sub0" numsamples="1000" discsamples="10000">
+	<nodes>
+		<decision id="D4">
+			<state id="do_test" />
+			<state id="no_test" />
+			<property id="HR_LinkMode_TestCost">0</property>
+			<property id="HR_LinkMode_D5">0</property>
+			<property id="HR_LinkMode_C3">0</property>
+		</decision>
+		<cpt id="C2">
+			<state id="none" />
+			<state id="open" />
+			<state id="closed" />
+			<probabilities>0.41 0.35 0.24</probabilities>
+			<property id="HR_LinkMode_C1">0</property>
+			<property id="HR_LinkMode_C3">0</property>
+		</cpt>
+		<cpt id="TestResult">
+			<state id="none" />
+			<state id="open" />
+			<state id="closed" />
+			<state id="no_result" />
+			<parents>C2 D4</parents>
+			<probabilities>0.9999999999 0 0 1.000000082740371e-010 0 0 0 1 0 1 0 0 0 0 0 1 0 0 1 0 0 0 0 1</probabilities>
+			<property id="HR_LinkMode_D5">0</property>
+		</cpt>
+		<decision id="D5">
+			<state id="drill" />
+			<state id="do_not_drill" />
+			<parents>D4 TestResult</parents>
+			<property id="HR_LinkMode_U6">0</property>
+			<property id="HR_LinkMode_DrillCost">0</property>
+		</decision>
+		<utility id="DrillCost">
+			<parents>D5</parents>
+			<utilities>-70 0</utilities>
+			<property id="HR_Group">0</property>
+			<property id="HR_HTML_Desc"></property>
+			<property id="HR_Desc"></property>
+		</utility>
+		<utility id="TestCost">
+			<parents>D4</parents>
+			<utilities>-10 0</utilities>
+			<property id="HR_Group">0</property>
+			<property id="HR_HTML_Desc"></property>
+			<property id="HR_Desc"></property>
+		</utility>
+		<cpt id="C1">
+			<state id="dry" />
+			<state id="wet" />
+			<state id="soaking" />
+			<parents>C2</parents>
+			<probabilities>0.7317073658536828 0.2195121097560549 0.04878052439026219 0.4285714285714286 0.3428573428573429 0.2285712285712286 0.208333 0.375 0.416667</probabilities>
+			<property id="HR_LinkMode_U6">0</property>
+			<property id="HR_LinkMode_C2">0</property>
+		</cpt>
+		<utility id="U6">
+			<parents>D5 C1</parents>
+			<utilities>0 120 270 0 0 0</utilities>
+			<property id="HR_Group">0</property>
+			<property id="HR_HTML_Desc"></property>
+			<property id="HR_Desc"></property>
+		</utility>
+	</nodes>
+	<extensions>
+		<genie version="1.0" app="GeNIe 2.0.3568.0" name="Sub0" faultnameformat="nodestate">
+			<node id="DrillCost">
+				<name>DrillCost</name>
+				<interior color="ffff99" />
+				<outline color="000000" />
+				<font color="000000" name="Arial" size="36" />
+				<position>0 340 300 460</position>
+			</node>
+			<node id="TestCost">
+				<name>TestCost</name>
+				<interior color="ffff99" />
+				<outline color="000000" />
+				<font color="000000" name="Arial" size="36" />
+				<position>370 360 670 480</position>
+			</node>
+			<node id="U6">
+				<name>Earnings</name>
+				<interior color="ffff99" />
+				<outline color="000000" />
+				<font color="000000" name="Arial" size="36" />
+				<position>0 150 300 270</position>
+			</node>
+			<node id="D5">
+				<name>Drill?</name>
+				<interior color="ccffcc" />
+				<outline color="000000" />
+				<font color="000000" name="Arial" size="36" />
+				<position>390 200 690 320</position>
+			</node>
+			<node id="D4">
+				<name>Test?</name>
+				<interior color="ccffcc" />
+				<outline color="000000" />
+				<font color="000000" name="Arial" size="36" />
+				<position>690 370 990 490</position>
+			</node>
+			<node id="TestResult">
+				<name>Test result</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="Arial" size="36" />
+				<position>690 0 990 120</position>
+			</node>
+			<node id="C2">
+				<name>Seismic structure</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="Arial" size="36" />
+				<position>350 0 650 120</position>
+			</node>
+			<node id="C1">
+				<name>Amount of oil</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="Arial" size="36" />
+				<position>0 10 300 130</position>
+			</node>
+		</genie>
+	</extensions>
+</smile>
