@@ -12,10 +12,26 @@ digraph "Parse tree" {
  F->x_1
  
  I_1->i_1
+ I_2->i_2
+ I_3->i_3
+ I_4->i_4
+ I_5->i_5
  A_1->P_1
  
  P_1->I_2
  P_1->P_2
+ 
+ P_2->I_3
+ P_2->P_3
+
+ P_3->I_4
+ P_3->P_4
+
+ P_4->I_5
+ P_4->P_5
+
+ P_5->epsilon_1
+ 
  
  f_1[label="f"]
  I_1[label="I"]
@@ -26,8 +42,18 @@ digraph "Parse tree" {
  x_1[label="x"]
  
  i_1[label="i"]
+ i_2[label="i"]
+ i_3[label="i"]
+ i_4[label="i"]
+ i_5[label="i"]
  P_1[label="P"]
  P_2[label="P"]
  I_2[label="I"]
- 
+ P_3[label="P"]
+ I_3[label="I"]
+ P_4[label="P"]
+ I_4[label="I"]
+ P_5[label="P"]
+ I_5[label="I"]
+ epsilon_1[label=<&#949;>]
 }
