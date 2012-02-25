@@ -9,53 +9,85 @@
 			<state id="Eat" />
 			<state id="Sleep" />
 			<state id="Go_outside" />
+			<state id="Do_excersice" />
 		</decision>
 		<cpt id="Lot_to_do">
-			<state id="State0" />
-			<state id="State1" />
-			<probabilities>0.5 0.5</probabilities>
+			<state id="Lots" />
+			<state id="Some" />
+			<state id="None" />
+			<probabilities>0.3 0.5 0.2</probabilities>
+		</cpt>
+		<cpt id="Sleepy">
+			<state id="Yes" />
+			<state id="Some" />
+			<state id="No" />
+			<probabilities>0.2 0.2 0.6</probabilities>
+		</cpt>
+		<cpt id="Hungry">
+			<state id="Yes" />
+			<state id="Some" />
+			<state id="No" />
+			<probabilities>0.2 0.3 0.5</probabilities>
+		</cpt>
+		<cpt id="Tired">
+			<state id="No" />
+			<state id="Some" />
+			<state id="Yes" />
+			<parents>Sleepy Hungry</parents>
+			<probabilities>0 0.1 0.9 0.1 0.2 0.7 0.3 0.3 0.4 0.2 0.2 0.6 0.3 0.2 0.5 0.4 0.3 0.3 0.2 0.4 0.4 0.4 0.4 0.2 0.6 0.3 0.1</probabilities>
 		</cpt>
 		<cpt id="Work_left">
-			<state id="Mye" />
-			<state id="Lite" />
-			<parents>What_to_do Lot_to_do</parents>
-			<probabilities>0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</probabilities>
+			<state id="Lots" />
+			<state id="Some" />
+			<state id="None" />
+			<parents>What_to_do Lot_to_do Tired</parents>
+			<probabilities>1 0 0 1 0 0 1 0 0 0 1 0 0 1 0 0 1 0 0 0 1 0 0 1 0 0 1 1 0 0 1 0 0 1 0 0 0 1 0 0 1 0 0 1 0 0 0 1 0 0 1 0 0 1 0.1 0.2 0.7 0.2 0.3 0.5 0.4 0.3 0.3 0 0.1 0.9 0 0.3 0.7 0 0.7 0.3 0 0 1 0 0 1 0 0 1 1 0 0 1 0 0 1 0 0 0 1 0 0 1 0 0 1 0 0 0 1 0 0 1 0 0 1 1 0 0 1 0 0 1 0 0 0 1 0 0 1 0 0 1 0 0 0 1 0 0 1 0 0 1 1 0 0 1 0 0 1 0 0 0 1 0 0 1 0 0 1 0 0 0 1 0 0 1 0 0 1 1 0 0 1 0 0 1 0 0 0 1 0 0 1 0 0 1 0 0 0 1 0 0 1 0 0 1 1 0 0 1 0 0 1 0 0 0 1 0 0 1 0 0 1 0 0 0 1 0 0 1 0 0 1</probabilities>
 		</cpt>
 		<cpt id="Exhausting">
-			<state id="Ja" />
-			<state id="Litt" />
-			<state id="Nei" />
-			<parents>What_to_do</parents>
-			<probabilities>0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0</probabilities>
+			<state id="Yes" />
+			<state id="Some" />
+			<state id="No" />
+			<parents>What_to_do Tired</parents>
+			<probabilities>0 0.1 0.9 0.1 0.2 0.7 0.2 0.4 0.4 0 0 1 0 0.1 0.9 0.1 0.1 0.8 0.6 0.3 0.1 0.7 0.3 0 0.9 0.1 0 0 0.3 0.7 0.1 0.3 0.6 0.3 0.5 0.2 0.1 0.2 0.7 0.1 0.3 0.6 0.2 0.4 0.4 0 0 1 0 0 1 0 0 1 0.3 0.3 0.4 0.3 0.5 0.2 0.8 0.1 0.1 0.8 0.1 0.1 0.9 0.1 0 1 0 0</probabilities>
 		</cpt>
 		<cpt id="Weather">
-			<state id="State0" />
-			<state id="State1" />
-			<parents>What_to_do</parents>
-			<probabilities>0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</probabilities>
-		</cpt>
-		<cpt id="Fun">
-			<state id="Veldig" />
-			<state id="Litt" />
-			<state id="Ikke" />
-			<parents>What_to_do Weather</parents>
-			<probabilities>0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0</probabilities>
+			<state id="Sunny" />
+			<state id="Cloudy" />
+			<state id="Rainy" />
+			<state id="Snowing" />
+			<state id="Storm" />
+			<probabilities>0.2 0.3 0.2 0.2 0.1</probabilities>
 		</cpt>
 		<cpt id="Social_needs">
-			<state id="Mye" />
-			<state id="Passe" />
-			<state id="Ikke" />
-			<probabilities>0.3333333333333333 0.3333333333333333 0.3333333333333333</probabilities>
+			<state id="Lots" />
+			<state id="Some" />
+			<state id="None" />
+			<probabilities>0.3 0.5 0.2</probabilities>
+		</cpt>
+		<cpt id="Fun">
+			<state id="Lots" />
+			<state id="Some" />
+			<state id="Not" />
+			<parents>What_to_do Weather Social_needs</parents>
+			<probabilities>0.8 0.2 0 0.5 0.3 0.2 0.3 0.2 0.5 0.7 0.3 0 0.6000000000000001 0.3 0.1 0.5 0.2 0.3 0.8 0.2000000000000001 0 0.7000000000000001 0.2000000000000001 0.1 0.6 0.2000000000000001 0.2 0.8 0.2 0 0.7000000000000001 0.2000000000000001 0.1 0.6 0.3 0.1 0.9 0.1 0 0.7000000000000001 0.2000000000000001 0.1 0.6 0.3 0.1 0.3 0.2 0.5 0.4 0.2 0.4 0.5 0.3 0.2 0.3 0.2 0.5 0.4 0.2 0.4 0.7 0.2 0.1 0.4 0.3 0.3 0.7000000000000001 0.2000000000000001 0.1 0.8 0.1 0.1 0.4 0.3 0.3 0.6000000000000001 0.3 0.1 0.7 0.2 0.1 0.4 0.3 0.3 0.6000000000000001 0.3 0.1 0.7 0.2 0.1 0 0.2 0.8 0.1 0.2 0.7 0.1 0.2 0.7 0.1 0.2 0.7 0.2 0.2 0.6 0.2 0.2 0.6 0.1 0.4 0.5 0.1 0.4 0.5 0.1 0.4 0.5 0.1 0.4 0.5 0.1 0.4 0.5 0.1 0.4 0.5 0.1 0.4 0.5 0.1 0.4 0.5 0.1 0.4 0.5 0.6 0.3 0.1 0.5 0.4 0.1 0.2 0.5 0.3 0.6 0.3 0.1 0.5 0.4 0.1 0.2 0.5 0.3 0.6 0.3 0.1 0.5 0.4 0.1 0.2 0.5 0.3 0.6 0.3 0.1 0.5 0.4 0.1 0.2 0.5 0.3 0.6 0.3 0.1 0.5 0.4 0.1 0.2 0.5 0.3 0.3 0.4 0.3 0.3 0.4 0.3 0.3 0.4 0.3 0.3 0.4 0.3 0.3 0.4 0.3 0.3 0.4 0.3 0.3 0.4 0.3 0.3 0.4 0.3 0.3 0.4 0.3 0.3 0.4 0.3 0.3 0.4 0.3 0.3 0.4 0.3 0.3 0.4 0.3 0.3 0.4 0.3 0.3 0.4 0.3 0.2 0.3 0.5 0.2 0.3 0.5 0.2 0.3 0.5 0.2 0.3 0.5 0.2 0.3 0.5 0.2 0.3 0.5 0.3 0.3 0.4 0.3 0.3 0.4 0.3 0.3 0.4 0.2 0.3 0.5 0.2 0.3 0.5 0.2 0.3 0.5 0.3 0.4 0.3 0.3 0.4 0.3 0.3 0.4 0.3 1 0 0 0.7000000000000001 0.2000000000000001 0.1 0.7000000000000001 0.2000000000000001 0.1 0.8 0.1 0.1 0.6000000000000001 0.3 0.1 0.6000000000000001 0.3 0.1 0.5 0.3 0.2 0.4 0.3 0.3 0.4 0.3 0.3 0.6 0.2 0.2 0.6 0.2 0.2 0.6 0.2 0.2 0.1 0.2 0.7 0.1 0.2 0.7 0.1 0.2 0.7 0.5 0.3 0.2 0.7000000000000001 0.2000000000000001 0.1 0.7000000000000001 0.2000000000000001 0.1 0.6000000000000001 0.3 0.1 0.6000000000000001 0.3 0.1 0.6000000000000001 0.3 0.1 0.4 0.3 0.3 0.4 0.3 0.3 0.4 0.3 0.3 0.6 0.2 0.2 0.6 0.2 0.2 0.6 0.2 0.2 0.1 0.2 0.7 0.1 0.2 0.7 0.1 0.2 0.7</probabilities>
 		</cpt>
 		<cpt id="Social">
-			<state id="Oppfylt" />
-			<state id="Ikke_oppfylt" />
+			<state id="Lots" />
+			<state id="Some" />
+			<state id="None" />
 			<parents>What_to_do Social_needs</parents>
-			<probabilities>0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</probabilities>
+			<probabilities>0.1 0.3 0.6 0 0.2 0.8 0 0 1 1 0 0 0 1 0 0 0 1 1 0 0 0 1 0 0 0 1 0.1 0.3 0.6 0 0.2 0.8 0 0 1 1 0 0 0 1 0 0 0 1 1 0 0 0 1 0 0 0 1 0.1 0.2 0.7 0 0.2 0.8 0 0 1 1 0 0 0 1 0 0 0 1</probabilities>
+		</cpt>
+		<cpt id="Usefullness">
+			<state id="Very" />
+			<state id="Some" />
+			<state id="None" />
+			<parents>What_to_do Sleepy Hungry Lot_to_do</parents>
+			<probabilities>0 0 1 0 0 1 0 0 1 0 0.1 0.9 0 0.1 0.9 0 0.1 0.9 0 0.1 0.9 0 0.1 0.9 0 0.1 0.9 0 0 1 0 0 1 0 0 1 0.1 0.1 0.8 0.1 0.1 0.8 0.1 0.1 0.8 0.1 0.2 0.7 0.1 0.2 0.7 0.1 0.2 0.7 0 0 1 0 0 1 0 0 1 0.1 0.1 0.8 0.1 0.1 0.8 0.1 0.1 0.8 0.1 0.2 0.7 0.1 0.2 0.7 0.1 0.2 0.7 0 0 1 0 0 1 0 0 1 0.1 0.1 0.8 0.1 0.1 0.8 0.1 0.1 0.8 0.1 0.2 0.7 0.1 0.2 0.7 0.1 0.2 0.7 0 0 1 0 0 1 0 0 1 0.1 0.1 0.8 0.1 0.1 0.8 0.1 0.1 0.8 0.1 0.2 0.7 0.1 0.2 0.7 0.1 0.2 0.7 0 0 1 0 0 1 0 0 1 0.1 0.1 0.8 0.1 0.1 0.8 0.1 0.1 0.8 0.1 0.2 0.7 0.1 0.2 0.7 0.1 0.2 0.7 0.3 0.3 0.4 0.3 0.3 0.4 0.2 0.3 0.5 0.5 0.3 0.2 0.3 0.3 0.4 0.2 0.3 0.5 0.5 0.3 0.2 0.3 0.3 0.4 0.2 0.3 0.5 0.4 0.3 0.3 0.4 0.3 0.3 0.2 0.3 0.5 0.7 0.2 0.1 0.7 0.2 0.1 0.2 0.3 0.5 0.8 0.1 0.1 0.7 0.2 0.1 0.2 0.3 0.5 0.4 0.3 0.3 0.4 0.3 0.3 0.2 0.3 0.5 0.7 0.2 0.1 0.7 0.2 0.1 0.2 0.3 0.5 0.9 0.1 0 0.9 0.1 0 0.2 0.3 0.5 0.6 0.4 0 0.7 0.3 0 0.7 0.3 0 0.5 0.3 0.2 0.5 0.3 0.2 0.5 0.3 0.2 0 0.3 0.7 0 0.3 0.7 0 0.3 0.7 0.6 0.4 0 0.7 0.3 0 0.8 0.2 0 0.5 0.3 0.2 0.5 0.3 0.2 0.5 0.3 0.2 0 0.3 0.7 0 0.3 0.7 0 0.3 0.7 0.6 0.4 0 0.7 0.3 0 0.8 0.2 0 0.5 0.3 0.2 0.5 0.3 0.2 0.5 0.3 0.2 0 0.3 0.7 0 0.3 0.7 0 0.3 0.7 0.6 0.4 0 0.7 0.3 0 0.8 0.2 0 0.5 0.3 0.2 0.5 0.3 0.2 0.5 0.3 0.2 0 0.3 0.7 0 0.3 0.7 0 0.3 0.7 0.6 0.4 0 0.7 0.3 0 0.8 0.2 0 0.5 0.3 0.2 0.5 0.3 0.2 0.5 0.3 0.2 0 0.3 0.7 0 0.3 0.7 0 0.3 0.7 0.6 0.4 0 0.7 0.3 0 0.8 0.2 0 0.5 0.3 0.2 0.5 0.3 0.2 0.5 0.3 0.2 0 0.3 0.7 0 0.3 0.7 0 0.3 0.7 0.7 0.3 0 0.8 0.2 0 1 0 0 0.6 0.4 0 0.7 0.3 0 0.9 0.1 0 0.7 0.3 0 0.8 0.2 0 0.9 0.1 0 0.3 0.3 0.4 0.2 0.2 0.6 0.1 0.2 0.7 0.3 0.3 0.4 0.2 0.2 0.6 0.1 0.2 0.7 0.3 0.3 0.4 0.2 0.2 0.6 0.1 0.2 0.7 0 0.3 0.7 0 0.3 0.7 0 0.3 0.7 0 0.3 0.7 0 0.3 0.7 0 0.3 0.7 0 0.3 0.7 0 0.3 0.7 0 0.3 0.7 0.1 0.4 0.5 0.2 0.4 0.4 0.3 0.5 0.2 0.3 0.5 0.2 0.4 0.4 0.2 0.5 0.3 0.2 0.3 0.5 0.2 0.4 0.4 0.2 0.5 0.3 0.2 0.5 0.3 0.2 0.6 0.3 0.1 0.7 0.2 0.1 0.5 0.3 0.2 0.6 0.3 0.1 0.7 0.2 0.1 0.5 0.3 0.2 0.6 0.3 0.1 0.7 0.2 0.1 0.5 0.3 0.2 0.6 0.3 0.1 0.7 0.2 0.1 0.5 0.3 0.2 0.6 0.3 0.1 0.7 0.2 0.1 0.5 0.3 0.2 0.6 0.3 0.1 0.7 0.2 0.1 0 0.1 0.9 0.1 0.2 0.7 0.2 0.2 0.6 0.2 0.3 0.5 0.3 0.3 0.4 0.5 0.4 0.1 0.3 0.3 0.4 0.4 0.3 0.3 0.6 0.3 0.1 0.3 0.3 0.4 0.5 0.3 0.2 0.5 0.4 0.1 0.3 0.4 0.3 0.5 0.4 0.1 0.6 0.3 0.1 0.3 0.4 0.3 0.6 0.3 0.1 0.7 0.2 0.1 0.3 0.3 0.4 0.5 0.3 0.2 0.5 0.4 0.1 0.3 0.4 0.3 0.5 0.4 0.1 0.6 0.3 0.1 0.4 0.3 0.3 0.7 0.2 0.1 0.9 0.1 0</probabilities>
 		</cpt>
 		<utility id="Utility">
-			<parents>Work_left Exhausting Fun Social</parents>
-			<utilities>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0</utilities>
+			<parents>Work_left Exhausting Fun Social Usefullness</parents>
+			<utilities>0.4 0.2 0.1 0.5 0.3 0.1 0.8 0.5 0.3 0.1 0.1 0 0.2 0.2 0 0.3 0.3 0 1 0 0 0.2 0.1 0 0.3 0.2 0.1 0.4 0.3 0.1 0.5 0.3 0.1 0.7 0.5 0.3 0.2 0.1 0 0.5 0.3 0.1 0.6 0.4 0.2 0.1 0 0 0.3 0.1 0 0.4 0.2 0 0.4 0.3 0.2 0.6 0.5 0.1 0.7 0.6 0.2 0.3 0.2 0.1 0.5 0.4 0.1 0.6 0.5 0.1 0.1 0.1 0 0.4 0.3 0.2 0.5 0.4 0.3 0.5 0.3 0.2 0.6 0.4 0.2 0.9 0.6 0.4 0.2 0.2 0.1 0.1 0.3 0.2 0.4 0.4 0.1 0.2 0.1 0 0.3 0.2 1 0.4 0.3 0.2 0.5 0.4 0.2 0.6 0.4 0.2 0.8 0.6 0.4 0.3 0.2 0.1 0.6 0.4 0.1 0.7 0.5 0.3 0.2 0.1 0.1 0.4 0.2 0.1 0.5 0.3 0.1 0.5 0.4 0.3 0.7 0.6 0.2 0.8 0.7 0.3 0.4 0.3 0.2 0.6 0.5 0.2 0.7 0.6 0.2 0.2 0.2 0.1 0.5 0.4 0.3 0.6 0.5 0.4 0.6 0.4 0.3 0.7 0.5 0.3 0.9 0.7 0.5 0.3 0.3 0.2 0.2 0.4 0.3 0.5 0.5 0.2 0.3 0.2 0.2 0.4 0.3 0.2 0.5 0.4 0.3 0.6 0.5 0.3 0.7 0.5 0.3 0.9 0.7 0.5 0.4 0.3 0.2 0.7 0.5 0.2 0.8 0.6 0.4 0.3 0.2 0.2 0.5 0.3 0.2 0.6 0.4 0.2 0.6 0.5 0.4 0.9 0.8 0.6 1 0.9 0.7 0.5 0.4 0.3 0.7 0.6 0.3 0.8 0.7 0.3 0.3 0.3 0.2 0.6 0.5 0.4 0.7 0.6 0.5</utilities>
 		</utility>
 	</nodes>
 	<extensions>
@@ -63,77 +95,122 @@
 			<textbox>
 				<caption>What should I do this afternoon?</caption>
 				<font color="000000" name="Arial" size="8" />
-				<position>326 68 482 82</position>
+				<position>158 605 314 619</position>
 			</textbox>
 			<node id="Utility">
 				<name>Utility</name>
 				<interior color="e5f6f7" />
 				<outline color="000080" />
 				<font color="000000" name="Arial" size="8" />
-				<position>878 253 923 285</position>
-				<barchart active="true" width="214" height="144" />
+				<position>1150 328 1195 360</position>
+				<barchart active="true" width="498" height="238" />
 			</node>
 			<node id="What_to_do">
 				<name>What to do</name>
 				<interior color="e5f6f7" />
 				<outline color="000080" />
 				<font color="000000" name="Arial" size="8" />
-				<position>363 96 466 122</position>
+				<position>200 753 303 779</position>
+				<barchart active="true" width="266" height="254" />
 			</node>
 			<node id="Weather">
 				<name>Weather</name>
-				<interior color="e5f6f7" />
+				<interior color="c0c0c0" />
 				<outline color="000080" />
 				<font color="000000" name="Arial" size="8" />
-				<position>503 323 545 349</position>
+				<position>131 350 210 376</position>
+				<barchart active="true" width="128" height="108" />
 			</node>
 			<node id="Work_left">
 				<name>Work left</name>
-				<interior color="e5f6f7" />
+				<interior color="00ff00" />
 				<outline color="000080" />
 				<font color="000000" name="Arial" size="8" />
-				<position>588 115 678 171</position>
+				<position>708 249 798 305</position>
+				<barchart active="true" width="128" height="72" />
 			</node>
 			<node id="Fun">
 				<name>Fun</name>
-				<interior color="e5f6f7" />
+				<interior color="00ff00" />
 				<outline color="000080" />
 				<font color="000000" name="Arial" size="8" />
-				<position>655 325 696 350</position>
+				<position>733 487 774 512</position>
+				<barchart active="true" width="128" height="72" />
 			</node>
 			<node id="Exhausting">
 				<name>Exhausting</name>
-				<interior color="e5f6f7" />
+				<interior color="00ff00" />
 				<outline color="000080" />
 				<font color="000000" name="Arial" size="8" />
-				<position>631 237 683 269</position>
+				<position>727 372 779 404</position>
+				<barchart active="true" width="128" height="72" />
 			</node>
 			<node id="Social">
 				<name>Social</name>
-				<interior color="e5f6f7" />
+				<interior color="00ff00" />
 				<outline color="000080" />
 				<font color="000000" name="Arial" size="8" />
-				<position>650 387 699 417</position>
+				<position>729 595 778 625</position>
+				<barchart active="true" width="128" height="64" />
 			</node>
 			<node id="Social_needs">
 				<name>Social needs</name>
-				<interior color="e5f6f7" />
+				<interior color="c0c0c0" />
 				<outline color="000080" />
 				<font color="000000" name="Arial" size="8" />
-				<position>384 383 460 430</position>
+				<position>251 451 327 498</position>
+				<barchart active="true" width="128" height="72" />
 			</node>
 			<node id="Lot_to_do">
 				<name>Lot to do</name>
-				<interior color="e5f6f7" />
+				<interior color="c0c0c0" />
 				<outline color="000080" />
 				<font color="000000" name="Arial" size="8" />
-				<position>373 243 442 286</position>
+				<position>372 178 441 221</position>
+				<barchart active="true" width="128" height="72" />
 			</node>
 			<textbox>
 				<caption>Consequences</caption>
 				<font color="000000" name="Arial" size="8" />
-				<position>594 82 667 96</position>
+				<position>713 91 786 105</position>
 			</textbox>
+			<node id="Tired">
+				<name>Tired</name>
+				<interior color="c0c0c0" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>143 221 186 247</position>
+				<barchart active="true" width="128" height="72" />
+			</node>
+			<node id="Usefullness">
+				<name>Usefullness</name>
+				<interior color="00ff00" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>729 152 778 182</position>
+				<barchart active="true" width="128" height="72" />
+			</node>
+			<textbox>
+				<caption>Current State</caption>
+				<font color="000000" name="Arial" size="8" />
+				<position>209 52 273 66</position>
+			</textbox>
+			<node id="Hungry">
+				<name>Hungry</name>
+				<interior color="c0c0c0" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>239 106 290 137</position>
+				<barchart active="true" width="128" height="72" />
+			</node>
+			<node id="Sleepy">
+				<name>Sleepy</name>
+				<interior color="c0c0c0" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>327 330 376 360</position>
+				<barchart active="true" width="128" height="72" />
+			</node>
 		</genie>
 	</extensions>
 </smile>
