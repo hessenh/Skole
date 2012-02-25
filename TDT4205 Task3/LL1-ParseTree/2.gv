@@ -1,0 +1,21 @@
+//Parse tree for LL(1)
+//Parsing of f i v i i i i w s s s x 
+
+digraph "Parse tree" {
+   shape=circle;
+ F->f_1
+ F->I_1
+ F->v_1
+ F->A_1
+ F->w_1
+ F->S_1
+ F->x_1
+ 
+ f_1[label="f"]
+ I_1[label="I"]
+ v_1[label="v"]
+ A_1[label="A"]
+ w_1[label="w"]
+ S_1[label="S"]
+ x_1[label="x"] 
+}

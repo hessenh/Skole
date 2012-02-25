@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<smile version="1.0" id="Sub0" numsamples="1000" discsamples="10000">
+	<nodes>
+		<decision id="D5">
+			<state id="Location_1" />
+			<state id="Location_2" />
+			<property id="HR_LinkMode_C6">0</property>
+			<property id="HR_LinkMode_C5">0</property>
+			<property id="HR_LinkMode_C4">0</property>
+			<property id="HR_Group">0</property>
+			<property id="HR_HTML_Desc"></property>
+			<property id="HR_Desc"></property>
+			<property id="HR_State_1"></property>
+			<property id="HR_State_0"></property>
+		</decision>
+		<cpt id="C1">
+			<state id="Low" />
+			<state id="Medium" />
+			<state id="High" />
+			<probabilities>0.5 0.3 0.2</probabilities>
+			<property id="HR_LinkMode_C5">0</property>
+			<property id="HR_LinkMode_C4">0</property>
+			<property id="HR_Group">0</property>
+			<property id="HR_HTML_Desc"></property>
+			<property id="HR_Desc"></property>
+			<property id="HR_State_2"></property>
+			<property id="HR_State_1"></property>
+			<property id="HR_State_0"></property>
+		</cpt>
+		<cpt id="C4">
+			<state id="None" />
+			<state id="x1_3" />
+			<state id="More_than_3" />
+			<parents>D5 C1</parents>
+			<probabilities>0.99 0.01 0 0.97 0.02 0.01 0.96 0.03 0.01 0.97 0.02 0.01 0.95 0.03 0.02 0.9 0.07000000000000001 0.03</probabilities>
+			<property id="HR_NodeSize">(200, 120)</property>
+			<property id="HR_HTML_Desc"></property>
+			<property id="HR_Desc"></property>
+			<property id="HR_State_2"></property>
+			<property id="HR_State_1"></property>
+			<property id="HR_State_0"></property>
+			<property id="HR_Group">0</property>
+			<property id="HR_LinkMode_U6">0</property>
+		</cpt>
+		<cpt id="C2">
+			<state id="false" />
+			<state id="true" />
+			<probabilities>0.6 0.4</probabilities>
+			<property id="HR_HTML_Desc"></property>
+			<property id="HR_Desc"></property>
+			<property id="HR_State_1"></property>
+			<property id="HR_State_0"></property>
+			<property id="HR_Group">0</property>
+			<property id="HR_LinkMode_C6">0</property>
+		</cpt>
+		<cpt id="C3">
+			<state id="none" />
+			<state id="Low" />
+			<state id="Medium" />
+			<state id="High" />
+			<probabilities>0.125 0.25 0.25 0.375</probabilities>
+			<property id="HR_LinkMode_C6">0</property>
+			<property id="HR_Group">0</property>
+			<property id="HR_HTML_Desc"></property>
+			<property id="HR_Desc"></property>
+			<property id="HR_State_3"></property>
+			<property id="HR_State_2"></property>
+			<property id="HR_State_1"></property>
+			<property id="HR_State_0"></property>
+		</cpt>
+		<cpt id="C6">
+			<state id="Low" />
+			<state id="Moderate" />
+			<state id="High" />
+			<parents>D5 C3 C2</parents>
+			<probabilities>1 0 0 0.5 0.5 0 1 0 0 0.5 0.5 0 0.5 0.5 0 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.5 0.5 0 0.5 0.5 0 1 0 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.3333333333333333 0.3333333333333333 0.3333333333333333 0.5 0.5 0 0.3333333333333333 0.3333333333333333 0.3333333333333333</probabilities>
+			<property id="HR_NodeSize">(200, 120)</property>
+			<property id="HR_LinkMode_U6">0</property>
+			<property id="HR_State_0"></property>
+			<property id="HR_State_1"></property>
+			<property id="HR_State_2"></property>
+			<property id="HR_State_3"></property>
+			<property id="HR_Desc"></property>
+			<property id="HR_HTML_Desc"></property>
+			<property id="HR_Group">0</property>
+		</cpt>
+		<cpt id="C5">
+			<state id="none" />
+			<state id="Moderate" />
+			<state id="Annoying" />
+			<parents>D5 C1</parents>
+			<probabilities>0.6000000000000001 0.3 0.1 0.3 0.6000000000000001 0.1 0.1 0.3 0.6 0.8 0.15 0.05 0.8 0.15 0.05 0.7 0.15 0.15</probabilities>
+			<property id="HR_NodeSize">(200, 120)</property>
+			<property id="HR_LinkMode_U6">0</property>
+			<property id="HR_State_0"></property>
+			<property id="HR_State_1"></property>
+			<property id="HR_State_2"></property>
+			<property id="HR_Desc"></property>
+			<property id="HR_HTML_Desc"></property>
+			<property id="HR_Group">0</property>
+		</cpt>
+		<utility id="U6">
+			<parents>C6 C5 C4</parents>
+			<utilities>0 -10 -50 -5 -15 -55 -15 -25 -65 -10 -20 -60 -15 -25 -65 -25 -35 -75 -20 -30 -70 -25 -35 -75 -35 -45 -85</utilities>
+			<property id="HR_NodeSize">(150, 120)</property>
+			<property id="HR_Group">0</property>
+			<property id="HR_HTML_Desc"></property>
+			<property id="HR_Desc"></property>
+		</utility>
+	</nodes>
+	<extensions>
+		<genie version="1.0" app="GeNIe 2.0.3568.0" name="Sub0" faultnameformat="nodestate">
+			<node id="C4">
+				<name>Deaths</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="Arial" size="36" />
+				<position>300 160 600 280</position>
+			</node>
+			<node id="C2">
+				<name>Litigation</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="Arial" size="36" />
+				<position>0 280 300 400</position>
+			</node>
+			<node id="C6">
+				<name>Cost</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="Arial" size="36" />
+				<position>300 400 600 520</position>
+			</node>
+			<node id="C5">
+				<name>Noise</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="Arial" size="36" />
+				<position>300 280 600 400</position>
+			</node>
+			<node id="U6">
+				<name>U</name>
+				<interior color="ffff99" />
+				<outline color="000000" />
+				<font color="000000" name="Arial" size="36" />
+				<position>695 280 995 400</position>
+				<barchart width="338" height="177" />
+			</node>
+			<node id="D5">
+				<name>Airport Site</name>
+				<interior color="ccffcc" />
+				<outline color="000000" />
+				<font color="000000" name="Arial" size="36" />
+				<position>0 0 300 120</position>
+			</node>
+			<node id="C3">
+				<name>Construction</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="Arial" size="36" />
+				<position>0 400 300 520</position>
+			</node>
+			<node id="C1">
+				<name>Air Traffic</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="Arial" size="36" />
+				<position>0 160 300 280</position>
+			</node>
+		</genie>
+	</extensions>
+</smile>

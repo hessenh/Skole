@@ -1,0 +1,5 @@
+\BOOKMARK [1][-]{section.1}{Theory}{}
+\BOOKMARK [2][-]{subsection.1.1}{Parsing}{section.1}
+\BOOKMARK [3][-]{subsubsection.1.1.1}{LL\(k\)}{subsection.1.1}
+\BOOKMARK [3][-]{subsubsection.1.1.2}{Left-recursive grammars}{subsection.1.1}
+\BOOKMARK [3][-]{subsubsection.1.1.3}{FIRST and FOLLOW \046 LL\(1\) Parsing table}{subsection.1.1}

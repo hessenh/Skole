@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<smile version="1.0" id="Network1" numsamples="1000" discsamples="10000">
+	<nodes>
+		<decision id="What_to_do">
+			<state id="Watch_movie_together" />
+			<state id="Watch_movie_alone" />
+			<state id="Do_homework" />
+			<state id="Eat_diner_together" />
+			<state id="Eat" />
+			<state id="Sleep" />
+			<state id="Go_outside" />
+		</decision>
+		<cpt id="Lot_to_do">
+			<state id="State0" />
+			<state id="State1" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="Work_left">
+			<state id="Mye" />
+			<state id="Lite" />
+			<parents>What_to_do Lot_to_do</parents>
+			<probabilities>0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="Exhausting">
+			<state id="Ja" />
+			<state id="Litt" />
+			<state id="Nei" />
+			<parents>What_to_do</parents>
+			<probabilities>0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0</probabilities>
+		</cpt>
+		<cpt id="Weather">
+			<state id="State0" />
+			<state id="State1" />
+			<parents>What_to_do</parents>
+			<probabilities>0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="Fun">
+			<state id="Veldig" />
+			<state id="Litt" />
+			<state id="Ikke" />
+			<parents>What_to_do Weather</parents>
+			<probabilities>0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0 0.5 0.5 0</probabilities>
+		</cpt>
+		<cpt id="Social_needs">
+			<state id="Mye" />
+			<state id="Passe" />
+			<state id="Ikke" />
+			<probabilities>0.3333333333333333 0.3333333333333333 0.3333333333333333</probabilities>
+		</cpt>
+		<cpt id="Social">
+			<state id="Oppfylt" />
+			<state id="Ikke_oppfylt" />
+			<parents>What_to_do Social_needs</parents>
+			<probabilities>0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</probabilities>
+		</cpt>
+		<utility id="Utility">
+			<parents>Work_left Exhausting Fun Social</parents>
+			<utilities>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0</utilities>
+		</utility>
+	</nodes>
+	<extensions>
+		<genie version="1.0" app="GeNIe 2.0.4334.1" name="Network1" faultnameformat="nodestate">
+			<textbox>
+				<caption>What should I do this afternoon?</caption>
+				<font color="000000" name="Arial" size="8" />
+				<position>326 68 482 82</position>
+			</textbox>
+			<node id="Utility">
+				<name>Utility</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>878 253 923 285</position>
+				<barchart active="true" width="214" height="144" />
+			</node>
+			<node id="What_to_do">
+				<name>What to do</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>363 96 466 122</position>
+			</node>
+			<node id="Weather">
+				<name>Weather</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>503 323 545 349</position>
+			</node>
+			<node id="Work_left">
+				<name>Work left</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>588 115 678 171</position>
+			</node>
+			<node id="Fun">
+				<name>Fun</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>655 325 696 350</position>
+			</node>
+			<node id="Exhausting">
+				<name>Exhausting</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>631 237 683 269</position>
+			</node>
+			<node id="Social">
+				<name>Social</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>650 387 699 417</position>
+			</node>
+			<node id="Social_needs">
+				<name>Social needs</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>384 383 460 430</position>
+			</node>
+			<node id="Lot_to_do">
+				<name>Lot to do</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>373 243 442 286</position>
+			</node>
+			<textbox>
+				<caption>Consequences</caption>
+				<font color="000000" name="Arial" size="8" />
+				<position>594 82 667 96</position>
+			</textbox>
+		</genie>
+	</extensions>
+</smile>
