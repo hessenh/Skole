@@ -1,0 +1,72 @@
+\section{Creating the Decision Support System}
+\subsection{Chosing a problem}
+The first step in solving the task for creating a decision support system is
+selecting a problem for the system to solve. I have chosen to let the system
+help in deciding the every-day-decision of what to do now, for a
+regular student. For this kind of system, it is really hard to get real values
+for the utility function, and also difficult to set default probabilities for
+the environment. These values and probabilites must also be adjusted for each
+subject, as different persons have different personalities, preferences and
+work-effectiveness.
+
+
+I have chosen the following activities that the system will help you decide
+between:
+\begin{itemize}
+  \item Watch a movie with someone
+  \item Watch a movie alone
+  \item Do homework
+  \item Eat dinner with someone
+  \item Eat dinner alone
+  \item Go to sleep
+  \item Go outside
+  \item Do excercise
+\end{itemize}
+of coure, there are a lot more things that could be added, but I think these are
+a representative overall of actions.
+
+\subsection{Decision parameters}
+Now that we have our problem defined, we need information about the current
+state, in order to promote a good decision.
+
+I have chosen some attributes that I think is important in order to decide what
+to do, in the general context.
+
+\begin{description}
+\item[Lot to do] \hfill \\
+Students have a lot to do, occasionally, but may also have a lot of spare time.
+Because how much you have to do is important deciding if you should do homework,
+I have included this parameter.
+
+\item[Hungry] \hfill \\
+Whenever you are hungry, it is a good idea to eat food.
+
+\item[Sleepy] \hfill \\
+You might be better off with sleeping than doing homework or doing excercises if
+you are sleepy.
+
+\item[Tired] \hfill \\
+Tired is kind of a extended expression for sleepy, hungry, but also general
+``don't want to do nothing''. I have included this as a way of telling you are
+tired, without beeing explicitly sleepy. If you are sleepy, of cource, this
+affects tired, unless specified otherwise.
+
+\item[Social needs] \hfill \\
+Everyone has social needs from time to time, but sometimes, we also prefer
+beeing alone. This is important deciding wherever we are going to spend time
+alone, or meeting other people.
+
+\item[Weather] \hfill \\
+The weather is more an environmental condition, but is also important for some
+decisions. We might say that it is more pleasing going out on a sunny
+afternoon, then if it is a full storm outside. I would also state that there are
+somewhat better to do homework while it is raining outside, since it lowers the
+desire to go outside.
+
+\end{description}
+
+\subsection{The effect of a choise}
+In order to calculate the utility value of a choise, we have to look at its
+consequences. I have chosen some attributes that work as outcome of a choise and
+a state. The attributes are the following:
+
