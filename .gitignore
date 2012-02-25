@@ -1,12 +1,9 @@
 .metadata
 .metadata/**/*
-<<<<<<< HEAD
 */.svn
-=======
 .metadata/.log
 .metadata/.plugins
 .metadata/*
->>>>>>> 96af14756bf0f9717406d413f26cede3c9d91e76
 */.svn/**/*
 */.settings/**/*
 */target/**/*
