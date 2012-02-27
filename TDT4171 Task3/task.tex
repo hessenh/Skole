@@ -1,5 +1,5 @@
 \section{Creating the Decision Support System}
-\subsection{Chosing a problem}
+\subsection{Choosing a problem}
 The first step in solving the task for creating a decision support system is
 selecting a problem for the system to solve. I have chosen to let the system
 help in deciding the every-day-decision of what to do now, for a
@@ -102,13 +102,117 @@ over-stimulating the social life might not be too good either.
 
 \subsection{Compiling variables into a system}
 The previous sections defined a set of variables and a set of choises that
-makes up to a mini-world. The consepts of mini-worlds is that they models the
-real world, or any world where we want to do computations. Of course, a more
+makes up to a \index{mini-world}mini-world. The consepts of mini-worlds is that
+they models the real world, or any world where we want to do computations. Of course, a more
 advanced mini-world would be able to model the real world with better accuracy,
-but would also (potensially) add severe complexity. In worst case, each variable
-added would expand the model exponentially.
+but would also (potensially) add severe complexity.
 
+But since we have defined what our model contains, we have to model the
+releations between the different attibutes. I want to do this in a way such that
+the attributes and their relations make up a \index{Bayesian
+network}\emph{Bayesian network}, since this is a datastructure that eases the
+computation needs in opposition to a \index{truth table} \emph{truth table}\cite{aima}.
+
+An example of a \emph{Bayesian network} is included in
+Figure \ref{fig:BayExample}.
 \begin{figure}[h]
+\includegraphics[width=154mm]{figure-example1.png}
+\caption{Example of Bayesian network, copy of figure from AIMA\cite{aima}}
+\label{fig:BayExample}
+\end{figure}
+We see that the nodes represents states and actions, each with probabilities
+that links together to a system.
+
+From this, we can set up a system that maximizes the \emp{utility
+value}\cite{aima} in such a way that it will chose those options with best
+outcome. Again, the AIMA-book has a great example of such a system, and I have
+included this in Figure \ref{fig:dssExample}. \begin{figure}[h]
+\includegraphics[width=154mm]{figure-example2.png}
+\caption{Example of a desicion support system, copy of figure from
+AIMA\cite{aima}}
+\label{fig:dssExample}
+\end{figure}
+
+Now, our job will be to link the nodes that represents state and consequences
+into a network like that. A screenshot from my complete model from GeNIe 2.0
+is included as Figure \ref{fig:complete} \begin{figure}[h]
 \includegraphics[width=154mm]{figure-complete.png}
 \caption{Complete Decision Support System in GeNIe 2.0}
+\label{fig:complete}
 \end{figure}
+
+Most of the work with setting up such a system, at least if you have a software
+like GeNIe\footnote{\url{http://genie.sis.pitt.edu/}}, is filling the
+\emph{truth tables}. I mentioned that Bayesian networks are better than large
+truth tables, but they does not eliminate them. A \index{Bayesian
+network}Bayesian network helps us minimizing the tables so that only related
+properties gets computed together. In the real world, we might have a tight or
+loose coupling between almost anything, in our mini-world, we separate the
+attributes from each other, again to simplify computation.
+
+
+The nodes marked as gray in Figure \ref{fig:complete} is the state nodes. These
+have simple tables, like this:
+
+\begin{tabular}{|c|c|}
+\hline
+\multicolumn{2}{|c|}{Hungry}\\
+\hline
+Yes & 0.2\\
+Some & 0.3\\
+No & 0.5\\
+\hline
+\end{tabular}
+
+The nodes marked as green are the state-nodes, which are affected by both
+the state nodes and the decision\footnote{The large square node, coloured
+light blue, stating ``What should I do now?''}. These nodes expand exponentially for
+each parent connection, and will occationally grow large. The good thing with
+the \emph{Bayesian network} is that we reduce the tables extremely much from
+what they could have been if all values where to be stored in one table.
+
+One of my tables with multiple parents looks like this:
+
+\begin{tabular}{|c|c||c|c|c|}
+\hline
+\multicolumn{2}{|c|}{} & \multicolumn{3}{|c|}{Exhausting}\\
+\hline
+What to do & Tired & Yes & Some & No \\
+\hline
+\hline
+Watch movie together & No & 0 & 0.1 & 0.9\\
+Watch movie together & Some & 0.1 & 0.2 & 0.7\\
+Watch movie together & Yes & 0.2 & 0.4 & 0.4\\
+\hline
+Watch movie alone & No & 0 & 0 & 1\\
+Watch movie alone & Some & 0 & 0.1 & 0.9\\
+Watch movie alone & Yes & 0.1 & 0.1 & 0.8\\
+\hline
+\multicolumn{5}{c}{\ldots}\\
+\end{tabular}
+
+with appropriate values for all decisions combined with the value of the state
+nodes. All values are defined in the the GeNIe network attached with this
+document.
+
+\subsection{The utility}
+This system calculates a value that we call the systems Utility Value. This
+value tells us how appropriate the given situation is, and if we have already
+observed some variables, or made a decision, the utility function takes this as
+input and tells us how good the current observed situation is.
+
+\subsection{Finding the right values}
+But what are these values, and why do they all add up to one (row-wise)?
+These values are the probability of a consequense, given a descision and a
+state. Eg. how likely is it that we become exhausted given that we watch a movie
+together and we are tired already? This is the number in first column and third
+row in the table above. Each row add up to one since these are all
+probabilities, and since all possible situations are included, they add up to
+one.
+
+To find these values, on the other hand, we just have to make good guesses, and
+then adjust. In a more scientific example, we may could have meassured values
+for our model, but in this example, we just have to get a feeling of how things
+go together. After finding some somewhat good values, we test a lot of different
+scenarios, and check if the system agrees with our opinion. If i does not, we
+have to adjust our values.
