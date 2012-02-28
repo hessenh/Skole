@@ -96,7 +96,19 @@ since some things might be fun and usefull, we need both variables.
 \item[Social] \hfill\\
 People have social demands, and this is important to how good we feel. If we
 have little contact with other human beeings, we might feel lonely, while
-over-stimulating the social life might not be too good either. 
+over-stimulating the social life might not be too good either.
+
+\item[Hunger] \hfill\\
+Even though we allready have the state node Hungry, we need to know how hungry
+we will be given a decision. Since mood is much dependent on hunger, this is an
+important node.
+
+\item[Physiological feeling] \hfill\\
+This node is a merge between Exhausting, Fun, Social and Hunger, since I think
+all these represents how good your body feels. Fun and Social might be argued,
+but if you feel that you have a lot of friends, or you feel that this is a lot
+of fun, you tend to forget about hunger and exhastness. Because of that, we may
+combine these into one node, both simplifing the model and the caluculations.
 
 \end{description}
 
@@ -111,12 +123,18 @@ But since we have defined what our model contains, we have to model the
 releations between the different attibutes. I want to do this in a way such that
 the attributes and their relations make up a \index{Bayesian
 network}\emph{Bayesian network}, since this is a datastructure that eases the
-computation needs in opposition to a \index{truth table} \emph{truth table}\cite{aima}.
+computation needs in opposition to a \index{truth table} \emph{truth
+table}\cite{aima}. The consept of easing the computational needs in the Bayesian
+network is called \emph{conditional independence}\index{conditional
+independence}. What it means, is basicaly that a node is self-contained given
+its parents, and we do not need to go further on to grand parents and so on to
+find its real value. This is an assumption that we must take to avoid large
+tables, and is a property of the Bayesian Network.
 
 An example of a \emph{Bayesian network} is included in
 Figure \ref{fig:BayExample}.
 \begin{figure}[h]
-\includegraphics[width=154mm]{figure-example1.png}
+\includegraphics[width=122mm]{figure-example1.png}
 \caption{Example of Bayesian network, copy of figure from AIMA\cite{aima}}
 \label{fig:BayExample}
 \end{figure}
@@ -127,7 +145,7 @@ From this, we can set up a system that maximizes the \emp{utility
 value}\cite{aima} in such a way that it will chose those options with best
 outcome. Again, the AIMA-book has a great example of such a system, and I have
 included this in Figure \ref{fig:dssExample}. \begin{figure}[h]
-\includegraphics[width=154mm]{figure-example2.png}
+\includegraphics[width=122mm]{figure-example2.png}
 \caption{Example of a desicion support system, copy of figure from
 AIMA\cite{aima}}
 \label{fig:dssExample}
@@ -135,11 +153,7 @@ AIMA\cite{aima}}
 
 Now, our job will be to link the nodes that represents state and consequences
 into a network like that. A screenshot from my complete model from GeNIe 2.0
-is included as Figure \ref{fig:complete} \begin{figure}[h]
-\includegraphics[width=154mm]{figure-complete.png}
-\caption{Complete Decision Support System in GeNIe 2.0}
-\label{fig:complete}
-\end{figure}
+is included as Figure \ref{fig:complete}
 
 Most of the work with setting up such a system, at least if you have a software
 like GeNIe\footnote{\url{http://genie.sis.pitt.edu/}}, is filling the
@@ -153,6 +167,7 @@ attributes from each other, again to simplify computation.
 
 The nodes marked as gray in Figure \ref{fig:complete} is the state nodes. These
 have simple tables, like this:
+\begin{table}[h!!!!!!!!!!]
 
 \begin{tabular}{|c|c|}
 \hline
@@ -163,6 +178,9 @@ Some & 0.3\\
 No & 0.5\\
 \hline
 \end{tabular}
+\label{tab:hungry}
+\caption{Values from Hungry-node}
+\end{table}
 
 The nodes marked as green are the state-nodes, which are affected by both
 the state nodes and the decision\footnote{The large square node, coloured
@@ -172,7 +190,7 @@ the \emph{Bayesian network} is that we reduce the tables extremely much from
 what they could have been if all values where to be stored in one table.
 
 One of my tables with multiple parents looks like this:
-
+\begin{table}[h!!!!!!!!!!!!!!!!!!]
 \begin{tabular}{|c|c||c|c|c|}
 \hline
 \multicolumn{2}{|c|}{} & \multicolumn{3}{|c|}{Exhausting}\\
@@ -190,6 +208,9 @@ Watch movie alone & Yes & 0.1 & 0.1 & 0.8\\
 \hline
 \multicolumn{5}{c}{\ldots}\\
 \end{tabular}
+\label{tab:exhaust}
+\caption{Some values from the Exhausting-node}
+\end{table}
 
 with appropriate values for all decisions combined with the value of the state
 nodes. All values are defined in the the GeNIe network attached with this
@@ -198,28 +219,143 @@ document.
 \subsection{The utility}
 This system calculates a value that we call the systems Utility Value. This
 value tells us how appropriate the given situation is. If we have already
-observed some variables, or made a decision, the utility function takes this as
+observed some variables or made a decision, the utility function takes this as
 input and will tell us how good the current given situation is. The utility
-function uses numbers from a simmilar table to weight the outcome. Some values
-from my utility function is stated in table ~\ref{tab:utility}
-\begin{table}[h]
-\include{utility}
-\caption{Some values from the utility function}
-\label{tab:utility}
-\end{table}
+function uses numbers from a table simmilar to the table above to weight the
+outcome. The values from my utility function can be found in Table
+\ref{tab:utility}. All the values are my opinion on a given decision combined
+with the set of consequences. A value of 1 is perfect, while a value of 0 means
+a situation I want to avoid. The numbers of the utility function are not limted
+to the range between 0 and 1, like the chance nodes, because it works more like
+a score. I like the range between 0 and 1 because it set limits for best and
+worst, and I think that makes it easier to express the values of situations.
 
 \subsection{Finding the right values}
-But what are these values, and why do they all add up to one (row-wise)?
-These values are the probability of a consequense, given a descision and a
-state. Eg. how likely is it that we become exhausted given that we watch a movie
-together and we are tired already? This is the number in first column and third
-row in the table above. Each row add up to one since these are all
-probabilities, and since all possible situations are included, they add up to
-one.
+But what are all these values? These values are the probability of a
+state, or the probability of a consequense, given a descision and a state. Eg.
+how likely is it that we become exhausted given that we watch a movie together
+and we are tired already? This is the number in first column and third row in
+the table above. Each row make up probabilities for given situations, and since
+all possible situations are included, they must add up to one.
 
-To find these values, on the other hand, we just have to make good guesses, and
-then adjust. In a more scientific example, we may could have meassured values
-for our model, but in this example, we just have to get a feeling of how things
-go together. After finding some somewhat good values, we test a lot of different
-scenarios, and check if the system agrees with our opinion. If i does not, we
-have to adjust our values.
+Allmost all the values in my decision support system are made up of my own
+opinions of things. An exception is the weather node, where I have calculated
+values from weather statistics\cite{met}. Those values are stated in Table
+\ref{tab:weather}.
+\begin{table}[h!!!]
+\begin{tabular}{|c|c|}
+\hline
+\multicolumn{2}{|c|}{Weather}\\
+\hline
+Sunny & 0.4605757196\\
+Cloudy & 0.2152690864\\
+Rainy & 0.1739674593\\
+Snowing & 0.1326658323\\
+Storm & 0.0175219024\\
+\hline
+\end{tabular}
+\caption{The Weather node, values calculated from met.no\cite{met}}
+\label{tab:weather}
+\end{table}
+More state-node examples can be found in Table \ref{tab:hungry} and Table
+\ref{tab:sleepy} Examples of other values, that are entirely my opinion on state
+and consequences can be found in Table \ref{tab:exhaust}, but these tables are
+so large that I have chosen not to include too much of them. Entire tables with
+values can be found in the GeNIe-file attached with this document.
+\begin{table}
+\begin{tabular}{|c|c|}
+\hline
+\multicolumn{2}{|c|}{Sleepy}\\
+\hline
+Yes & 0.2\\
+some & 0.2\\
+No & 0.6\\
+\hline
+\end{tabular}
+\label{tab:sleepy}
+\caption{Values from the Sleepy-node}
+\end{table}
+
+\subsection{Connection of the nodes}
+Now I will describe how I connected the nodes, and explain some of my choises.
+As we see from Figure \ref{fig:complete}, I have devided the world into state
+(observed), decision and consequences(unobserved) parts. The chosen colours are
+for just to tell the realms apart. I think that your mood depends highly on
+those variables, and your best choise is highly dependent on your mood. The
+values, again, are mostly chosen by how I see the world, and must be adjusted
+for other personalities. By example, having an infant at home usually makes the
+night shorter, and makes me more sleepy and tired than the average person. That
+is why my Sleepy-values are higher than it would be if you just were sleepy a
+few hours before bed-time. I also have connected Usefullness with Hungry, Sleepy
+and Lot to do, because if you are hungry, it may be more usefull to eat than to
+do anything else, same for sleepy and go to sleep. I you have nothing else to
+do, anything may be usefull, but having a lot to do, in other words, home work,
+then that must be done before watching a movie.
+
+Likewise, how much work you have left leans on how much you have to do, how
+tired you are, and what you choose to do. Sleeping or watching movies leaves you
+with the same amount, while doing homework leaves you with somewhat less,
+depending on how tired you were before starting.
+
+How much fun you have depends highly on what you do alone, but also depends on
+various factors. I have chosen to set your social needs and the weather as main
+parameters, since going outside might be bad if there is a full storm outside,
+and watching a movie with someone may also be bad if you just want to be alone.
+
+Your social requirements are a major part of how good you feel, so if there was
+any unmet social needs, that will count bad for the utility function. The social
+requirements lean mostly on what you do, and how social you felt before doing
+something.
+
+I have chosen to link the four nodes Hunger, Exhausted, Fun and Social into
+Physio logical feeling because I think they represent the way your body feels.
+Linking them into one node makes the utility node's value table a lot
+smaller\footnote{From 243 to 27 different values}, without lowering the acurracy
+that much. This is one example of \index{conditional independence}conditional
+independence, where you know how your body feels given Hunger, Exhausted, Fun
+and Social, and there is no need for knowing what choises has been maid,
+neither what state we had before making a decision.
+
+\begin{figure}[h]
+\includegraphics[width=154mm]{figure-complete.png}
+\caption{Complete Decision Support System in GeNIe 2.0}
+\label{fig:complete}
+\end{figure}
+
+\subsection{Observations and adjustments}
+After filling in all probability tables and values of the utility function, we
+still have a lot to do. These kind of systems needs to be adjusted so that they
+agree with the target. In real systems, it is usual to compare the decision of
+the sstem with a ``golden state'', that is the decision made from a group of
+experts. In my system, I had to adjust the opinion-values until I felt I agreed
+with the system. I learned that I usually had the utility value to high, and had
+to lower many of them.
+
+Some results from my system:\\
+\begin{description}
+\item[Hungry: No, Lot to do: Lots, Tired: No, Sleepy: no, Weather: Sunny,
+Social needs: None]\\
+Do homework has the highest utility, while go outside follows tight. This is
+mostly because it is sunny outside.
+\item[Hungry: No, Lot to do: Lots, Tired: No, Sleepy: no, Weather: Storm,
+Social needs: None]\\
+Setting weather to storm lowers the utility of go outside, while homework is
+raised a little. This is because it is better to do homework when you don't want
+to go outside anyways.
+\item[Hungry: No, Lot to do: Lots, Tired: Yes, Sleepy: Yes, Weather: Sunny,
+Social needs: None]\\
+When you are sleepy and tired, it is better to go to sleep, rather than to do
+homework. The utility of go outside is actually higher than do homework, this is
+because you don't want to do homework when you are tired, since you don't learn
+any thing, and things may be wrong, lowering your grade. Going out may give you
+some energy, and it does not matter if you are tired. Anyways, sleep had a
+governing utility here.
+\end{description}
+
+
+\begin{table}
+\include{utility}
+\label{Some values from the utility function}
+\label{tab:utility}
+\caption{Values of the utility function}
+\end{table}
