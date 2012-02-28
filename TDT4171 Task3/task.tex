@@ -197,9 +197,16 @@ document.
 
 \subsection{The utility}
 This system calculates a value that we call the systems Utility Value. This
-value tells us how appropriate the given situation is, and if we have already
+value tells us how appropriate the given situation is. If we have already
 observed some variables, or made a decision, the utility function takes this as
-input and tells us how good the current observed situation is.
+input and will tell us how good the current given situation is. The utility
+function uses numbers from a simmilar table to weight the outcome. Some values
+from my utility function is stated in table ~\ref{tab:utility}
+\begin{table}[h]
+\include{utility}
+\caption{Some values from the utility function}
+\label{tab:utility}
+\end{table}
 
 \subsection{Finding the right values}
 But what are these values, and why do they all add up to one (row-wise)?
