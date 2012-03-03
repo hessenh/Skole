@@ -1,0 +1,13 @@
+//Parse tree for LL(1)
+//Parsing of f i v i i i i w s s s x 
+
+digraph "Parse tree" {
+	rankdir="LR"
+   node [shape=record];
+    stack [label="a|x|y|<bp>Return adress|x1|<sp>x2"];
+    SP->stack:sp
+    BP->stack:bp
+    
+    SP[shape=plaintext,label="Stack Pointer"]
+    BP[shape=plaintext,label="Base Pointer"]
+}
