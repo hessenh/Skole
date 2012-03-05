@@ -1,0 +1,9 @@
+\BOOKMARK [1][-]{section.1}{Theory and Assembly Programming}{}
+\BOOKMARK [2][-]{subsection.1.1}{Stack Frames}{section.1}
+\BOOKMARK [3][-]{subsubsection.1.1.1}{What is a stack frame}{subsection.1.1}
+\BOOKMARK [3][-]{subsubsection.1.1.2}{Stack frame illustration}{subsection.1.1}
+\BOOKMARK [3][-]{subsubsection.1.1.3}{Setting up and tearing down stack frames}{subsection.1.1}
+\BOOKMARK [2][-]{subsection.1.2}{x86 Assembly Programming}{section.1}
+\BOOKMARK [2][-]{subsection.1.3}{Symbol Tables}{section.1}
+\BOOKMARK [3][-]{subsubsection.1.3.1}{Stack offset}{subsection.1.3}
+\BOOKMARK [3][-]{subsubsection.1.3.2}{Lexical depth}{subsection.1.3}

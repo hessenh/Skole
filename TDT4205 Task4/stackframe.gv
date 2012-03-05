@@ -4,7 +4,7 @@
 digraph "Parse tree" {
 	rankdir="LR"
    node [shape=record];
-    stack [label="a|x|y|<bp>Return adress|x1|<sp>x2"];
+    stack [label="y|x|a|Return adress|<bp>Old Base Pointer|x1|<sp>x2"];
     SP->stack:sp
     BP->stack:bp
     

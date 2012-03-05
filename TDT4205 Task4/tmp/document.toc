@@ -1,0 +1,9 @@
+\contentsline {section}{\numberline {PART 1}Theory and Assembly Programming}{1}{section.1}
+\contentsline {subsection}{\numberline {Task 1.1}Stack Frames}{1}{subsection.1.1}
+\contentsline {subsubsection}{\numberline {1.}What is a stack frame}{1}{subsubsection.1.1.1}
+\contentsline {subsubsection}{\numberline {2.}Stack frame illustration}{2}{subsubsection.1.1.2}
+\contentsline {subsubsection}{\numberline {3.}Setting up and tearing down stack frames}{2}{subsubsection.1.1.3}
+\contentsline {subsection}{\numberline {Task 1.2}x86 Assembly Programming}{4}{subsection.1.2}
+\contentsline {subsection}{\numberline {Task 1.3}Symbol Tables}{5}{subsection.1.3}
+\contentsline {subsubsection}{\numberline {1.}Stack offset}{5}{subsubsection.1.3.1}
+\contentsline {subsubsection}{\numberline {2.}Lexical depth}{5}{subsubsection.1.3.2}
