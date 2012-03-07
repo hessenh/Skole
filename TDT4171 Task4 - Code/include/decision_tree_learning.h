@@ -23,14 +23,9 @@ typedef struct node_st
   int num_children;
 } node;
 
-typedef struct
-{
-  node* root;
-} tree;
-
-tree*
-decision_tree_learning(obj** examples[], int num_examples,
-    obj** parent_examples[], int num_parent_examples);
+node*
+decision_tree_learning(obj** examples, int num_examples, int* attribs,
+    int num_attribs, obj** parent_examples, int num_parent_examples);
 
 node*
 create_node(node** children, int num_children, int attrib);
@@ -39,6 +34,6 @@ obj*
 create_obj(int* attribs, int num_attribs, int object_class);
 
 void
-print_tree(tree* print_tree);
+print_tree(node* root);
 
 #endif /* DECISION_TREE_LEARNING_H_ */

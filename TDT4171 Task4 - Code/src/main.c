@@ -90,11 +90,11 @@ main(int argc, char* argv[])
     }
   printf("Number of examples: %d\n", examples_size + 1);
 
-  int attributes[7];
-  for (int i = 0; i < 7; i++)
+  int attributes[NUM_ATTRIBS];
+  for (int i = 0; i < NUM_ATTRIBS; i++)
     {
       attributes[i] = i;
     }
-  tree* decision_tree = decision_tree_learning(examples, examples_size + 1, 0, 0);
+  node* decision_tree = decision_tree_learning(examples, examples_size + 1, attributes, NUM_ATTRIBS, 0, 0);
   print_tree(decision_tree);
 }

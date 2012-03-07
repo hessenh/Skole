@@ -8,7 +8,7 @@
 #include "plurality_value.h"
 
 tree*
-plurality_value(obj* examples, int num_examples)
+plurality_value(obj** examples, int num_examples)
 {
   tree* tree_ptr;
   return tree_ptr;
