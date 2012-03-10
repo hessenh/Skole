@@ -8,32 +8,18 @@
 #ifndef DECISION_TREE_LEARNING_H_
 #define DECISION_TREE_LEARNING_H_
 
-typedef struct obj_st
-{
-  int* attribs;
-  int num_attribs;
-  int object_class;
-  int id;
-} obj;
-
-typedef struct node_st
-{
-  int attrib;
-  struct node_st** children;
-  int num_children;
-} node;
+#include "types.h"
 
 node*
 decision_tree_learning(obj** examples, int num_examples, int* attribs,
-    int num_attribs, obj** parent_examples, int num_parent_examples);
+    int num_attribs, obj** parent_examples, int num_parent_examples, int value);
 
-node*
-create_node(node** children, int num_children, int attrib);
-
-obj*
-create_obj(int* attribs, int num_attribs, int object_class);
+int
+guess_value(node* tree, obj* example);
 
 void
 print_tree(node* root);
 
+void
+clean_tree(node* root);
 #endif /* DECISION_TREE_LEARNING_H_ */

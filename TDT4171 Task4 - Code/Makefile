@@ -1,3 +1,13 @@
+CC=gcc
+ifeq ($(OS),Windows_NT)
+    #Windows stuff
+	RM = del
+	MV = ren
+else
+    #Linux stuff
+	RM = rm
+	MV = mv
+endif
 INCLUDEPATH+=\
 	-Iinclude
 CFLAGS+=-O3 ${INCLUDEPATH} --std=c99 -g
@@ -13,14 +23,14 @@ bin/$(PROGRAM): $(OBJ) $(filter-out $(wildcard bin), bin)
 	gcc -o $@ $(OBJ) $(LDFLAGS)
 
 obj/%.o: src/%.o include/%.h $(filter-out $(wildcard obj), obj)
-	mv src/$*.o obj/
+	$(MV) src/$*.o obj/
 
 
 clean:
-	if [ -e obj ]; then rm -Rf obj; fi
+	if [ -e obj ]; then $(RM) -Rf obj; fi
 	
 purge: clean
-	if [ -e bin ]; then rm -Rf bin; fi
+	if [ -e bin ]; then $(RM) -Rf bin; fi
 
 obj:
 	mkdir obj

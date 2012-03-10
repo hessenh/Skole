@@ -8,9 +8,9 @@
 #ifndef PLURALITY_VALUE_H_
 #define PLURALITY_VALUE_H_
 
-#include "decision_tree_learning.h"
+#include "types.h"
 
-tree*
+int
 plurality_value(obj** examples, int num_examples);
 
 #endif /* PLURALITY_VALUE_H_ */

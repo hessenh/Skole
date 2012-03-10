@@ -132,7 +132,7 @@ find its real value. This is an assumption that we must take to avoid large
 tables, and is a property of the Bayesian Network.
 
 An example of a \emph{Bayesian network} is included in
-Figure \ref{fig:BayExample}.
+Figure~\ref{fig:BayExample}.
 \begin{figure}[h]
 \includegraphics[width=122mm]{figure-example1.png}
 \caption{Example of Bayesian network, copy of figure from AIMA\cite{aima}}
@@ -141,10 +141,11 @@ Figure \ref{fig:BayExample}.
 We see that the nodes represents states and actions, each with probabilities
 that links together to a system.
 
-From this, we can set up a system that maximizes the \emp{utility
+From this, we can set up a system that maximizes the \emph{utility
 value}\cite{aima} in such a way that it will chose those options with best
 outcome. Again, the AIMA-book has a great example of such a system, and I have
-included this in Figure \ref{fig:dssExample}. \begin{figure}[h]
+included this in Figure~\ref{fig:dssExample}.
+\begin{figure}[h]
 \includegraphics[width=122mm]{figure-example2.png}
 \caption{Example of a desicion support system, copy of figure from
 AIMA\cite{aima}}
@@ -153,7 +154,7 @@ AIMA\cite{aima}}
 
 Now, our job will be to link the nodes that represents state and consequences
 into a network like that. A screenshot from my complete model from GeNIe 2.0
-is included as Figure \ref{fig:complete}
+is included as Figure~\ref{fig:complete}
 
 Most of the work with setting up such a system, at least if you have a software
 like GeNIe\footnote{\url{http://genie.sis.pitt.edu/}}, is filling the
@@ -165,10 +166,9 @@ loose coupling between almost anything, in our mini-world, we separate the
 attributes from each other, again to simplify computation.
 
 
-The nodes marked as gray in Figure \ref{fig:complete} is the state nodes. These
+The nodes marked as gray in Figure~\ref{fig:complete} is the state nodes. These
 have simple tables, like this:
 \begin{table}[h!!!!!!!!!!]
-
 \begin{tabular}{|c|c|}
 \hline
 \multicolumn{2}{|c|}{Hungry}\\
@@ -178,8 +178,8 @@ Some & 0.3\\
 No & 0.5\\
 \hline
 \end{tabular}
-\label{tab:hungry}
 \caption{Values from Hungry-node}
+\label{tab:hungry}
 \end{table}
 
 The nodes marked as green are the state-nodes, which are affected by both
@@ -208,8 +208,8 @@ Watch movie alone & Yes & 0.1 & 0.1 & 0.8\\
 \hline
 \multicolumn{5}{c}{\ldots}\\
 \end{tabular}
-\label{tab:exhaust}
 \caption{Some values from the Exhausting-node}
+\label{tab:exhaust}
 \end{table}
 
 with appropriate values for all decisions combined with the value of the state
@@ -257,9 +257,9 @@ Storm & 0.0175219024\\
 \caption{The Weather node, values calculated from met.no\cite{met}}
 \label{tab:weather}
 \end{table}
-More state-node examples can be found in Table \ref{tab:hungry} and Table
+More state-node examples can be found in Table~\ref{tab:hungry} and Table
 \ref{tab:sleepy} Examples of other values, that are entirely my opinion on state
-and consequences can be found in Table \ref{tab:exhaust}, but these tables are
+and consequences can be found in Table~\ref{tab:exhaust}, but these tables are
 so large that I have chosen not to include too much of them. Entire tables with
 values can be found in the GeNIe-file attached with this document.
 \begin{table}
@@ -272,13 +272,13 @@ some & 0.2\\
 No & 0.6\\
 \hline
 \end{tabular}
-\label{tab:sleepy}
 \caption{Values from the Sleepy-node}
+\label{tab:sleepy}
 \end{table}
 
 \subsection{Connection of the nodes}
 Now I will describe how I connected the nodes, and explain some of my choises.
-As we see from Figure \ref{fig:complete}, I have devided the world into state
+As we see from Figure~\ref{fig:complete}, I have devided the world into state
 (observed), decision and consequences(unobserved) parts. The chosen colours are
 for just to tell the realms apart. I think that your mood depends highly on
 those variables, and your best choise is highly dependent on your mood. The
@@ -356,6 +356,6 @@ governing utility here.
 \begin{table}
 \include{utility}
 \label{Some values from the utility function}
-\label{tab:utility}
 \caption{Values of the utility function}
+\label{tab:utility}
 \end{table}
