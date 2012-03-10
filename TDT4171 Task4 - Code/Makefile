@@ -3,10 +3,12 @@ ifeq ($(OS),Windows_NT)
     #Windows stuff
 	RM = del
 	MV = ren
+	FixPath = $(subst /,\,$1)
 else
     #Linux stuff
 	RM = rm
 	MV = mv
+	FixPath = $1
 endif
 INCLUDEPATH+=\
 	-Iinclude
@@ -23,7 +25,7 @@ bin/$(PROGRAM): $(OBJ) $(filter-out $(wildcard bin), bin)
 	gcc -o $@ $(OBJ) $(LDFLAGS)
 
 obj/%.o: src/%.o include/%.h $(filter-out $(wildcard obj), obj)
-	$(MV) src/$*.o obj/
+	$(MV) $(call FixPath,src/$*.o) $(call FixPath,obj/)
 
 
 clean:
