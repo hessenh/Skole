@@ -1,12 +1,12 @@
 CC=gcc
 ifeq ($(OS),Windows_NT)
     #Windows stuff
-	RM = del
+	RM = del /Q
 	MV = ren
 	FixPath = $(subst /,\,$1)
 else
     #Linux stuff
-	RM = rm
+	RM = rm -Rf
 	MV = mv
 	FixPath = $1
 endif
@@ -29,10 +29,10 @@ obj/%.o: src/%.o include/%.h $(filter-out $(wildcard obj), obj)
 
 
 clean:
-	if [ -e obj ]; then $(RM) -Rf obj; fi
+	$(RM) obj
 	
 purge: clean
-	if [ -e bin ]; then $(RM) -Rf bin; fi
+	$(RM) bin
 
 obj:
 	mkdir obj
