@@ -1,7 +1,7 @@
 CC=gcc
 ifeq ($(OS),Windows_NT)
     #Windows stuff
-	MV = ren
+	MV = mv
 	FixPath = $(subst /,\,$1)
 else
     #Linux stuff
