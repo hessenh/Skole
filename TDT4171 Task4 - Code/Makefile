@@ -27,7 +27,7 @@ obj/%.o: src/%.o include/%.h $(filter-out $(wildcard obj), obj)
 
 
 clean:
-	if [ -e obj ]; then rm -Rf obj
+	if [ -e obj ]; then rm -Rf obj; fi
 	
 purge: clean
 	if [ -e bin ]; then rm -Rf bin; fi
