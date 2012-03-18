@@ -1,3 +1,11 @@
 \select@language {english}
-\contentsline {section}{\numberline {1}}{1}{section.1}
-\contentsline {section}{Index}{1}{section.1}
+\contentsline {section}{\numberline {1}Intro}{1}{section.1}
+\contentsline {section}{\numberline {2}How to build the program}{1}{section.2}
+\contentsline {section}{\numberline {3}How to run the program}{1}{section.3}
+\contentsline {section}{\numberline {4}Results}{2}{section.4}
+\contentsline {subsection}{\numberline {4.1}Resulting tree from Information Gain}{2}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Resulting tree from Random}{3}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Random vs. Information Gain}{3}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Multiple runs with Random}{4}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Multiple runs with Information Gain}{4}{subsection.4.5}
+\contentsline {section}{\numberline {5}Small Code Guide}{4}{section.5}

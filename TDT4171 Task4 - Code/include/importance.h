@@ -11,6 +11,9 @@
 #include "types.h"
 
 int
-importance(obj** examples, int num_examples, int* attribs, int num_attribs);
+(*importance)(obj** examples, int num_examples, int* attribs, int num_attribs);
+
+void
+init_importance(int random);
 
 #endif /* IMPORTANCE_H_ */

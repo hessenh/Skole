@@ -1,16 +1,14 @@
 CC=gcc
 ifeq ($(OS),Windows_NT)
     #Windows stuff
-	MV = mv
 	FixPath = $(subst /,\,$1)
 else
     #Linux stuff
-	MV = mv
 	FixPath = $1
 endif
 INCLUDEPATH+=\
 	-Iinclude
-CFLAGS+=-O3 ${INCLUDEPATH} --std=c99 -g
+CFLAGS+=-O3 ${INCLUDEPATH} --std=c99
 LDFLAGS+=-lm
 OBJ=$(subst src,obj,$(subst .c,.o,$(shell ls src/*.c)))
 PROGRAM=tree-learning.exe
@@ -23,7 +21,7 @@ bin/$(PROGRAM): $(OBJ) $(filter-out $(wildcard bin), bin)
 	gcc -o $@ $(OBJ) $(LDFLAGS)
 
 obj/%.o: src/%.o include/%.h $(filter-out $(wildcard obj), obj)
-	$(MV) $(call FixPath,src/$*.o) $(call FixPath,obj/)
+	mv $(call FixPath,src/$*.o) $(call FixPath,obj/)
 
 
 clean:
