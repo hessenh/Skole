@@ -1,6 +1,6 @@
 digraph Flow {
  node [shape=box]
-  	s1[label="stsadart",shape=plaintext]
+  	s1[label="start",shape=plaintext]
  	s1->S
 	S->F1
 	I->F2 [label="F"]

@@ -54,6 +54,8 @@
 \tableofcontents
 \newpage
 \section{Theory}
+\begin{minipage}[b]{0.5\linewidth}
+ \centering
 \subsection{Data flow analysis}
 \subsubsection{Tree-address code}
 \begin{lstlisting}[language=C,morekeywords={ifFalse}]
@@ -81,17 +83,70 @@ F2:	y = y + 1
 	goto F2
 Nd:	// end
 \end{lstlisting}
+ 
+ \end{minipage}
+ \hspace{0.5cm}
+ \begin{minipage}[b]{0.5\linewidth}
+ \centering
 \subsubsection{}
-\includegraphics{flowgraph.pdf}
+\includegraphics[height=250px]{flowgraph.pdf}
+
+ \end{minipage}
+
+
+ \begin{minipage}[b]{0.5\linewidth}
+ \centering
 \subsubsection{}
+\includegraphics[height=300px]{flowgraph_optimized.pdf}
+ \end{minipage}
+  \hspace{0.5cm}
+ \begin{minipage}[b]{0.5\linewidth}
+ \centering
+ \begin{itemize}
+    \item
  Global and local common subexpression elimination
- Copy propagation
- Constant folding (if any)
+ \begin{enumerate}
+   \item m = n - 1 is allways the same, but has been calculated once for each
+   round in the loop. This is now put outside the loops.
+ \end{enumerate}
+    \item
+    Copy propagation
+    \begin{enumerate}
+      \item y1, y2 and y3 share the same value, evaluate once.
+      \item next y is allways the same as previous y1, no need to evaluate
+      again.
+    \end{enumerate}
+   \item 
+Constant folding
+\begin{enumerate}
+  \item No constants are given in the code in such a way that we can fold them.
+\end{enumerate}
+   \item 
  Dead code elimination
-\includegraphics{flowgraph_optimized.pdf}
+ \begin{enumerate}
+   \item There is no longer any need for y2 and y3, so they are removed. 
+ \end{enumerate}
+ \end{itemize}
+ \end{minipage}
+ \newpage
 \subsection{}
 \subsubsection{Dominators}
+A dominator is a node that is traversed on every possible path from the
+\emph{start node} to node \emph{n}. This is important since if we know that a
+node \emph{k} dominates an other node \emph{n}, \emph{k} has to be executed
+before \emph{n} in every possible execution path, and thereby we can rely on its
+content when considering node \emph{n}.
 
 \subsubsection{Forward- and backwards analysis}
+Forward- and backwards analysis have different objectives in terms of
+optimization. During a forward analysis, we can calculate what statements may
+have been encountered at each point, and make desisions of what paths a program
+may and may not take.
+
+During backwards analysis, we can calculate the \emph{liveness} of variables,
+that is see wherever a variable is used after an  assignment. If a variable is
+never read, or is never read after a certain point, is is ``dead'', and all
+code relating to it after that point may be eliminated. Also called ``Dead code
+elminination''.
 
 \end{document}
