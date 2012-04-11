@@ -1,0 +1,206 @@
+%%This is a very basic article template.
+%%There is just one section and two subsections.
+\documentclass[english,a4paper]{scrartcl}
+
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{makeidx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{multirow}
+\usepackage{tocloft}
+\renewcommand{\cftsecaftersnumb}{\hspace{6em}}
+\renewcommand{\cftsubsecaftersnumb}{\hspace{6em}}
+\renewcommand{\cftsubsubsecaftersnumb}{\hspace{6em}}
+
+\makeindex
+
+\hypersetup{
+    %bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={TDT4205 Compilers - Exercise 6 - hvatum},    % title
+    pdfauthor={Stian Hvatum},     % author
+    pdfsubject={TDT4205 Compilers},   % subject of the document
+    pdfcreator={Stian Hvatum},   % creator of the document
+    pdfproducer={Stian Hvatum}, % producer of the document
+    pdfnewwindow=true,      % links in new window
+    colorlinks,       % false: boxed links; true: colored links
+    linkcolor=black,          % color of internal links
+    citecolor=green,        % color of links to bibliography
+    filecolor=magenta,      % color of file links
+    urlcolor=cyan           % color of external links
+}
+
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\input{styles/xml}
+\input{styles/vsl}
+
+\renewcommand{\thesection}{PART \arabic{section}}
+\renewcommand{\thesubsection}{Task \arabic{section}.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\arabic{subsubsection}.}
+
+\title{TDT4205 Compilers\\
+\Huge Exercise 6}
+\author{Stian Hvatum (hvatum)\\MTDT}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+\section{Theory}
+\subsection{Optimization}
+\subsubsection{Easy and common}
+One easy and common optimization done by compilers is common sub-expression
+elimination. A common sub-expression is a an expression that occurs multiple
+times either alone or within another expression during the space where the
+involved variables are not redefined.
+
+\begin{lstlisting}[language=C]
+int main(int argc, char** argv)
+{
+    int a = 5;
+    int b = 10;
+    int c = 8;
+    int d = a + b * c;
+    int e = d - b * c;
+}
+\end{lstlisting}
+
+At line 6 and 7 we see that \(b \cdot c\) occurs at both lines. We can reduce
+the cost of mulitplying with this code:
+\begin{lstlisting}[language=C]
+int main(int argc, char** argv)
+{
+    int a = 5;
+    int b = 10;
+    int c = 8;
+    int tmp = b * c;
+    int d = a + tmp;
+    int e = d - tmp;
+}
+\end{lstlisting}
+
+We must notice that sometimes it is still cheaper to calculate the
+sub-expression twice, since pre-calculating it may involve more memory useage
+and eventually force the processor to use cache or main memory instead of
+the faster registers.
+
+\subsubsection{Hard to do}
+Register allocation\\Meet-over-all-pases
+
+\subsubsection{Optimalization impact}
+\begin{description}
+\item[Copy Progragation] \ \\
+L7: g = f, where f = e from L6.
+\end{description}
+\begin{lstlisting}
+a=1
+b=2
+c=3
+d=a+x
+e=b+c
+
+g=e
+g=d+y
+a=b+c
+\end{lstlisting}
+\begin{description}
+\item[Common subexpression elimination] \ \\
+L5 and L9 both has b + c.
+\end{description}
+\begin{lstlisting}
+a=1
+b=2
+c=3
+d=a+x
+t=b+c
+e=t
+f=e
+g=f
+g=d+y
+a=t
+\end{lstlisting}
+\begin{description}
+\item[Contant propagation] \ \\
+a, b and c are all assigned to contants. There are used in L4, L5, L8, L9, and
+can be replaced with the assigned number.    
+\end{description}
+\begin{lstlisting}
+a=1
+b=2
+c=3
+d=1+x
+e=2+3
+f=e
+g=f
+g=d+y
+a=2+3
+\end{lstlisting}
+We could also used constant folding to eliminate all lines except L1, L4 and L8,
+where we have unknown variables, given none of the other variables are used
+after the given code block. If dead code elimination was used, we could
+eliminated L7, since g is assigned to something else at L8.
+
+\subsection{Misc}
+\subsubsection{Array bounds checking}
+To do bounds checking on array lookups and assignments, we need to know how
+large the array is, and we need to check this lenght against the value of the
+lookup-variable. This means that we need to store the array lenght somewhere,
+most likely in the symbol table, and we need to add some extra assembly code
+around each array lookup and assignment, unless the lookup is a constant or
+given to be within bounds by external factors.
+
+A high level abstraction of this:
+\begin{lstlisting}[language=C]
+    int array[5];
+    
+    /* No check is needed here, since index is constant */
+    array[3] = 2;
+    
+   /* Here we need to check the index,
+      and throw an error if out of bounds  */
+   
+    if (i >= 0 && i < 5)
+        array[i] = 4;
+    else
+        throw index_out_of_bounds;
+\end{lstlisting}
+
+\subsubsection{Pointer arithmetics}
+\paragraph{Live variables}
+When we are looking for live variables, we usually go backwards and check where
+the last occurence of each variable is used. Since pointers points to data
+areas, there may be problems related to when that memory area was read. If you
+write to a pointers data area, and read another pointers data area, they may
+refer to the same area, and you cannot declare the first one as dead, even if
+it is written only (and never ``used'').
+\paragraph{Available expressions}
+Regarding available expressions, we have sort of the same problem as with Live
+variables. You may have great trouble knowing wherever your expression result is
+stil valid if your data area has been modified by another pointer pointing to
+the same location.
+
+\subsubsection{Graph coloring and register spilling}
+Register allocation is the problem of assigning registers to those results and
+variables that is needed the most in the current state. Since you have a given
+number of registers, and the expression calculated at the given state holds a
+number of variables you can reduce this to the Graph coloring problem, where the
+colors are registeres and the areas of the graph are the variables. Each
+sub-expression has to be calculated without using the same register twice, hence
+we cannot have two neighbouring areas that share the same color.
+
+Register spilling is the phenomenon that occurs once we don't have enought
+registers to calculate a problem. When register spilling occures, preformance
+is greatly reduced. One of the main objectives of register allocation is to
+minimize the occurences of memory spilling. 
+
+\subsubsection{DAGs}
+Compilers!!!
+
+\end{document}
