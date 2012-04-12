@@ -92,7 +92,7 @@ and eventually force the processor to use cache or main memory instead of
 the faster registers.
 
 \subsubsection{Hard to do}
-Register allocation\\Meet-over-all-pases
+Register allocation\\Meet-over-all-passes
 
 \subsubsection{Optimalization impact}
 \begin{description}
@@ -201,6 +201,30 @@ is greatly reduced. One of the main objectives of register allocation is to
 minimize the occurences of memory spilling. 
 
 \subsubsection{DAGs}
-Compilers!!!
-
+Compilers often represent basic blocks as DAGs because it eases some
+optimizations, eg.
+\begin{itemize}
+  \item \textbf{Local common subexpression elimination}\\
+  We will see from the DAG that if two calculations are the same, they will end
+  up in the same node, and thus are equal at that point. 
+  \item  \textbf{Dead code elimination}\\
+  By removing all roots with no attached live variables until there are no more
+  such nodes, we have effectivly removed all dead code from the block.
+  \item  \textbf{Statement reoder}\\
+  We can reorder statements that does not depend on each other, such that we get
+  more common subexpressions that may be eliminated, eg. \\
+  $a = b + c;$\\$d = b + f
+  + c;$\\becomes\\ $a = b + c;$\\$d = b + c + f;$\\ where we see the common
+  subexpression $b + c$. We must of course be avare of precedence and
+  parentheses when doing such optimizations. The DAG will show us which
+  statements that are dependent on each other.
+  \item  \textbf{Simplify computation}\\
+  We can do \emph{constant folding} and \emph{strenght reduction} on the
+  expressions within the DAG. Eg. $x^2 = x \cdot x$, $2 \cdot x = x + x$ and
+  $2 + 2 = 4$.
+  The DAG is not strictly required for this, but it is very easy to make these
+  changes on this kind of node-oriented data structures. Using this kind of
+  sustitutions often render some of the used nodes as dead, so that they may be
+  eliminated.
+\end{itemize}
 \end{document}
