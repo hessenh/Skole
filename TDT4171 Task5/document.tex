@@ -95,14 +95,14 @@ distance from the correct answer that the model calculates.}\\
 &&&\\
 &&&\\
 Root mean squared error          &        0  &   &\multirow{3}{210pt}{
-The root mean squared is another measure of how inaccurate the model is. Lower
+The root mean squared is a measure of how inaccurate the model is. Lower
 numbers is better.}\\
 &&&\\
 &&&\\
 &&&\\
 Relative absolute error          &&        0      \%&\multirow{2}{210pt}{
-Relative absolute error tells us how good the approximation is. Lower numbers
-are better. }\\
+The Relative absolute error is the total eror (distance) in the set relative to
+the number of errors in the set. Lower numbers are better. }\\
 &&&\\
 &&&\\
 Root relative squared error      &&        0      \%&\multirow{3}{210pt}{
@@ -119,7 +119,8 @@ training set. }\\
 \hline
 === Confusion Matrix ===&&&\multirow{5}{210pt}{
 This matrix shows us how the records where classified (top-down) and what class
-they really belongs to (left-right).}\\
+they really belongs to (left-right). This is very important since it can help
+us discover errors typical to our implementation and/or data set.}\\
 &&&\\
  a b   $<$- - classified as&&&\\
  9 0 $|$ a = yes&&&\\
@@ -145,59 +146,157 @@ Total Number of Instances              &14     &&\\
 
 \subsubsection{The Id3 decision tree builder algorithm}
 Much of the output is equal to the IB1 classifier-method. I have only included
-those fields that are extra or different.
-\begin{longtable}{|lrr|l|}
+those fields that are extra or different.\\
+\begin{tabular}{|l|l|}
 \hline
-outlook = sunny&&&\\
-|  humidity = high: no&&&\\
-|  humidity = normal: yes&&&\\
-outlook = overcast: yes&&&\\
-outlook = rainy&&&\\
-|  windy = TRUE: no&&&\\
-|  windy = FALSE: yes&&&\\
+outlook = sunny&\multirow{7}{210pt}{
+This is the decision tree that the Id3 algorithm learned.
+}\\
+|  humidity = high: no&\\
+|  humidity = normal: yes&\\
+outlook = overcast: yes&\\
+outlook = rainy&\\
+|  windy = TRUE: no&\\
+|  windy = FALSE: yes&\\
 \hline
-K\&B Relative Info Score&&               1380.6963 \%&\multirow{3}{210pt}{
-
-}\\
-&&&\\
-&&&\\
-&&&\\
-K\&B Information Score &                  13.1778 bits&      0.9413
-bits/instance&\multirow{3}{210pt}{
-
-}\\
-&&&\\
-&&&\\
-&&&\\
-Class complexity | order 0   &           13.1778 bits  &    0.9413
-bits/instance&\multirow{3}{210pt}{
-
-}\\
-&&&\\
-&&&\\
-&&&\\
-Class complexity | scheme             &   0      bits   &   0     
-bits/instance&\multirow{3}{210pt}{
-
-}\\
-&&&\\
-&&&\\
-&&&\\
-Complexity improvement     (Sf)     &    13.1778 bits  &    0.9413
-bits/instance&\multirow{3}{210pt}{
-
-}\\
-&&&\\
-&&&\\
-&&&\\
-
-\hline
-\end{longtable}
+\end{tabular}
 
 \subsection{Different algorithms}
-\subsubsection{java weka.classifiers.lazy.IB1 -t data/weather.arff}
-\subsubsection{java weka.classifiers.trees.Id3 -k -t data/weather.nominal.arff}
+The two algorithms we have tested both gets no errors on the training data, but
+the Id3 Learning tree algorithm performs somewhat better on the test data. In
+this section we will take a look on how each of the two algorithms performed,
+and then compare them.
+
+\subsubsection{Comparison}
+The following table is a comparison of the output from these two commands ran in
+Weka 3.6.6:
+\begin{itemize}
+  \item{\textbf{IB1}} java weka.classifiers.lazy.IB1 -t data/weather.arff
+  \item{\textbf{Id3}} java weka.classifiers.trees.Id3 -t
+  data/weather.nominal.arff
+  
+  %The last alg. had  -k in it, but that printed the
+  % K\&B's, which I don't know what is.}
+\end{itemize}
+
+\begin{tabular}{|lrr|rr|}
+\multicolumn{5}{l}{=== Stratified cross-validation
+===}\\
+\hline
+IB1 &&&Id3&\\
+\hline
+Correctly Classified Instances          &11       &78.5714\%& 12 & 85.7143 \%\\
+Incorrectly Classified Instances        &3        &21.4286\%& 2  & 14.2857 \%\\
+Kappa statistic                         &0.5532&&0.6889&\\
+Mean absolute error                     &0.2143&&0.1429&\\
+Root mean squared error                 &0.4629&&0.378&\\
+Relative absolute error                &&45      \%&30\%&\\
+Root relative squared error            &&93.8273 \%&76.6097\%&\\
+Total Number of Instances              &14     &&14&\\
+\hline
+\end{tabular}
+\newline
+\begin{tabular}{cc}
+\begin{tabular}{|lrr|}
+\multicolumn{3}{l}{
+=== Confusion Matrix === IB1}\\
+\hline
+ a b   $<$- - classified as&&\\
+ 7 2 $|$ a = yes&&\\
+ 1 4 $|$ b = no&&\\
+\hline
+\end{tabular} &
+\begin{tabular}{|lrr|}
+\multicolumn{3}{l}{
+=== Confusion Matrix === Id3}\\
+\hline
+ a b   $<$- - classified as&&\\
+ 8 1 $|$ a = yes&&\\
+ 1 4 $|$ b = no&&\\
+ \hline
+\end{tabular}\\
+\end{tabular}
+
+We see that the eager Id3 classifer performs better on this data set. This is
+because the Id3 algorithm is able to classify the entropy of each attribute,
+and then chose with acordance to the most important attributes, and thus gain
+better accuracy on small data sets. On large data sets however, the IB1 will
+probably perform better, or at least equally good, as it just checks for similar
+records and classify the new instance equally.
+
+Since cross-validation splits\footnote{Weka splits the data into 10 pices by
+default, may be changed with -x \emph{n} for \emph{n} splits} the data set and
+leaves you with less training data, the IB1 algorithm performs even worse, while the Id3 algorithm still manages to some extent which attributes are significant, and which are
+not.
+
 \subsection{The .arff data format}
+The .arff data format is basically a table with data supported by some headers
+to describe tha data and their domain. The format looks like this: \\
+\begin{verbatim}
+@relation weather
+
+@attribute outlook {sunny, overcast, rainy}
+@attribute temperature real
+@attribute humidity real
+@attribute windy {TRUE, FALSE}
+@attribute play {yes, no}
+
+@data
+sunny,85,85,FALSE,no
+\end{verbatim}
+
+The first \verb0@relation0 is just a name for the relation described in the
+file, the next \verb0@attribute0-fields are description of the data and their
+domains. In this example, \emph{outlook} is a data column that takes the values
+\textit{sunny},\textit{overcast} or \textit{rainy}, while \emph{temperature}
+takes any \textit{real} value. The \verb0@data0 segment is just the pure data
+as a comma separated records in a list.
+
+\subsection{Lazy vs. eager learning}
+\subsubsection{What is what?}
+\paragraph{Eager}
+Eager learing is to take a lot of data, parse it and build an internal
+representation of it, and then use this internal representation to identify new
+data.
+\paragraph{Lazy}
+Lazy learning is to take data as it comes and compare it to anything you
+have seen before, and then classify it according to matching already known
+data.
+
+\subsubsection{The differences}
+Both lazy and eager learning is about recognizing and classifying new data that
+has never been seen before. Eager learning processes all training data at the
+beginning, and then classifies new data using a generated internal structure,
+often a decision tree. This internal data structure does not change over time,
+unless we rebuild it on purpose. Lazy learning learns dynamically over time, and
+does not ever process all data at once. When we give it some new input, it takes
+this data, recognizes it by comparing new data to the old data and classifying
+it as the best fit. The deal about lazy learning is that it now puts this new
+data into the heap with the old data, and thus has updated its knowledge.
+
+We see that for large data amounts, the eager learning will use very much time
+to prepare, while the lazy will perform well overall. Eager learning is more
+usefull for smaller data sets.
+
+\subsubsection{Some algorithms}
+\begin{itemize}
+  \item \textbf{LBR - Lazy bayesian rules}\\
+  Lazy - Generates bayesian rules for each example to map input and compare
+  output.
+  \item \textbf{\emph{k}-nearest neighbour}\\
+  Lazy - Places data in a feature space and compares new data using distance to
+  old data.
+  \item \textbf{Feedforward neural networks}\\
+  Eager - Places input on one side and output on the other side of the network,
+  and then calculates what weights that gives the least error. These weigts are
+  then stored and we can use the network to calculate output of new problems.
+  \item \textbf{Decision tree learning}\\
+  Eager - Generates a decision tree from the learning data and classifies the
+  new data using this tree. The tree is never altered after training. 
+\end{itemize}
+
+
+
 
 
 \end{document}
