@@ -1,0 +1,302 @@
+% http://www.cse.iitk.ac.in/users/braman/students/good-report.html
+\documentclass[english,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{fullpage}
+\usepackage{parskip}
+\usepackage{newclude}
+\usepackage{hyperref}
+\usepackage{makeidx}
+\usepackage{longtable}
+\usepackage{multirow}
+
+\hypersetup{
+    %bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat's bookmarks
+    pdftoolbar=true,        % show Acrobat's toolbar?
+    pdfmenubar=true,        % show Acrobat's menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={TDT4171 Artificial Intelligence Methods - Assignment 5},
+    % title
+    pdfauthor={Stian Hvatum},     % author
+    pdfsubject={TDT4171 Artificial Intelligence Methods},   % subject of the document
+    pdfcreator={Stian Hvatum},   % creator of the document
+    pdfproducer={Stian Hvatum}, % producer of the document
+    pdfnewwindow=true,      % links in new window
+    colorlinks,       % false: boxed links; true: colored links
+    linkcolor=black,          % color of internal links
+    citecolor=green,        % color of links to bibliography
+    filecolor=magenta,      % color of file links
+    urlcolor=cyan           % color of external links
+}
+\makeindex
+
+\title{TDT4171 Artificial Intelligence Methods\\
+\Small Exercise 5\\
+\Huge Understanding Weka}
+\author{Stian Hvatum (hvatum)\\MTDT}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\newpage
+\pagenumbering{Roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+
+\section{Getting familiar with Weka}
+\subsection{The output}
+\subsubsection{The IB1 classifier}
+
+\begin{longtable}{|lrr|l|}
+\hline
+\textbf{Output} &&& \textbf{Explanation}\\
+\hline
+IB1 classifier	&&& \multirow{2}{210pt}{The first line in the output represents
+what algorithm that was used, here the IB1 classifier.}
+\\
+&&&\\
+\hline
+\multicolumn{3}{|l|}{Time taken to build model: \emph{x} seconds}& How long time
+was used for building the model.\\
+\hline
+\multicolumn{3}{|l|}{Time taken to test model on training data:  \emph{y}
+seconds}& How long time was used for testing the model.\\
+\hline
+\multicolumn{3}{|l|}{=== Error on training data ===}&
+This block tells us how well the training went.\\
+&&&\\
+Correctly Classified Instances&          14 &             100     
+\%&\multirow{3}{210pt}{ The two first lines tells us how many of the lines in
+the training set was correctly mapped and matched to the internal data
+structure.
+}\\
+&&&\\
+Incorrectly Classified Instances&         0 &               0      \%&\\
+&&&\\
+Kappa statistic                  &        1 &    &\multirow{4}{210pt}{
+The Kappa statistic is a measure of how much the rows agrees to the
+created model, this number is lowered once some rows disagrees with the
+classification model.}
+\\
+&&&\\
+&&&\\
+&&&\\
+&&&\\
+Mean absolute error              &        0  &   &\multirow{3}{210pt}{
+The mean absolute error is the average of the absolute error, which is the mean
+distance from the correct answer that the model calculates.}\\
+&&&\\
+&&&\\
+&&&\\
+Root mean squared error          &        0  &   &\multirow{3}{210pt}{
+The root mean squared is a measure of how inaccurate the model is. Lower
+numbers is better.}\\
+&&&\\
+&&&\\
+&&&\\
+Relative absolute error          &&        0      \%&\multirow{2}{210pt}{
+The Relative absolute error is the total eror (distance) in the set relative to
+the number of errors in the set. Lower numbers are better. }\\
+&&&\\
+&&&\\
+Root relative squared error      &&        0      \%&\multirow{3}{210pt}{
+Root relative squared error is yet another number on how statistically correct
+the calculated model is. }\\
+&&&\\
+&&&\\
+&&&\\
+Total Number of Instances        &       14  &   &\multirow{2}{210pt}{
+Total Number of Instances is simply how many records that where included in the
+training set. }\\
+&&&\\
+&&&\\
+\hline
+=== Confusion Matrix ===&&&\multirow{5}{210pt}{
+This matrix shows us how the records where classified (top-down) and what class
+they really belongs to (left-right). This is very important since it can help
+us discover errors typical to our implementation and/or data set.}\\
+&&&\\
+ a b   $<$- - classified as&&&\\
+ 9 0 $|$ a = yes&&&\\
+ 0 5 $|$ b = no&&&\\
+ \hline
+\multicolumn{3}{|l|}{=== Stratified cross-validation
+===}&\multirow{10}{210pt}{These values all have the same meaning as the
+above, but are in the context of test data, not training data, and thus have other
+numbers attached to themseves. We see that the numbers are not as good as
+with the training data. This is because the the model is build on the training
+data, while the test data is new to this model. }\\
+&&&\\
+Correctly Classified Instances          &11       &       78.5714\%&\\
+Incorrectly Classified Instances        &3        &      21.4286 \%&\\
+Kappa statistic                         &0.5532&&\\
+Mean absolute error                     &0.2143&&\\
+Root mean squared error                 &0.4629&&\\
+Relative absolute error                &&45      \%&\\
+Root relative squared error            &&93.8273 \%&\\
+Total Number of Instances              &14     &&\\
+\hline
+\end{longtable}
+
+\subsubsection{The Id3 decision tree builder algorithm}
+Much of the output is equal to the IB1 classifier-method. I have only included
+those fields that are extra or different.\\
+\begin{tabular}{|l|l|}
+\hline
+outlook = sunny&\multirow{7}{210pt}{
+This is the decision tree that the Id3 algorithm learned.
+}\\
+|  humidity = high: no&\\
+|  humidity = normal: yes&\\
+outlook = overcast: yes&\\
+outlook = rainy&\\
+|  windy = TRUE: no&\\
+|  windy = FALSE: yes&\\
+\hline
+\end{tabular}
+
+\subsection{Different algorithms}
+The two algorithms we have tested both gets no errors on the training data, but
+the Id3 Learning tree algorithm performs somewhat better on the test data. In
+this section we will take a look on how each of the two algorithms performed,
+and then compare them.
+
+\subsubsection{Comparison}
+The following table is a comparison of the output from these two commands ran in
+Weka 3.6.6:
+\begin{itemize}
+  \item{\textbf{IB1}} java weka.classifiers.lazy.IB1 -t data/weather.arff
+  \item{\textbf{Id3}} java weka.classifiers.trees.Id3 -t
+  data/weather.nominal.arff
+  
+  %The last alg. had  -k in it, but that printed the
+  % K\&B's, which I don't know what is.}
+\end{itemize}
+
+\begin{tabular}{|lrr|rr|}
+\multicolumn{5}{l}{=== Stratified cross-validation
+===}\\
+\hline
+IB1 &&&Id3&\\
+\hline
+Correctly Classified Instances          &11       &78.5714\%& 12 & 85.7143 \%\\
+Incorrectly Classified Instances        &3        &21.4286\%& 2  & 14.2857 \%\\
+Kappa statistic                         &0.5532&&0.6889&\\
+Mean absolute error                     &0.2143&&0.1429&\\
+Root mean squared error                 &0.4629&&0.378&\\
+Relative absolute error                &&45      \%&30\%&\\
+Root relative squared error            &&93.8273 \%&76.6097\%&\\
+Total Number of Instances              &14     &&14&\\
+\hline
+\end{tabular}
+\newline
+\begin{tabular}{cc}
+\begin{tabular}{|lrr|}
+\multicolumn{3}{l}{
+=== Confusion Matrix === IB1}\\
+\hline
+ a b   $<$- - classified as&&\\
+ 7 2 $|$ a = yes&&\\
+ 1 4 $|$ b = no&&\\
+\hline
+\end{tabular} &
+\begin{tabular}{|lrr|}
+\multicolumn{3}{l}{
+=== Confusion Matrix === Id3}\\
+\hline
+ a b   $<$- - classified as&&\\
+ 8 1 $|$ a = yes&&\\
+ 1 4 $|$ b = no&&\\
+ \hline
+\end{tabular}\\
+\end{tabular}
+
+We see that the eager Id3 classifer performs better on this data set. This is
+because the Id3 algorithm is able to classify the entropy of each attribute,
+and then chose with acordance to the most important attributes, and thus gain
+better accuracy on small data sets. On large data sets however, the IB1 will
+probably perform better, or at least equally good, as it just checks for similar
+records and classify the new instance equally.
+
+Since cross-validation splits\footnote{Weka splits the data into 10 pices by
+default, may be changed with -x \emph{n} for \emph{n} splits} the data set and
+leaves you with less training data, the IB1 algorithm performs even worse, while the Id3 algorithm still manages to some extent which attributes are significant, and which are
+not.
+
+\subsection{The .arff data format}
+The .arff data format is basically a table with data supported by some headers
+to describe tha data and their domain. The format looks like this: \\
+\begin{verbatim}
+@relation weather
+
+@attribute outlook {sunny, overcast, rainy}
+@attribute temperature real
+@attribute humidity real
+@attribute windy {TRUE, FALSE}
+@attribute play {yes, no}
+
+@data
+sunny,85,85,FALSE,no
+\end{verbatim}
+
+The first \verb0@relation0 is just a name for the relation described in the
+file, the next \verb0@attribute0-fields are description of the data and their
+domains. In this example, \emph{outlook} is a data column that takes the values
+\textit{sunny},\textit{overcast} or \textit{rainy}, while \emph{temperature}
+takes any \textit{real} value. The \verb0@data0 segment is just the pure data
+as a comma separated records in a list.
+
+\subsection{Lazy vs. eager learning}
+\subsubsection{What is what?}
+\paragraph{Eager}
+Eager learing is to take a lot of data, parse it and build an internal
+representation of it, and then use this internal representation to identify new
+data.
+\paragraph{Lazy}
+Lazy learning is to take data as it comes and compare it to anything you
+have seen before, and then classify it according to matching already known
+data.
+
+\subsubsection{The differences}
+Both lazy and eager learning is about recognizing and classifying new data that
+has never been seen before. Eager learning processes all training data at the
+beginning, and then classifies new data using a generated internal structure,
+often a decision tree. This internal data structure does not change over time,
+unless we rebuild it on purpose. Lazy learning learns dynamically over time, and
+does not ever process all data at once. When we give it some new input, it takes
+this data, recognizes it by comparing new data to the old data and classifying
+it as the best fit. The deal about lazy learning is that it now puts this new
+data into the heap with the old data, and thus has updated its knowledge.
+
+We see that for large data amounts, the eager learning will use very much time
+to prepare, while the lazy will perform well overall. Eager learning is more
+usefull for smaller data sets.
+
+\subsubsection{Some algorithms}
+\begin{itemize}
+  \item \textbf{LBR - Lazy bayesian rules}\\
+  Lazy - Generates bayesian rules for each example to map input and compare
+  output.
+  \item \textbf{\emph{k}-nearest neighbour}\\
+  Lazy - Places data in a feature space and compares new data using distance to
+  old data.
+  \item \textbf{Feedforward neural networks}\\
+  Eager - Places input on one side and output on the other side of the network,
+  and then calculates what weights that gives the least error. These weigts are
+  then stored and we can use the network to calculate output of new problems.
+  \item \textbf{Decision tree learning}\\
+  Eager - Generates a decision tree from the learning data and classifies the
+  new data using this tree. The tree is never altered after training. 
+\end{itemize}
+
+
+
+
+
+\end{document}

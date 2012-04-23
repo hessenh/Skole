@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.3.12)  17 MAR 2012 14:54
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.3.19)  16 APR 2012 19:43
 entering extended mode
  Source specials enabled.
  %&-line parsing enabled.
@@ -417,69 +417,68 @@ File: lstlang1.sty 2004/09/05 1.3 listings language file
 File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
 )
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 60.
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 60.
+(Font)              <5> on input line 62.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 62.
 
 (/usr/share/texmf-texlive/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <6> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 60.
-LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <6> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 63.
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 62.
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 65.
 
 
-LaTeX Warning: File `flowgraph.pdf' not found on input line 85.
+pdfTeX warning: /usr/bin/pdflatex (file ./flowgraph.pdf): PDF inclusion: found 
+PDF version <1.5>, but at most version <1.4> allowed
+<flowgraph.pdf, id=52, 344.28625pt x 704.6325pt>
+File: flowgraph.pdf Graphic file (type pdf)
+ <use flowgraph.pdf>
+Overfull \hbox (19.09303pt too wide) in paragraph at lines 57--95
+[][]   [] 
+ []
 
 
-! Package pdftex.def Error: File `flowgraph.pdf' not found.
 
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.85 \includegraphics{flowgraph.pdf}
-                                    
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+pdfTeX warning: /usr/bin/pdflatex (file ./flowgraph_optimized.pdf): PDF inclusi
+on: found PDF version <1.5>, but at most version <1.4> allowed
+<flowgraph_optimized.pdf, id=54, 344.28625pt x 658.46pt>
+File: flowgraph_optimized.pdf Graphic file (type pdf)
+
+<use flowgraph_optimized.pdf>
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 107.
 
 
-LaTeX Warning: File `flowgraph_optimized.pdf' not found on input line 87.
+(/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 107.
 
+Overfull \hbox (19.09303pt too wide) in paragraph at lines 97--131
+[][][]   [] 
+ []
 
-! Package pdftex.def Error: File `flowgraph_optimized.pdf' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.87 \includegraphics{flowgraph_optimized.pdf}
-                                              
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[2] (./document.aux) ) 
+[2 <./flowgraph.pdf>] [3 <./flowgraph_optimized.pdf>] [4] (./document.aux) ) 
 Here is how much of TeX's memory you used:
- 8124 strings out of 494937
- 115694 string characters out of 1180323
- 366647 words of memory out of 3000000
- 11174 multiletter control sequences out of 15000+50000
- 10330 words of font info for 37 fonts, out of 3000000 for 9000
+ 8159 strings out of 494937
+ 116269 string characters out of 1180323
+ 368046 words of memory out of 3000000
+ 11200 multiletter control sequences out of 15000+50000
+ 10504 words of font info for 37 fonts, out of 3000000 for 9000
  118 hyphenation exceptions out of 8191
- 43i,7n,51p,273b,1285s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/
-cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi6.pfb><
-/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/t
-exmf-texlive/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive
-/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-texlive/fonts/type1/
-public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/am
-sfonts/cm/cmsy6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
-tt10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on document.pdf (2 pages, 110440 bytes).
+ 43i,7n,51p,273b,1392s stack positions out of 5000i,500n,10000p,200000b,50000s
+</u
+sr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/te
+xmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive
+/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1
+/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsf
+onts/cm/cmssbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
+msy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.pfb><
+/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on document.pdf (4 pages, 129166 bytes).
 PDF statistics:
- 122 PDF objects out of 1000 (max. 8388607)
- 35 named destinations out of 1000 (max. 500000)
- 65 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 154 PDF objects out of 1000 (max. 8388607)
+ 42 named destinations out of 1000 (max. 500000)
+ 75 words of extra memory for PDF output out of 10000 (max. 10000000)
 

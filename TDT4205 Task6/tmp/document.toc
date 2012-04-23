@@ -7,6 +7,6 @@
 \contentsline {subsubsection}{\numberline {1.}Array bounds checking}{4}{subsubsection.1.2.1}
 \contentsline {subsubsection}{\numberline {2.}Pointer arithmetics}{4}{subsubsection.1.2.2}
 \contentsline {paragraph}{Live variables}{4}{section*.1}
-\contentsline {paragraph}{Available expressions}{4}{section*.2}
+\contentsline {paragraph}{Available expressions}{5}{section*.2}
 \contentsline {subsubsection}{\numberline {3.}Graph coloring and register spilling}{5}{subsubsection.1.2.3}
 \contentsline {subsubsection}{\numberline {4.}DAGs}{5}{subsubsection.1.2.4}

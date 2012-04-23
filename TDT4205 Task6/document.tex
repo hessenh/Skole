@@ -18,9 +18,9 @@
 
 \hypersetup{
     %bookmarks=true,         % show bookmarks bar?
-    unicode=false,          % non-Latin characters in Acrobat’s bookmarks
-    pdftoolbar=true,        % show Acrobat’s toolbar?
-    pdfmenubar=true,        % show Acrobat’s menu?
+    unicode=false,          % non-Latin characters in Acrobats bookmarks
+    pdftoolbar=true,        % show Acrobats toolbar?
+    pdfmenubar=true,        % show Acrobats menu?
     pdffitwindow=false,     % window fit to page when opened
     pdfstartview={FitH},    % fits the width of the page to the window
     pdftitle={TDT4205 Compilers - Exercise 6 - hvatum},    % title
@@ -92,7 +92,18 @@ and eventually force the processor to use cache or main memory instead of
 the faster registers.
 
 \subsubsection{Hard to do}
-Register allocation\\Meet-over-all-passes
+Even for compilers utilizing Data-flow analysis, it is hard\footnote{Actually
+the problem is NP-Complete and mathematically undecidable} to do a complete
+general and correct calculation of Reaching Definitions.
+Reaching Definitions is a way to find out which parts of a program that may be executed,
+and which may not, according to value-dependent branching.
+
+The reason why this is hard to do, is because it is (in general) impossible to
+determin all possible values each variable may take given its surrounding
+program. With data-flow analysis, we may determin some of these and maybe also
+discover tautologies and contradiction, and thus we can eliminate some paths.
+But since we cannot determin all possible values and paths, some paths will be
+let though even though they never are executed.
 
 \subsubsection{Optimalization impact}
 \begin{description}
