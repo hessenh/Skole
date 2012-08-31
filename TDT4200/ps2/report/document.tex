@@ -1,0 +1,91 @@
+%%This is a very basic article template.
+%%There is just one section and two subsections.
+\documentclass[english,a4paper,numbers=noenddot]{scrartcl}
+
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{makeidx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{multirow}
+\usepackage{tocloft}
+\renewcommand{\cftsecaftersnumb}{\hspace{6em}}
+\renewcommand{\cftsubsecaftersnumb}{\hspace{6em}}
+\renewcommand{\cftsubsubsecaftersnumb}{\hspace{6em}}
+
+\makeindex
+
+\hypersetup{
+    %bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobats bookmarks
+    pdftoolbar=true,        % show Acrobats toolbar?
+    pdfmenubar=true,        % show Acrobats menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={TDT4200 Parallel Computing - Problem Set 2 - hvatum},    % title
+    pdfauthor={Stian Hvatum},     % author
+    pdfsubject={TDT4200 Parallel Computing},   % subject of the document
+    pdfcreator={Stian Hvatum},   % creator of the document
+    pdfproducer={Stian Hvatum}, % producer of the document
+    pdfnewwindow=true,      % links in new window
+    colorlinks,       % false: boxed links; true: colored links
+    linkcolor=black,          % color of internal links
+    citecolor=green,        % color of links to bibliography
+    filecolor=magenta,      % color of file links
+    urlcolor=cyan           % color of external links
+}
+
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\input{styles/xml}
+
+\renewcommand{\thesection}{Task \arabic{section}}
+\renewcommand{\thesubsection}{\alph{subsection})}
+
+\title{TDT4200 Parallel Computing\\
+\Huge Problem Set 2}
+\author{Stian Hvatum (hvatum)\\MTDT}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+\section{Miscellaneous theory}
+\subsection{SISD, SIMD, MISD \& MIMD}
+\begin{description}
+    \item[SISD] \hfill \\
+	Single instruction single data is the traditional sequential, single threaded program, running one instruction at a time, on a single set of data.
+    \item[SIMD] \hfill \\
+	Single instruction multiple data is a parallel program where the same instruction gets applied to multiple data(sets), eg. parallell image processing or solving linear equation sets in parallell. This is typical in GPUs and array/vector-based processors.
+    \item[MISD] \hfill \\
+	Multiple instructions single data is a parallel program where different instructions gets applied to the same dataset. Multithreaded programing can be sees as an example of this, since the same memory space has multiple instructions operating on it. An other example is math where operands are equal but the operations are different.
+    \item[MIMD] \hfill \\
+	Multiple instructions multiple data is a parallel program where different instructions are working on different data. This is the type of programs that can run on a cluster, since the different processes on the cluster does not acctually share memory space, neither share program counter, and may branch independently and different from each other.
+\end{description}
+
+\subsection{MPI\_Pack / Unpack}
+The MIP\_Pack and MPI\_Unpack functions allows packing uncontinous data before sending, and restoring it to its original (or other convinient) state after receiving. Normally you can define your own MPI\_Datatype to handle this, but MPI allows some flexibilty by providing both solutions. MPI\_Pack and MPI\_Unpack does also provide backwards-compitability with older versions of MPI and provides functions might valueable for a library writer. MPI\_Unpack also waits for the number of elemets specified, while MPI\_Recv receives as much as is available and then returns.\footnote{\url{http://www.mpi-forum.org/docs/mpi-11-html/node62.html}}
+\newpage
+\subsection{MPI\_Sendrecv}
+If two or more MPI-processes are both sending and receiving at some point in the program, we have a scenario where deadlocks may rise. If we use MPI\_Sendrecv, we are certain that no deadlocks will occur, while achieving the same communication. Since syncronisation is also possibly better handled than consecutive calls to MPI\_Send and MPI\_Recv, performance might also be better.\footnote{\url{http://mpi.deino.net/mpi_functions/MPI_Sendrecv.html}}
+
+\subsection{Deadlocks}
+\begin{lstlisting}{Language=[ISO]C}
+\\ TODO
+\end{lstlisting}
+
+\section{Amdahl`s law and multicore}
+Amdahl`s law states that speedup by adding parallelity to a program can be stated as
+\begin{equation}
+    \text{Speedup}_{\text{asymetric}} (f,n,r)= \frac{1}{\frac{1-f}{\text{perf}(r)} + \frac{f}{\text{perf}(r) + n - r}}
+\end{equation}
+where
+\begin{equation}
+    \text{perf}(r)=\sqrt r,f=0.8
+\end{equation}
+
+
+
+\end{document}

@@ -1,0 +1,3 @@
+\contentsline {section}{\numberline {PART 1}Theory}{2}{section.1}
+\contentsline {subsection}{\numberline {Task 1.1}Hypercube}{2}{subsection.1.1}
+\contentsline {subsection}{\numberline {Task 1.2}Binary tree}{2}{subsection.1.2}
