@@ -45,12 +45,12 @@ digraph BST {
     L41110 -> 1110
     L41110 -> 1111
 
-    L10000 [label=1000]
-    L20000 [label=1000]
-    L30000 [label=1000]
-    L40000 [label=1000]
+    L10000 [label=0000]
+    L20000 [label=0000]
+    L30000 [label=0000]
+    L40000 [label=0000]
 
-    L40010 [label=1010]
+    L40010 [label=0010]
 
     L30100 [label=0100]
     L40100 [label=0100]
