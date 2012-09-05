@@ -43,6 +43,7 @@
 
 \renewcommand{\thesection}{Task \arabic{section}}
 \renewcommand{\thesubsection}{\alph{subsection})}
+\renewcommand{\thesubsubsection}{\alph{subsubsection}.}
 
 \title{TDT4200 Parallel Computing\\
 \Huge Problem Set 2}
@@ -72,26 +73,44 @@ The MIP\_Pack and MPI\_Unpack functions allows packing uncontinous data before s
 If two or more MPI-processes are both sending and receiving at some point in the program, we have a scenario where deadlocks may rise. If we use MPI\_Sendrecv, we are certain that no deadlocks will occur, while achieving the same communication. Since syncronisation is also possibly better handled than consecutive calls to MPI\_Send and MPI\_Recv, performance might also be better.\footnote{\url{http://mpi.deino.net/mpi_functions/MPI_Sendrecv.html}}
 
 \subsection{Deadlocks}
-\begin{lstlisting}{Language=[ISO]C}
+\begin{lstlisting}
 \\ TODO
 \end{lstlisting}
 
 \section{Amdahl`s law and multicore}
-Amdahl`s law states that speedup by adding parallelity to a program can be stated as
+If we apply Amdahl's law to a hetrogenous machine where R out of N BCEs are used to build a single large core, while N -R BCEs are used for small cores. In this context, Amdahl`s law states that speedup to a program where a fraction, f, can be parallelized, can be stated as
 \begin{equation}
+    \label{amdahl}
     \text{Speedup}_{\text{asymetric}} (f,n,r)= \frac{1}{\frac{1-f}{\text{perf}(r)} + \frac{f}{\text{perf}(r) + n - r}}
 \end{equation}
-where
-\begin{equation}
-    \text{perf}(r)=\sqrt r,f=0.8
-\end{equation}
 
-Since we are finding the value of $r$ where $\text{Speedup}_\text{asymetric}$ is maximized, we have to derivate the function and find its zero-points using the given parameters.
-\begin{equation}
-    \frac{f(x)}{g(x)} = \frac{f'(x)\cdot g(x) - f(x)\cdot g'(x)}{g(x)^2}\newline
-    \text{Speedup}_\text{asymetric}'(f,n,r)= 
-\end{equation}
+To find what R that gives the highest speedup, I wrote a small C-program\footnote{Appendix \ref{code}} that uses a brute force method to find the R-value where Eq. \eqref{amdahl} is highest. Source is bundled with this report, compile with -lm.
 
+The output of the program is:
+\begin{lstlisting}
+Result 0: Max. perf. @ R=678, speedup is 101.716278
+Result 1: Max. perf. @ R=835, speedup is 51.025921
+Result 2: Max. perf. @ R=748, speedup is 40.259754
+Result 3: Max. perf. @ R=875, speedup is 18.041071
+\end{lstlisting}
+Where Result 0 is a), 1 is b), 2 is c) and 3 is d).
 
+\newpage
+\section{Communication in a Cartesian grid}
+We have a 1024x1024 grid of bytes and 16 processors in a grid. Communication occurs at 1000 bytes / second with a startup time of 50 ms. Communication is full duplex, and communication is with one other processor at a time, but multiple pairs of processors can communicate at the same time.
 
+The communication time for border exchange will be:
+\subsection{Strip partitioning}
+\subsection{Block partitioning}
+\subsection{8x2}
+\subsection{4x4}
+
+\section{Image processing}
+This task is delivered as \emph{hvatum\_code.tar.gz}
+
+\newpage
+\appendix
+\section{Code for Task 2}
+\label{code}
+\lstinputlisting{amdahl.c}
 \end{document}
