@@ -6,8 +6,7 @@
 \contentsline {section}{\numberline {Task 2}Amdahl`s law and multicore}{3}{section.2}
 \contentsline {section}{\numberline {Task 3}Communication in a Cartesian grid}{4}{section.3}
 \contentsline {subsection}{\numberline {a)}Strip partitioning}{4}{subsection.3.1}
-\contentsline {subsection}{\numberline {b)}Block partitioning}{4}{subsection.3.2}
-\contentsline {subsection}{\numberline {c)}8x2}{4}{subsection.3.3}
-\contentsline {subsection}{\numberline {d)}4x4}{4}{subsection.3.4}
-\contentsline {section}{\numberline {Task 4}Image processing}{4}{section.4}
-\contentsline {section}{\numberline {A}Code for Task 2}{5}{appendix.A}
+\contentsline {subsection}{\numberline {b)}8x2}{4}{subsection.3.2}
+\contentsline {subsection}{\numberline {c)}4x4}{5}{subsection.3.3}
+\contentsline {section}{\numberline {Task 4}Image processing}{5}{section.4}
+\contentsline {section}{\numberline {A}Code for Task 2}{6}{appendix.A}

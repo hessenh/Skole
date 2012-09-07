@@ -8,7 +8,7 @@
 #define BORDER 1         //Border thickness
 
 //Indexing macros
-#define F(s,i,j) local_image[((s)%2)][((i)+1)*local_image_size[1] + ((j)+1)]
+#define F(s,i,j) local_image[((s)%2)][((i)+BORDER)*(local_image_size[1]+2*BORDER) + ((j)+BORDER)]
 #define G(i,j) local_image_orig[(i)*local_image_size[1] + (j)]
 
 int rank,                       //My rank
@@ -115,7 +115,7 @@ int main(int argc, char** argv){
 
     //Allocating buffers
     int lsize = local_image_size[0]*local_image_size[1];
-    int lsize_border = (local_image_size[0] + BORDER)*(local_image_size[1] + BORDER);
+    int lsize_border = (local_image_size[0] + 2*BORDER)*(local_image_size[1] + 2*BORDER);
     local_image_orig = (unsigned char*)malloc(sizeof(unsigned char)*lsize);
     local_image[0] = (unsigned char*)calloc(lsize_border, sizeof(unsigned char));
     local_image[1] = (unsigned char*)calloc(lsize_border, sizeof(unsigned char));

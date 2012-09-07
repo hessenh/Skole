@@ -11,6 +11,9 @@
 \usepackage{parskip}
 \usepackage{multirow}
 \usepackage{tocloft}
+\usepackage{textcomp}
+\usepackage{wrapfig}
+
 \renewcommand{\cftsecaftersnumb}{\hspace{6em}}
 \renewcommand{\cftsubsecaftersnumb}{\hspace{6em}}
 \renewcommand{\cftsubsubsecaftersnumb}{\hspace{6em}}
@@ -97,13 +100,62 @@ Where Result 0 is a), 1 is b), 2 is c) and 3 is d).
 
 \newpage
 \section{Communication in a Cartesian grid}
-We have a 1024x1024 grid of bytes and 16 processors in a grid. Communication occurs at 1000 bytes / second with a startup time of 50 ms. Communication is full duplex, and communication is with one other processor at a time, but multiple pairs of processors can communicate at the same time.
+We have a 1024x1024 grid of bytes and 16 processors in a grid. Communication occurs at 1000 bytes / second, which is 1b/ms  with a startup time of 50 ms. Communication is full duplex, and communication is with one other processor at a time, but multiple pairs of processors can communicate at the same time.
 
-The communication time for border exchange will be:
+The communication time for border exchange can be modeled like the following sections:
 \subsection{Strip partitioning}
-\subsection{Block partitioning}
+\includegraphics{task3a.pdf}
+When we have a strip partitioning, each processor will "own" $1024/16=64$ columns and $1024/1=1024$ rows with bytes. This means that no communication is needed columnwise, and we have two neighbours that we must transfer our edges to.
+
+\begin{tabular}{|l|c|c|c|}
+    \hline
+    What & Duration & \# & Sum\\
+\hline
+\hline
+Startup & 50 ms & 2 & 100 ms\\
+Transfer & 1024 ms & 2 & 2048 ms\\
+\hline
+Sum & & & 2148 ms\\
+\hline
+\end{tabular}
+
+\begin{wrapfigure}{r}{2cm}
+\includegraphics{task3b.pdf}
+\end{wrapfigure}
 \subsection{8x2}
+In a 8x2 grid, we must have communication both ways. Each processor must communicate twice vertically and once horizontally. The byte array split across this processor grid gives us $1024/8=128$ bytes on each row and $1024/2=512$ bytes at each column. Each processor must send 512 bytes either east or west, and 128 bytes north AND south.
+
+\begin{tabular}{|l|c|c|c|}
+    \hline
+    What & Duration & \# & Sum\\
+\hline
+\hline
+Startup & 50 ms & 3 & 150 ms\\
+Transfer & 512 ms & 1 & 512 ms\\
+Transfer & 128 ms & 2 & 256 ms\\
+\hline
+Sum & & & 918 ms\\
+\hline
+\end{tabular}
+
+\newpage
 \subsection{4x4}
+In a 4x4 grid, we have to communicate twice in both vertical and horizontal direction. We have $1024/4=256$ bytes on both rows and columns, and therefor needs to send and trancieve 256 bytes to 4 neighbours.
+
+
+\begin{tabular}{|l|c|c|c|}
+    \hline
+    What & Duration & \# & Sum\\
+\hline
+\hline
+Startup & 50 ms & 4 & 200 ms\\
+Transfer & 256 ms & 4 & 1024 ms\\
+\hline
+Sum & & & 1224 ms\\
+\hline
+\end{tabular}
+
+\includegraphics{task3c.pdf}
 
 \section{Image processing}
 This task is delivered as \emph{hvatum\_code.tar.gz}
