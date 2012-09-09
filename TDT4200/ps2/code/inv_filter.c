@@ -53,8 +53,10 @@ void create_types(){
     // Create MPI types for border exchange
     MPI_Type_vector(1, local_image_size[1], 0, MPI_UNSIGNED_CHAR, &border_row_t);
     MPI_Type_commit(&border_row_t);
-    MPI_Type_vector(local_image_size[1], local_image_size[1], local_image_size[0], MPI_UNSIGNED_CHAR, &border_col_t);
-    MPI_Type_commit(&border_col_t);
+    int error = MPI_Type_vector(local_image_size[0], 1, local_image_size[1] + BORDER, MPI_UNSIGNED_CHAR, &border_col_t);
+    printf("Error vector defined: %d\n", error);
+    error = MPI_Type_commit(&border_col_t);
+    printf("Error commit: %d\n", error);
 }
 
 void distribute_image(){
@@ -75,12 +77,88 @@ void distribute_image(){
 }
 
 void initialilze_guess(){
-    //TODO: Initialize f0
-    // Find Cart-cords and init F(0,x,y) with values from G(x,y) according to cords.
+    // Initialize f0
+    for (int x = 0; x <  local_image_size[1]; x++)
+    for (int y = 0; y <  local_image_size[0]; y++)
+    {
+//	if (rank == 1)
+//	    printf("Reading %x which is %d,%d into %x\n", &G(x,y), x,y, &F(0,x,y));
+	F(0,y,x) = G(y,x);
+    }
 }
 
 void exchange_borders(int step){
     //TODO: Exchange borders
+    MPI_Request req;
+
+    // Neighbours are in 1:north, 2:south, 3:east and 4:west
+    
+    unsigned char *border[4];
+    border[0] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[1] *BORDER);
+    border[1] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[1] *BORDER);
+    border[2] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[0] *BORDER);
+    border[3] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[0] *BORDER);
+    
+    MPI_Irecv(border[0], 1, border_row_t, north, 0, cart_comm, &req);
+    MPI_Irecv(border[1], 1, border_row_t, south, 0, cart_comm, &req);
+    MPI_Irecv(border[2], 1, border_col_t, east, 0, cart_comm, &req);
+    MPI_Irecv(border[3], 1, border_col_t, west, 0, cart_comm, &req);
+    
+    MPI_Send(&(F(step,0,0)), 1, border_row_t, north, 0, cart_comm);
+    MPI_Send(&(F(step,local_image_size[0],0)), 1, border_row_t, south, 0, cart_comm);
+    MPI_Send(&(F(step,0,local_image_size[1])), 1, border_col_t, east, 0, cart_comm);
+    MPI_Send(&(F(step,0,0)), 1, border_col_t, west, 0, cart_comm);
+
+    MPI_Wait(&req, MPI_STATUS_IGNORE);
+//    printf("Rank %d across wait\n", rank);
+
+    // Apply northern border
+    int y;
+    int x;
+    if (north != -2)
+    {
+	for (y = -BORDER; y < 0; y++)
+	    for (x = 0; x < local_image_size[1]; x++)
+	    {
+//		if (rank == 0) printf("North S:%d X:%d Y:%d LX: %d LY: %d\n", step, x, y, local_image_size[1], local_image_size[0]);
+		F(step,y,x) = border[0][x];
+	    }
+	free(border[0]);
+    }
+    
+    // Apply southern border
+    if (south != -2)
+    {
+	for (y = local_image_size[0]; y < local_image_size[0] + BORDER; y++)
+	    for (x = 0; x < local_image_size[1]; x++)
+	    {
+//		if (rank == 0) printf("South S:%d X:%d Y:%d LX: %d LY: %d\n", step, x, y, local_image_size[1], local_image_size[0]);
+		F(step,y,x) = border[1][x];
+	    }
+	//free(border[1]);
+    }
+
+    // Apply eastern border
+    if (east != -2)
+    {
+	for (y = 0; y < local_image_size[0]; y++)
+	    for (x = local_image_size[1]; x < local_image_size[1] + BORDER; x++)
+	    {
+		F(step,y,x) = border[2][y];
+	    }
+	//free(border[2]);
+    }
+
+    // Apply western border
+    if (west != -2)
+    {
+	for (y = 0; y < local_image_size[0]; y++)
+	    for (x = -BORDER; x < 0; x++)
+	    {
+		F(step,y,x) = border[3][y];
+	    }
+	//free(border[3]);
+    }
 
 }
 
@@ -103,8 +181,19 @@ int main(int argc, char** argv){
 
     //Reading image
     if(rank == 0){
-        image = read_bmp("Lenna_blur.bmp");
+	image = read_bmp("Lenna_blur.bmp");
     }
+
+#ifdef Debug
+    if (Debug == rank)
+    {
+	int i = 0;
+	printf("PID %d ready for attach\n", getpid());
+	fflush(stdout);
+	while (i == 0)
+	    sleep(5);
+    }
+#endif
 
     //Creating cartesian communicator
     MPI_Dims_create(size, 2, dims);
@@ -124,6 +213,8 @@ int main(int argc, char** argv){
     local_image[0] = (unsigned char*)calloc(lsize_border, sizeof(unsigned char));
     local_image[1] = (unsigned char*)calloc(lsize_border, sizeof(unsigned char));
 
+    printf("I am %d, N:%d, S:%d, E:%d, W:%d\n", rank, north, south, east, west);
+
     create_types();
 
     distribute_image();
@@ -132,17 +223,17 @@ int main(int argc, char** argv){
 
     //Main loop
     for(int i = 0; i < ITERATIONS; i++){
-        exchange_borders(i);
-        perform_convolution(i);
+	exchange_borders(i);
+	//perform_convolution(i);
     }
 
-    gather_image();
-
+    //gather_image();
+    printf("Rank %d done!\n", rank);
     MPI_Finalize();
 
     //Write image
     if(rank==0){
-        write_bmp(image, image_size[0], image_size[1]);
+	write_bmp(image, image_size[0], image_size[1]);
     }
 
     exit(0);
