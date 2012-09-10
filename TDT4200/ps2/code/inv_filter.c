@@ -52,14 +52,17 @@ void create_types(){
     MPI_Type_commit(&image_t);
 
     // Create MPI types for border exchange
+
+    // Row borders are contiguous in memory
     MPI_Type_contiguous(local_image_size[1], MPI_UNSIGNED_CHAR, &border_row_t);
     MPI_Type_commit(&border_row_t);
-    int error = MPI_Type_vector(local_image_size[0], 1, local_image_size[1] + (BORDER * 2), MPI_UNSIGNED_CHAR, &border_col_t);
-    if (error) printf("Error vector defined: %d\n", error);
-    error = MPI_Type_commit(&border_col_t);
-    if (error) printf("Error commit: %d\n", error);
+
+    // Column borders are multiple 1-bytes with image width + border as stride
+    MPI_Type_vector(local_image_size[0], 1, local_image_size[1] + (BORDER * 2), MPI_UNSIGNED_CHAR, &border_col_t);
+    MPI_Type_commit(&border_col_t);
 
     // Create MPI types for image gather
+    // This is the entire image located at F(s,y,x) without borders, so that we can send F in gather_image
     MPI_Type_vector(local_image_size[0], local_image_size[1], local_image_size[1] + (BORDER * 2), MPI_UNSIGNED_CHAR, &image_gather_t);
     MPI_Type_commit(&image_gather_t);
 }
@@ -83,6 +86,9 @@ void distribute_image(){
 
 void initialilze_guess(){
     // Initialize f0
+
+    // Just copy G to F, forget about borders, since they are 0 (by calloc) anyway,
+    // and those with neighbours will receive borders in time
     for (int x = 0; x <  local_image_size[1]; x++)
     for (int y = 0; y <  local_image_size[0]; y++)
     {
@@ -94,125 +100,76 @@ void exchange_borders(int step){
     // Exchange borders
     MPI_Request req[4];
 
-    // Neighbours are in 1:north, 2:south, 3:east and 4:west
+    // Send all borders in background
+    MPI_Isend(&(F(step,0,0)), 1, border_row_t, north, step, cart_comm, &req[0]);
+    MPI_Isend(&(F(step,local_image_size[0]-1,0)), 1, border_row_t, south, step, cart_comm, &req[1]);
+    MPI_Isend(&(F(step,0,local_image_size[1]-1)), 1, border_col_t, east, step, cart_comm, &req[2]);
+    MPI_Isend(&(F(step,0,0)), 1, border_col_t, west, step, cart_comm, &req[3]);
 
-    unsigned char *border[4];
-    border[0] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[1] *BORDER);
-    border[1] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[1] *BORDER);
-    border[2] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[0] *BORDER);
-    border[3] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[0] *BORDER);
+    MPI_Status status[8];
 
-    MPI_Irecv(border[0], 1, border_row_t, north, step, cart_comm, &req[0]);
-    MPI_Irecv(border[1], 1, border_row_t, south, step, cart_comm, &req[1]);
-    MPI_Irecv(border[2], 1, border_col_t, east, step, cart_comm, &req[2]);
-    MPI_Irecv(border[3], 1, border_col_t, west, step, cart_comm, &req[3]);
+    // Receive borders from neigbours
+    MPI_Recv(&(F(step,-BORDER,0)), 1, border_row_t, north, step, cart_comm, &status[4]);
+    MPI_Recv(&(F(step,local_image_size[0],0)), 1, border_row_t, south, step, cart_comm, &status[5]);
+    MPI_Recv(&(F(step,0,local_image_size[1])), 1, border_col_t, east, step, cart_comm, &status[6]);
+    MPI_Recv(&(F(step,0,-BORDER)), 1, border_col_t, west, step, cart_comm, &status[7]);
 
-    MPI_Send(&(F(step,0,0)), 1, border_row_t, north, step, cart_comm);
-    MPI_Send(&(F(step,local_image_size[0],0)), 1, border_row_t, south, step, cart_comm);
-    MPI_Send(&(F(step,0,local_image_size[1])), 1, border_col_t, east, step, cart_comm);
-    MPI_Send(&(F(step,0,0)), 1, border_col_t, west, step, cart_comm);
-
-    MPI_Status status[4];
+    // Wait for all borders to arrive
     MPI_Waitall(4, &(req[0]), &(status[0]));
-/*    for (int i = 0; i < 4; i++)
-	printf("Rank 4::%d - Receiving %d - Status %d\n", step, i, status[i].MPI_ERROR);
-*/
-    // Apply northern border
-    int y;
-    int x;
-    if (north != -2)
+
+    // If error, yell & exit
+    for (int i = 0; i < 8; i ++) if (status[i].MPI_ERROR)
     {
-	for (y = -BORDER; y < 0; y++)
-	    for (x = 0; x < local_image_size[1]; x++)
-	    {
-		F(step,y,x) = border[0][x];
-	    }
+	printf("Error receiving from %d @ rank %d, step %d\n", i, rank, step);
+	exit(status[i].MPI_ERROR);
     }
-    else
-    {
-	for (y = -BORDER; y < 0; y++)
-	    for (x = 0; x < local_image_size[1]; x++)
-	    {
-		F(step,y,x) = 0;
-	    }
-    }
-    free(border[0]);
-
-    // Apply southern border
-    if (south != -2)
-    {
-	for (y = local_image_size[0]; y < local_image_size[0] + BORDER; y++)
-	    for (x = 0; x < local_image_size[1]; x++)
-	    {
-		//		if (rank == 0) printf("South S:%d X:%d Y:%d LX: %d LY: %d\n", step, x, y, local_image_size[1], local_image_size[0]);
-		F(step,y,x) = border[1][x];
-	    }
-    }
-    free(border[1]);
-
-    // Apply eastern border
-    if (east != -2)
-    {
-	for (y = 0; y < local_image_size[0]; y++)
-	    for (x = local_image_size[1] - 1; x < local_image_size[1] + BORDER; x++)
-	    {
-		F(step,y,local_image_size[1]) = border[2][y];
-		printf("Border east step %d rank %d row %d :: %d\n", step, rank, y, border[2][y]);
-
-	    }
-    }
-    free(border[2]);
-
-    // Apply western border
-    if (west != -2)
-    {
-	for (y = 0; y < local_image_size[0]; y++)
-	    for (x = -BORDER; x < 0; x++)
-	    {
-		F(step,y,x) = border[3][y];
-		printf("Border west step %d rank %d row %d :: %d\n", step, rank, y, border[2][y]);
-
-	    }
-    }
-    free(border[3]);
-
 }
 
 void perform_convolution(int step){
     // Perform convolution
+    
+    // For every pixel in my local image at current step
     for (int x = 0; x <  local_image_size[1]; x++)
     for (int y = 0; y <  local_image_size[0]; y++)
     {
-	float value = 0;
+	double value = 0;
+
+	// Apply filter
 	for (int i = -1; i < 2; i++)
 	for (int j = -1; j < 2; j++)
-	    value += F(step,y+i,x+j)*filter[i+1][j+1];
-//////////////	printf("%d %d :: %d %d\n", x,y, F(step,y,x), value);
-	F(step+1,y,x) = value;
+	    value += F(step,y+i,x+j) * filter[1+i][1+j];
+	
+	// Check for over/under-flow
+	int val = F(step,y,x) + lambda*( G(y,x) - value );
+	if (val > 255) val = 255;
+	if (val < 0) val = 0;
+
+	// Apply new value to next step
+	F(step+1,y,x) = val;
     }
 }
 
 void gather_image(){
-    MPI_Barrier(cart_comm);
     // Gather all the pieces of the image at rank 0
-    if (rank != 0)
-    {
-	MPI_Send(&(F(ITERATIONS,0,0)),1,image_gather_t,0,0,cart_comm);
-	printf("Rank %d sent image\n", rank);
-    }
-    else if (rank == 0)
+
+    MPI_Request req;
+
+    // Send my part, I have defined a new type for delivering last F' directly
+    MPI_Isend(&(F(ITERATIONS,0,0)),1,image_gather_t,0,ITERATIONS,cart_comm, &req);
+
+    // If I'm the boss, gather all image parts from others
+    if (rank == 0)
     {
 	int co[2];
-	for (int i = 1; i < size; i++)
+	// For each compute node, receive image part
+	for (int i = 0; i < size; i++)
 	{
+	    // Oposite from distribute_image
 	    MPI_Cart_coords(cart_comm, i, 2, co);
-            int index = co[0]*local_image_size[0]*image_size[1] + co[1]*local_image_size[1];
-	    printf("Base: %x, Address: %x, Offset: %d\n", image, image + index, index);
+	    int index = co[0]*local_image_size[0]*image_size[1] + co[1]*local_image_size[1];
 	    MPI_Status status;
-	    MPI_Recv(&image[index],1,image_t,i,0,cart_comm,&status); //&(req[i]));
-	    printf("Rank %d received from rank %d - Status %d\n", rank, i, status.MPI_ERROR);
+	    MPI_Recv(&image[index],1,image_t,i,ITERATIONS,cart_comm,&status);
 	}
-	printf("Gathering image\n");
     }
 }
 
@@ -231,13 +188,14 @@ int main(int argc, char** argv){
     }
 
 #ifdef Debug
+    // Trick for attaching GDB to chosen rank
     if (Debug == rank)
     {
 	int i = 0;
 	printf("PID %d ready for attach\n", getpid());
 	fflush(stdout);
 	while (i == 0)
-	    sleep(5);
+	    sleep(2);
     }
 #endif
 
@@ -259,8 +217,6 @@ int main(int argc, char** argv){
     local_image[0] = (unsigned char*)calloc(lsize_border, sizeof(unsigned char));
     local_image[1] = (unsigned char*)calloc(lsize_border, sizeof(unsigned char));
 
-    printf("I am %d, N:%d, S:%d, E:%d, W:%d\n", rank, north, south, east, west);
-
     create_types();
 
     distribute_image();
@@ -279,9 +235,12 @@ int main(int argc, char** argv){
 
     //Write image
     if(rank == 0){
-//	write_bmp(image, image_size[0], image_size[1]);
+	write_bmp(image, image_size[0], image_size[1]);
+        // Free image memory
+	free(image);
     }
 
+    // Free temp-vars
     free(local_image_orig);
     free(local_image[0]);
     free(local_image[1]);

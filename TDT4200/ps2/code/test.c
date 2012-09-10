@@ -94,83 +94,29 @@ void exchange_borders(int step){
     // Exchange borders
     MPI_Request req[4];
 
-    // Neighbours are in 1:north, 2:south, 3:east and 4:west
+    MPI_Isend(&(F(step,0,0)), 1, border_row_t, north, step, cart_comm, &req[0]);
+    MPI_Isend(&(F(step,local_image_size[0]-1,0)), 1, border_row_t, south, step, cart_comm, &req[1]);
+    MPI_Isend(&(F(step,0,local_image_size[1]-1)), 1, border_col_t, east, step, cart_comm, &req[2]);
+    MPI_Isend(&(F(step,0,0)), 1, border_col_t, west, step, cart_comm, &req[3]);
 
-    unsigned char *border[4];
-    border[0] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[1] *BORDER);
-    border[1] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[1] *BORDER);
-    border[2] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[0] *BORDER);
-    border[3] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[0] *BORDER);
+    // Make sure everyone gets here. MPI_Waitall will continue for those who are ready and have ready neigbours, and this _may_ lead to some processes running ahead of others!
+//    MPI_Barrier(cart_comm);
+    
+    MPI_Status status[8];
 
-    MPI_Irecv(border[0], 1, border_row_t, north, step, cart_comm, &req[0]);
-    MPI_Irecv(border[1], 1, border_row_t, south, step, cart_comm, &req[1]);
-    MPI_Irecv(border[2], 1, border_col_t, east, step, cart_comm, &req[2]);
-    MPI_Irecv(border[3], 1, border_col_t, west, step, cart_comm, &req[3]);
+    MPI_Recv(&(F(step,-1,0)), 1, border_row_t, north, step, cart_comm, &status[4]);
+    MPI_Recv(&(F(step,local_image_size[0],0)), 1, border_row_t, south, step, cart_comm, &status[5]);
+    MPI_Recv(&(F(step,0,local_image_size[1])), 1, border_col_t, east, step, cart_comm, &status[6]);
+    MPI_Recv(&(F(step,0,-1)), 1, border_col_t, west, step, cart_comm, &status[7]);
 
-    MPI_Send(&(F(step,0,0)), 1, border_row_t, north, step, cart_comm);
-    MPI_Send(&(F(step,local_image_size[0],0)), 1, border_row_t, south, step, cart_comm);
-    MPI_Send(&(F(step,0,local_image_size[1])), 1, border_col_t, east, step, cart_comm);
-    MPI_Send(&(F(step,0,0)), 1, border_col_t, west, step, cart_comm);
-
-    MPI_Status status[4];
     MPI_Waitall(4, &(req[0]), &(status[0]));
-/*    for (int i = 0; i < 4; i++)
-	printf("Rank 4::%d - Receiving %d - Status %d\n", step, i, status[i].MPI_ERROR);
-*/
-    // Apply northern border
-    int y;
-    int x;
-    if (north != -2)
+    for (int i = 0; i < 8; i ++) if (status[i].MPI_ERROR)
     {
-	for (y = -BORDER; y < 0; y++)
-	    for (x = 0; x < local_image_size[1]; x++)
-	    {
-		F(step,y,x) = border[0][x];
-	    }
+	printf("Error receiving from %d @ rank %d, step %d\n", i, rank, step);
+	exit(status[i].MPI_ERROR);
     }
-    else
-    {
-	for (y = -BORDER; y < 0; y++)
-	    for (x = 0; x < local_image_size[1]; x++)
-	    {
-		F(step,y,x) = 0;
-	    }
-    }
-    free(border[0]);
 
-    // Apply southern border
-    if (south != -2)
-    {
-	for (y = local_image_size[0]; y < local_image_size[0] + BORDER; y++)
-	    for (x = 0; x < local_image_size[1]; x++)
-	    {
-		//		if (rank == 0) printf("South S:%d X:%d Y:%d LX: %d LY: %d\n", step, x, y, local_image_size[1], local_image_size[0]);
-		F(step,y,x) = border[1][x];
-	    }
-    }
-    free(border[1]);
-
-    // Apply eastern border
-    if (east != -2)
-    {
-	for (y = 0; y < local_image_size[0]; y++)
-	    for (x = local_image_size[1] - 1; x < local_image_size[1] + BORDER; x++)
-	    {
-		F(step,y,local_image_size[1]) = border[2][y];
-	    }
-    }
-    free(border[2]);
-
-    // Apply western border
-    if (west != -2)
-    {
-	for (y = 0; y < local_image_size[0]; y++)
-	    for (x = -BORDER; x < 0; x++)
-	    {
-		F(step,y,x) = border[3][y];
-	    }
-    }
-    free(border[3]);
+//    MPI_Barrier(cart_comm);
 
 }
 
@@ -179,39 +125,39 @@ void perform_convolution(int step){
     for (int x = 0; x <  local_image_size[1]; x++)
     for (int y = 0; y <  local_image_size[0]; y++)
     {
-	float value = 0;
+	double value = 0;
 	for (int i = -1; i < 2; i++)
 	for (int j = -1; j < 2; j++)
-	    value += (F(step,y+i,x+j)*filter[i+1][j+1]);
-	F(step+1,y,x) = value;
-	printf("%d %d :: %f\n", x,y,value);
+	    value +=  F(step,y+i,x+j) * filter[1+i][1+j];
+//	printf("%d %d :: %d %f\n", x,y, F(step,y,x), value);
+	F(step+1,y,x) = F(step,y,x) + lambda*( G(y,x) - value );
     }
 }
 
 void gather_image(){
-    MPI_Barrier(cart_comm);
     // Gather all the pieces of the image at rank 0
-    if (rank != 0)
-    {
-//	MPI_Send(&(F(ITERATIONS,0,0)),1,image_gather_t,0,0,cart_comm);
-	int a = 1;
-	MPI_Send(&a,1,MPI_INT,0,0,cart_comm);
-	printf("Rank %d sent image\n", rank);
-    }
-    else if (rank == 0)
+
+    MPI_Request req;
+
+    MPI_Isend(&(F(ITERATIONS,0,0)),1,image_gather_t,0,0,cart_comm, &req);
+    printf("Rank %d sent image\n", rank);
+
+    if (rank == 0)
     {
 	int co[2];
-	for (int i = 1; i < size; i++)
+	for (int i = 0; i < size; i++)
 	{
 	    MPI_Cart_coords(cart_comm, i, 2, co);
-            int index = co[0]*local_image_size[0]*image_size[1] + co[1]*local_image_size[1];
+	    int index = co[0]*local_image_size[0]*image_size[1] + co[1]*local_image_size[1];
 	    printf("Base: %x, Address: %x, Offset: %d\n", image, image + index, index);
 	    MPI_Status status;
-	    MPI_Recv(&image[index],1,MPI_INT,i,0,cart_comm,&status); //&(req[i]));
+	    MPI_Recv(&image[index],1,image_t,i,0,cart_comm,&status);
 	    printf("Rank %d received from rank %d - Status %d\n", rank, i, status.MPI_ERROR);
 	}
 	printf("Gathering image\n");
     }
+    
+    MPI_Barrier(cart_comm);
 }
 
 
@@ -257,8 +203,6 @@ int main_replaced(int argc, char** argv){
     local_image[0] = (unsigned char*)calloc(lsize_border, sizeof(unsigned char));
     local_image[1] = (unsigned char*)calloc(lsize_border, sizeof(unsigned char));
 
-    printf("I am %d, N:%d, S:%d, E:%d, W:%d\n", rank, north, south, east, west);
-
     create_types();
 
     distribute_image();
@@ -277,7 +221,7 @@ int main_replaced(int argc, char** argv){
 
     //Write image
     if(rank == 0){
-//	write_bmp(image, image_size[0], image_size[1]);
+	write_bmp(image, image_size[0], image_size[1]);
     }
 
     free(local_image_orig);
