@@ -4,7 +4,7 @@
 
 #include "bmp.h"
 
-#define ITERATIONS 1000  //Number of iterations
+#define ITERATIONS 1  //Number of iterations
 #define BORDER 1         //Border thickness
 
 //Indexing macros
@@ -51,9 +51,9 @@ void create_types(){
     MPI_Type_commit(&image_t);
 
     // Create MPI types for border exchange
-    MPI_Type_vector(1, local_image_size[1], 0, MPI_UNSIGNED_CHAR, &border_row_t);
+    MPI_Type_contiguous(local_image_size[1], MPI_UNSIGNED_CHAR, &border_row_t);
     MPI_Type_commit(&border_row_t);
-    int error = MPI_Type_vector(local_image_size[0], 1, local_image_size[1] + BORDER, MPI_UNSIGNED_CHAR, &border_col_t);
+    int error = MPI_Type_vector(local_image_size[0], 1, local_image_size[1] + (BORDER * 2), MPI_UNSIGNED_CHAR, &border_col_t);
     printf("Error vector defined: %d\n", error);
     error = MPI_Type_commit(&border_col_t);
     printf("Error commit: %d\n", error);
@@ -99,15 +99,15 @@ void exchange_borders(int step){
     border[2] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[0] *BORDER);
     border[3] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[0] *BORDER);
     
-    MPI_Irecv(border[0], 1, border_row_t, north, 0, cart_comm, &req);
-    MPI_Irecv(border[1], 1, border_row_t, south, 0, cart_comm, &req);
-    MPI_Irecv(border[2], 1, border_col_t, east, 0, cart_comm, &req);
-    MPI_Irecv(border[3], 1, border_col_t, west, 0, cart_comm, &req);
+    MPI_Irecv(border[0], 1, border_row_t, north, step, cart_comm, &req);
+    MPI_Irecv(border[1], 1, border_row_t, south, step, cart_comm, &req);
+    MPI_Irecv(border[2], 1, border_col_t, east, step, cart_comm, &req);
+    MPI_Irecv(border[3], 1, border_col_t, west, step, cart_comm, &req);
     
-    MPI_Send(&(F(step,0,0)), 1, border_row_t, north, 0, cart_comm);
-    MPI_Send(&(F(step,local_image_size[0],0)), 1, border_row_t, south, 0, cart_comm);
-    MPI_Send(&(F(step,0,local_image_size[1])), 1, border_col_t, east, 0, cart_comm);
-    MPI_Send(&(F(step,0,0)), 1, border_col_t, west, 0, cart_comm);
+    MPI_Send(&(F(step,0,0)), 1, border_row_t, north, step, cart_comm);
+    MPI_Send(&(F(step,local_image_size[0],0)), 1, border_row_t, south, step, cart_comm);
+    MPI_Send(&(F(step,0,local_image_size[1])), 1, border_col_t, east, step, cart_comm);
+    MPI_Send(&(F(step,0,0)), 1, border_col_t, west, step, cart_comm);
 
     MPI_Wait(&req, MPI_STATUS_IGNORE);
 //    printf("Rank %d across wait\n", rank);
@@ -123,7 +123,7 @@ void exchange_borders(int step){
 //		if (rank == 0) printf("North S:%d X:%d Y:%d LX: %d LY: %d\n", step, x, y, local_image_size[1], local_image_size[0]);
 		F(step,y,x) = border[0][x];
 	    }
-	free(border[0]);
+//	free(border[0]);
     }
     
     // Apply southern border
@@ -135,7 +135,7 @@ void exchange_borders(int step){
 //		if (rank == 0) printf("South S:%d X:%d Y:%d LX: %d LY: %d\n", step, x, y, local_image_size[1], local_image_size[0]);
 		F(step,y,x) = border[1][x];
 	    }
-	//free(border[1]);
+//        free(border[1]);
     }
 
     // Apply eastern border
@@ -146,7 +146,7 @@ void exchange_borders(int step){
 	    {
 		F(step,y,x) = border[2][y];
 	    }
-	//free(border[2]);
+//	free(border[2]);
     }
 
     // Apply western border
@@ -157,7 +157,7 @@ void exchange_borders(int step){
 	    {
 		F(step,y,x) = border[3][y];
 	    }
-	//free(border[3]);
+//	free(border[3]);
     }
 
 }
@@ -227,10 +227,11 @@ int main(int argc, char** argv){
 	//perform_convolution(i);
     }
 
+    printf("Rank %d sleeping!\n", rank); 
+    sleep(5);
     //gather_image();
-    printf("Rank %d done!\n", rank);
-    MPI_Finalize();
-
+    printf("Rank %d done! Status %d\n", rank, MPI_Finalize());
+    
     //Write image
     if(rank==0){
 	write_bmp(image, image_size[0], image_size[1]);
