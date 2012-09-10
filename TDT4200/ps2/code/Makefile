@@ -25,7 +25,7 @@ clean :
 valgrind: inv_filter
 	mpicc -std=c99 -Wall -o inv_filter inv_filter.c bmp.o -g
 	PRELOAD=/usr/lib/valgrind/libmpiwrap-amd64-linux.so   \
-	mpirun -n 8 valgrind ./inv_filter
+	mpirun -n 8 valgrind --leak-check=full --track-origins=yes --show-reachable=yes ./inv_filter
 
 gdb:
 	mpicc -std=c99 -Wall -o inv_filter inv_filter.c bmp.o -DDebug=0 -g

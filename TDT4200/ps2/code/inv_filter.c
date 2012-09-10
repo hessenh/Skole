@@ -89,28 +89,28 @@ void initialilze_guess(){
 
 void exchange_borders(int step){
     //TODO: Exchange borders
-    MPI_Request req;
+    MPI_Request req[4];
 
     // Neighbours are in 1:north, 2:south, 3:east and 4:west
-    
+
     unsigned char *border[4];
     border[0] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[1] *BORDER);
     border[1] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[1] *BORDER);
     border[2] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[0] *BORDER);
     border[3] = (unsigned char*)malloc(sizeof(unsigned char)*local_image_size[0] *BORDER);
-    
-    MPI_Irecv(border[0], 1, border_row_t, north, step, cart_comm, &req);
-    MPI_Irecv(border[1], 1, border_row_t, south, step, cart_comm, &req);
-    MPI_Irecv(border[2], 1, border_col_t, east, step, cart_comm, &req);
-    MPI_Irecv(border[3], 1, border_col_t, west, step, cart_comm, &req);
-    
+
+    MPI_Irecv(border[0], 1, border_row_t, north, step, cart_comm, &req[0]);
+    MPI_Irecv(border[1], 1, border_row_t, south, step, cart_comm, &req[1]);
+    MPI_Irecv(border[2], 1, border_col_t, east, step, cart_comm, &req[2]);
+    MPI_Irecv(border[3], 1, border_col_t, west, step, cart_comm, &req[3]);
+
     MPI_Send(&(F(step,0,0)), 1, border_row_t, north, step, cart_comm);
     MPI_Send(&(F(step,local_image_size[0],0)), 1, border_row_t, south, step, cart_comm);
     MPI_Send(&(F(step,0,local_image_size[1])), 1, border_col_t, east, step, cart_comm);
     MPI_Send(&(F(step,0,0)), 1, border_col_t, west, step, cart_comm);
 
-    MPI_Wait(&req, MPI_STATUS_IGNORE);
-//    printf("Rank %d across wait\n", rank);
+    MPI_Waitall(4, &req, MPI_STATUS_IGNORE);
+    //    printf("Rank %d across wait\n", rank);
 
     // Apply northern border
     int y;
@@ -120,23 +120,23 @@ void exchange_borders(int step){
 	for (y = -BORDER; y < 0; y++)
 	    for (x = 0; x < local_image_size[1]; x++)
 	    {
-//		if (rank == 0) printf("North S:%d X:%d Y:%d LX: %d LY: %d\n", step, x, y, local_image_size[1], local_image_size[0]);
+		//		if (rank == 0) printf("North S:%d X:%d Y:%d LX: %d LY: %d\n", step, x, y, local_image_size[1], local_image_size[0]);
 		F(step,y,x) = border[0][x];
 	    }
-//	free(border[0]);
     }
-    
+    free(border[0]);
+
     // Apply southern border
     if (south != -2)
     {
 	for (y = local_image_size[0]; y < local_image_size[0] + BORDER; y++)
 	    for (x = 0; x < local_image_size[1]; x++)
 	    {
-//		if (rank == 0) printf("South S:%d X:%d Y:%d LX: %d LY: %d\n", step, x, y, local_image_size[1], local_image_size[0]);
+		//		if (rank == 0) printf("South S:%d X:%d Y:%d LX: %d LY: %d\n", step, x, y, local_image_size[1], local_image_size[0]);
 		F(step,y,x) = border[1][x];
 	    }
-//        free(border[1]);
     }
+    free(border[1]);
 
     // Apply eastern border
     if (east != -2)
@@ -146,8 +146,8 @@ void exchange_borders(int step){
 	    {
 		F(step,y,x) = border[2][y];
 	    }
-//	free(border[2]);
     }
+    free(border[2]);
 
     // Apply western border
     if (west != -2)
@@ -157,8 +157,8 @@ void exchange_borders(int step){
 	    {
 		F(step,y,x) = border[3][y];
 	    }
-//	free(border[3]);
     }
+    free(border[3]);
 
 }
 
@@ -224,14 +224,12 @@ int main(int argc, char** argv){
     //Main loop
     for(int i = 0; i < ITERATIONS; i++){
 	exchange_borders(i);
-	//perform_convolution(i);
+	perform_convolution(i);
     }
 
-    printf("Rank %d sleeping!\n", rank); 
-    sleep(5);
     //gather_image();
     printf("Rank %d done! Status %d\n", rank, MPI_Finalize());
-    
+
     //Write image
     if(rank==0){
 	write_bmp(image, image_size[0], image_size[1]);
