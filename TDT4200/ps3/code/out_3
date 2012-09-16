@@ -1,0 +1,22 @@
+K: 0 N: 2 K + N/2 1
+Odd[k] = 0.891919, k = 0
+T: 1.000000 + -0.000000 i
+T*ODD: 0.891919 + 0.132508 i
+K: 0 N: 4 K + N/2 2
+Odd[k] = 2.125496, k = 0
+T: 1.000000 + -0.000000 i
+T*ODD: 2.125496 + 1.426954 i
+K: 0 N: 2 K + N/2 1
+Odd[k] = 2.529119, k = 1
+T: 1.000000 + -0.000000 i
+T*ODD: 2.529119 + -0.214088 i
+K: 1 N: 4 K + N/2 3
+Odd[k] = 0.891919, k = 1
+T: 0.000000 + -1.000000 i
+T*ODD: 0.132508 + -0.891919 i
+my_fft took 0.4546 flop per 1000 cycles
+Error at 0, correct is (6.546534 3.345374), my_fft returned (0.108081 1.867492)
+Error at 1, correct is (1.749123 2.271114), my_fft returned (-2.288530 1.189661)
+Error at 2, correct is (-2.762696 0.919641), my_fft returned (-0.233578 0.705554)
+Error at 3, correct is (-1.532961 1.463870), my_fft returned (-2.553545 2.973499)
+number of errors: 4
