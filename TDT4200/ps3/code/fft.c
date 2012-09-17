@@ -37,52 +37,38 @@ void my_fft(complex double * in, complex double * out, int n){
     {
 	out[i] = in[i];
     }
-    for (int a = 0; a < n; a++)
-	printf("%f %f i\t", creal(out[a]), cimag(out[a]));
-    printf("\n");
+//    for (int a = 0; a < n; a++)
+//	printf("%f %f i\t", creal(out[a]), cimag(out[a]));
+//    printf("\n");
     // Do "recursion"
-    int stride;
-    int step;
-    for (stride = n/2; stride > 0; stride /= 2) // Self: O(log(n)) - Total O(n*log(n))
+    int N;
+    int step = 0;
+    for (N = n; N > 0; N /= 2) // Start at second least recursion step
     {
-	step = n/stride;
-	printf("Stride: %d, Step: %d\n", stride, step);
-
-	for (i = 0; i < step; i++) // O(n)
-	{
-	    t = cos(-2*PI*i/stride) + I * sin(-2*PI*i/stride);
-	    printf("New %f %f\n", t, *(&t + 1));
-	}
-    }
-    
-    
-    for (step = n/2; step > 0; step /= 2)
-    {
+	step++;
 	//	printf("Array size is %d\n", n/(step)*2);
 
-	odd = in + step;
+	odd = in + step; // Need half step size to find odd value in set (values in set is base+step*k)
 	even = in;
 
 	i = 0;
-	for (int k = 0; k < n/2; k ++)
+	for (int k = 0; k < N/2; k ++)
 	{
-	    //	    printf("K: %d N: %d K + N/2 %d\n", k/step, n/step, k/step + n/(2*step));
-	    int N = n/step;
-	    int K = k/step;
-	    t = cos(-2*PI*K/N) + I * sin(-2*PI*K/N); // Correct!?
-	    printf("Old %f %f\n", t, *(&t + 1));
+	    //printf("K: %d N: %d K + N/2 %d\n", k, step, k + step/2);
+	    t = cos(-2*PI*k/step) + I * sin(-2*PI*k/step); // Correct for last step??
+	    //printf("Old %f %f\n", t, *(&t + 1));
 	    //	    printf("Odd[k] = %f, k = %d\n", odd[k], k);
 	    //	    printf("T: %f + %f i\n", creal(t), cimag(t));
 	    t *= odd[k];
 	    //	    printf("T*ODD: %f + %f i\n", creal(t), cimag(t));
-	    out[k + n/(step*2)] = out[k] - t;
+	    out[k + N/2] = out[k] - t;
 	    out[k] = out[k] + t;
-	    for (int a = 0; a < n; a++)
-		printf("%f %f i\t", creal(out[a]), cimag(out[a]));
-	    printf("\n");
+	    //for (int a = 0; a < n; a++)
+	//	printf("%f %f i\t", creal(out[a]), cimag(out[a]));
+	  //  printf("\n");
 	}
     }
-    step = 1;
+/*    step = 1;
     odd = in + step;
     even = in;
 
@@ -99,11 +85,11 @@ void my_fft(complex double * in, complex double * out, int n){
 	//	    printf("T*ODD: %f + %f i\n", creal(t), cimag(t));
 	out[k + n/(step*2)] = out[k] - t;
 	out[k] = out[k] + t;
-	for (int a = 0; a < n; a++)
-	    printf("%f %f i\t", creal(out[a]), cimag(out[a]));
-	printf("\n");
+//	for (int a = 0; a < n; a++)
+//	    printf("%f %f i\t", creal(out[a]), cimag(out[a]));
+//	printf("\n");
     }
-
+*/
 
 }
 
@@ -165,13 +151,13 @@ void fft_naive(complex double * in, complex double * out, int N){
 
     //combine
     for(int k = 0; k < N/2; k++){
-	printf("K: %d N: %d K + N/2 %d\n", k, N, k + N/2);
-	printf("Odd[k] = %f, k = %d\n", odd[k], k);
+//	printf("K: %d N: %d K + N/2 %d\n", k, N, k + N/2);
+//	printf("Odd[k] = %f, k = %d\n", odd[k], k);
 
 	complex double t = cos(-2*PI*k/N) + I * sin(-2*PI*k/N);
-	printf("T: %f + %f i\n", creal(t), cimag(t));
+//	printf("T: %f + %f i\n", creal(t), cimag(t));
 	t = t * odd_out[k];
-	printf("T*ODD: %f + %f i\n", creal(t), cimag(t));
+//	printf("T*ODD: %f + %f i\n", creal(t), cimag(t));
 	out[k] = even_out[k] + t;
 	out[k + N/2] = even_out[k] - t;
     }

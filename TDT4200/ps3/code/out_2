@@ -14,5 +14,5 @@ K: 1 N: 4 K + N/2 3
 Odd[k] = 2.529119, k = 1
 T: 0.000000 + -1.000000 i
 T*ODD: 1.641042 + 0.403622 i
-fft_naive took 0.3824 flop per 1000 cycles
+fft_naive took 0.3780 flop per 1000 cycles
 number of errors: 0
