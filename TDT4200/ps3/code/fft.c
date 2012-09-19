@@ -24,7 +24,7 @@ static unsigned long long rdtsctime() {
     unsigned int eax, edx;
     unsigned long long val;
     __asm__ __volatile__("rdtsc":"=a"(eax), "=d"(edx));
-    val = edx;
+    va = edx;
     val = val << 32;
     val += eax;
     return val;
@@ -36,15 +36,12 @@ void my_fft(complex double * in, complex double * out, int n){
     // Keywords: inplace, SIMD, D&C
     // Few as possible: malloc, free, function call (and recursion)
 
-    // Assign all inputs to outputs, since we are doing in-place
-    for (int i = 0; i < n; i++)
-	out[i] = in[i];
-
     // Wikipedia said "do bit reversal for inplace FFT", found C alg on web
+    // TODO: Try to let palindrome-bits also be set in output to remove ln40-41
     int j = 0;
     for (int i = 0; i < n-1; i++)
     {
-	if (i < j)
+	if (i <= j)
 	{
 	    out[i] = in[j];
 	    out[j] = in[i];
@@ -57,6 +54,7 @@ void my_fft(complex double * in, complex double * out, int n){
 	}
 	j += k;
     }
+    out[n-1] = in[n-1];
    
     /*  /
     / * / Do FFT calculations
@@ -71,6 +69,7 @@ void my_fft(complex double * in, complex double * out, int n){
 	{
 	    // TODO: Try DP here, cos and sine are bad.
 	    complex double ti = cos(-2*PI*k/N) + I * sin(-2*PI*k/N);
+	    printf("K/N: %f\n", ((float)k)/N);
 	    for (int i = k; i < n; i+=N) // With emulated "recursion"-step
 	    {
 		// TODO: These four might be rolled out, but how to calculate if there are enough loop-runs for it?
