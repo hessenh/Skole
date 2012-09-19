@@ -69,9 +69,11 @@ void my_fft(complex double * in, complex double * out, int n){
 	N *= 2; // Each step doubles number of numbers
 	for (int k = 0; k < N/2; k++) // This is "combine"-step
 	{
+	    // TODO: Try DP here, cos and sine are bad.
 	    complex double ti = cos(-2*PI*k/N) + I * sin(-2*PI*k/N);
 	    for (int i = k; i < n; i+=N) // With emulated "recursion"-step
 	    {
+		// TODO: These four might be rolled out, but how to calculate if there are enough loop-runs for it?
 		int odd_i = i + N/2;
 		complex double t = ti * out[odd_i];
 		out[odd_i] =  out[i] - t;
