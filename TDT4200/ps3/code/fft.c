@@ -4,6 +4,8 @@
 #include <fftw3.h>
 #include <math.h>
 
+#include <tmmintrin.h>
+
 #define PI 3.14159265358979323846
 
 
@@ -24,7 +26,7 @@ static unsigned long long rdtsctime() {
     unsigned int eax, edx;
     unsigned long long val;
     __asm__ __volatile__("rdtsc":"=a"(eax), "=d"(edx));
-    va = edx;
+    val = edx;
     val = val << 32;
     val += eax;
     return val;
@@ -37,7 +39,6 @@ void my_fft(complex double * in, complex double * out, int n){
     // Few as possible: malloc, free, function call (and recursion)
 
     // Wikipedia said "do bit reversal for inplace FFT", found C alg on web
-    // TODO: Try to let palindrome-bits also be set in output to remove ln40-41
     int j = 0;
     for (int i = 0; i < n-1; i++)
     {
@@ -54,12 +55,14 @@ void my_fft(complex double * in, complex double * out, int n){
 	}
 	j += k;
     }
+    // Last number ain't affected by loop, set it here
     out[n-1] = in[n-1];
+    
+    __m128d x,y,a;
    
     /*  /
     / * / Do FFT calculations
     /  */
-
     int N = 1; // There are just 1 number at base case
     int steps = log2(n);
     for (int step = 0; step < steps; step++) // Do steps
@@ -67,16 +70,28 @@ void my_fft(complex double * in, complex double * out, int n){
 	N *= 2; // Each step doubles number of numbers
 	for (int k = 0; k < N/2; k++) // This is "combine"-step
 	{
-	    // TODO: Try DP here, cos and sine are bad.
+	    // TODO: Can do cos and sin approx. with SSSE3. Look at Taylor series
 	    complex double ti = cos(-2*PI*k/N) + I * sin(-2*PI*k/N);
-	    printf("K/N: %f\n", ((float)k)/N);
+//	    printf("K/N: %f\n", ((float)k)/N);
 	    for (int i = k; i < n; i+=N) // With emulated "recursion"-step
 	    {
-		// TODO: These four might be rolled out, but how to calculate if there are enough loop-runs for it?
 		int odd_i = i + N/2;
-		complex double t = ti * out[odd_i];
-		out[odd_i] =  out[i] - t;
-		out[i] = out[i] + t;
+		// Complex multiply without checking for NaN (as glibc does)
+		x = _mm_loaddup_pd((double*)&ti);
+		y = _mm_load_pd((double*)&out[odd_i]);
+		a = _mm_mul_pd(x,y);
+		x = _mm_loaddup_pd(((double*)&ti)+1);
+		y = _mm_shuffle_pd(y,y,1);
+		y = _mm_mul_pd(x,y);
+		a = _mm_addsub_pd(a,y);
+		y = _mm_loadu_pd((double*)&out[i]);
+		
+		x = y - a;
+		
+		_mm_storeu_pd((double*)&out[odd_i],x);
+
+		x = y + a;
+		_mm_storeu_pd((double*)&out[i],x);
 	    }
 	}
     }
