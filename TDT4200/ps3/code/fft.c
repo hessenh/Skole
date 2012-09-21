@@ -18,93 +18,50 @@ static unsigned long long rdtsctime() {
     return val;
 }
 
+void my_fft_recursive(complex double * in, complex double * out, int n, int offset, int stride)
+{
+
+}
+
 void my_fft(complex double * in, complex double * out, int n){
     //  Enter your FFT code here
 
     // Keywords: inplace, SIMD, D&C
     // Few as possible: malloc, free, function call (and recursion)
+   
+    if(N < 1)
+	return;
 
-    complex double * odd;
-    complex double * even;
-    complex double * odd_out;
-    complex double * even_out;
-    complex double t;
-
-    int i;
-    
-    // Bottom step in FFT (N = 1)
-    for (i = 0; i < n; i++)
-    {
-	out[i] = in[i];
-    }
-    for (int a = 0; a < n; a++)
-	printf("%f %f i\t", creal(out[a]), cimag(out[a]));
-    printf("\n");
-    // Do "recursion"
-    int stride;
-    int step;
-    for (stride = n/2; stride > 0; stride /= 2) // Self: O(log(n)) - Total O(n*log(n))
-    {
-	step = n/stride;
-	printf("Stride: %d, Step: %d\n", stride, step);
-
-	for (i = 0; i < step; i++) // O(n)
-	{
-	    t = cos(-2*PI*i/stride) + I * sin(-2*PI*i/stride);
-	    printf("New %f %f\n", t, *(&t + 1));
-	}
-    }
-    
-    
-    for (step = n/2; step > 0; step /= 2)
-    {
-	//	printf("Array size is %d\n", n/(step)*2);
-
-	odd = in + step;
-	even = in;
-
-	i = 0;
-	for (int k = 0; k < n/2; k ++)
-	{
-	    //	    printf("K: %d N: %d K + N/2 %d\n", k/step, n/step, k/step + n/(2*step));
-	    int N = n/step;
-	    int K = k/step;
-	    t = cos(-2*PI*K/N) + I * sin(-2*PI*K/N); // Correct!?
-	    printf("Old %f %f\n", t, *(&t + 1));
-	    //	    printf("Odd[k] = %f, k = %d\n", odd[k], k);
-	    //	    printf("T: %f + %f i\n", creal(t), cimag(t));
-	    t *= odd[k];
-	    //	    printf("T*ODD: %f + %f i\n", creal(t), cimag(t));
-	    out[k + n/(step*2)] = out[k] - t;
-	    out[k] = out[k] + t;
-	    for (int a = 0; a < n; a++)
-		printf("%f %f i\t", creal(out[a]), cimag(out[a]));
-	    printf("\n");
-	}
-    }
-    step = 1;
-    odd = in + step;
-    even = in;
-
-    i = 0;
-    for (int k = 0; k < n/2; k ++)
-    {
-	//	    printf("K: %d N: %d K + N/2 %d\n", k/step, n/step, k/step + n/(2*step));
-	int N = n/step;
-	int K = k/step;
-	t = cos(-2*PI*K/N) + I * sin(-2*PI*K/N); // Correct
-	//	    printf("Odd[k] = %f, k = %d\n", odd[k], k);
-	//	    printf("T: %f + %f i\n", creal(t), cimag(t));
-	t *= odd[k];
-	//	    printf("T*ODD: %f + %f i\n", creal(t), cimag(t));
-	out[k + n/(step*2)] = out[k] - t;
-	out[k] = out[k] + t;
-	for (int a = 0; a < n; a++)
-	    printf("%f %f i\t", creal(out[a]), cimag(out[a]));
-	printf("\n");
+    if(N == 1){
+	out[0] = in[0];
     }
 
+    //divide
+    complex double* even = get_even(in, N);
+    complex double* odd = get_odd(in, N);
 
+    complex double* even_out = (complex double*)malloc(sizeof(complex double)*N/2);
+    complex double* odd_out = (complex double*)malloc(sizeof(complex double)*N/2);
+
+    //conquer
+    my_fft_recursive(in, out, n, 0, 1);
+    my_fft_recursive(in, out, n, n/2, 1);
+
+    //combine
+    for(int k = 0; k < N/2; k++){
+	printf("K: %d N: %d K + N/2 %d\n", k, N, k + N/2);
+	printf("Odd[k] = %f, k = %d\n", odd[k], k);
+
+	complex double t = cos(-2*PI*k/N) + I * sin(-2*PI*k/N);
+	printf("T: %f + %f i\n", creal(t), cimag(t));
+	t = t * odd_out[k];
+	printf("T*ODD: %f + %f i\n", creal(t), cimag(t));
+	out[k] = even_out[k] + t;
+	out[k + N/2] = even_out[k] - t;
+    }
+
+    free(even);free(odd);free(even_out);free(odd_out);
+ 
 }
 
 
@@ -160,8 +117,8 @@ void fft_naive(complex double * in, complex double * out, int N){
     complex double* odd_out = (complex double*)malloc(sizeof(complex double)*N/2);
 
     //conquer
-    fft_naive(even, even_out, N/2);
-    fft_naive(odd, odd_out, N/2);
+    fft_naive(even, even_out, N/2 );
+    fft_naive(odd, odd_out, N/2 );
 
     //combine
     for(int k = 0; k < N/2; k++){
