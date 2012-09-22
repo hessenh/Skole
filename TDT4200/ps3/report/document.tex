@@ -1,0 +1,326 @@
+%%This is a very basic article template.
+%%There is just one section and two subsections.
+\documentclass[english,a4paper,numbers=noenddot]{scrartcl}
+
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{makeidx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{multirow}
+\usepackage{tocloft}
+\usepackage{textcomp}
+\usepackage{wrapfig}
+
+\renewcommand{\cftsecaftersnumb}{\hspace{6em}}
+\renewcommand{\cftsubsecaftersnumb}{\hspace{6em}}
+\renewcommand{\cftsubsubsecaftersnumb}{\hspace{6em}}
+
+\makeindex
+
+\hypersetup{
+    %bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobats bookmarks
+    pdftoolbar=true,        % show Acrobats toolbar?
+    pdfmenubar=true,        % show Acrobats menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={TDT4200 Parallel Computing - Problem Set 3 - hvatum},    % title
+    pdfauthor={Stian Hvatum},     % author
+    pdfsubject={TDT4200 Parallel Computing},   % subject of the document
+    pdfcreator={Stian Hvatum},   % creator of the document
+    pdfproducer={Stian Hvatum}, % producer of the document
+    pdfnewwindow=true,      % links in new window
+    colorlinks,       % false: boxed links; true: colored links
+    linkcolor=black,          % color of internal links
+    citecolor=green,        % color of links to bibliography
+    filecolor=magenta,      % color of file links
+    urlcolor=cyan           % color of external links
+}
+
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\input{styles/xml}
+
+\renewcommand{\thesection}{Task \arabic{section}}
+\renewcommand{\thesubsection}{\alph{subsection})}
+\renewcommand{\thesubsubsection}{\alph{subsection}) \arabic{subsubsection}.}
+
+\title{TDT4200 Parallel Computing\\
+\Huge Problem Set 3}
+\author{Stian Hvatum (hvatum)\\MTDT}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+\section{Theory}
+\subsection{Reduce branches}
+\begin{enumerate}
+\item If we are using if's with elsif's, we can put the most common case first, so that we usually only do one branch. Code Listing \ref{common}\hfill
+\item Some conditional statements can be sustituted with equals that are not conditional. Code listing \ref{change}\hfill
+\item We can do loop-unrolling. If we know number of repetitions is known to be a multiple of N\textgreater 1, this can easily be done. Code listing \ref{loop}\hfill
+\end{enumerate}
+\subsubsection{}
+\label{common}
+\begin{lstlisting}[language=C]
+for (int i = 0; i < N; i++)
+{
+  if (i == N/2 + 1)
+  {
+    do_seldome_stuff();
+  }
+  else if (i % N/4 == 1)
+  {
+    do_stuff();
+  }
+  else if (i % 2 == 0)
+  {
+    do_common_stuff();
+  }
+}
+\end{lstlisting}
+Will be faster if we put the common stuff first (less checking). This implies that the conditions are exclusive.
+\begin{lstlisting}[language=C]
+for (int i = 0; i < N; i++)
+{
+  if(i % 2 == 0)
+  {
+    do_common_stuff();
+  }
+  else if(i == N/2 + 1)
+  {
+    do_seldome_stuff();
+  }
+// This condition will be more common,
+// but have overlaping conditions with previous statement
+  else if(i % N/4 == 1)
+  {
+    do_stuff();
+  }
+}
+\end{lstlisting}
+\newpage
+\subsubsection{}
+\label{change}
+We can substitute this static conditional assignment with some clever logic statement.
+\begin{lstlisting}[language=C]
+  if (n % 2 == 0)
+    a[n] = 2;
+  else
+    a[n] = 0;
+\end{lstlisting}
+\begin{lstlisting}[language=C]
+    a[n] = (n & 0b) << 1;
+\end{lstlisting}
+
+
+\subsubsection{}
+\label{loop}
+In this example, N/2 is allways a multiple of 2 (since we are dividing in half, which gives an even number).
+\begin{lstlisting}
+for (int i = 0; i < N/2; i++)
+{
+    do_stuff(i);
+}
+\end{lstlisting}
+Since i is known to be a multiple of 2, we can unroll the loop at least twice, like shown here.
+\begin{lstlisting}
+for (int i = 0; i < N/2; i++)
+{
+    do_stuff(i);
+    do_stuff(++i);
+}
+\end{lstlisting}
+\newpage
+\subsection{Improve switches}
+We can improve the performance of a long switch by placing the most common case first. We can also splitt it into nested switch statements or nest inside the else-block
+of an if-else-statement where the true-block of the if-statement contains the most frequent cases.
+
+\textbf{Example:}
+Let us assume \emph{answer()}'s most common return value is 42, but can return a lot of other values, then this statement will have improved performance
+over a regular switch statement with sequentially ordered cases. Of cource, if this switch is converted into a jump-table, or 42 was the first case AND the
+switch was converted into if-else-statements by the compiler, this optimization won't matter that much, as it would be implicit.
+\begin{lstlisting}[language=C]
+int a = answer();
+if (a == 42)
+    hurray();
+else
+    switch (a)
+    {
+	case 1:
+	    ...
+	    break;
+	case 2:
+	    ...
+	    break;
+	...
+	...
+	default:
+	    blah();
+	    break;
+    }
+\end{lstlisting}
+
+\subsection{Reduce cache misses}
+\begin{enumerate}
+    \item One can change loops to operate on blocks instead of rows of data. This may help to reduce directe-mapped cache conflicts.
+    \item Two arrays that are concurrently accessed can be merged with an array of structs, where the struct contains one element from each
+	original array. This helps if both elements are needed, and the original arrays conflicts in cache.
+    \item If we are looping though a 2-dim array, and we have the first index looped over at the inner loop, we can switch the order of the loops, such that the inner loop
+	controlls the second index. This helps since the first index effects a stride of the size of the inner array (or random if malloc'ed in C), while the second index
+	gives a stride of 1 element. 
+\end{enumerate}
+
+\renewcommand{\thesubsubsection}{\arabic{subsubsection}.}
+\subsection{Implementing SIMD}
+\subsubsection{As loop unrolling}
+In its simplest form, vectorization can be used as a form of loop unrolling, as we do two and two double value arithmetics at the same time. This will speed up the loop, and is fairly simple. Disadvantages is that
+vectorization in general may increase overhead in flow control of the program\footnote{\url{http://en.wikipedia.org/wiki/Vectorization_(parallel_computing)#Reducing_vectorization_overhead_in_the_presence_of_control_flow}}.
+\subsubsection{For complex artithmetics}
+Intel has a lot of docs on how to do complex artithmetics with SSSE3. Eg. can you do complex multiplication in just a few steps, while the C99 Complex library implements a rather large routine for this purpose.
+SSSE3 also has an \emph{addsub} instruction which is ideal for the last step of complex multiplication, where we add and subtract in the same operation. This is theoretically much faster, but code readability are greatly reduced.
+\subsubsection{General math}
+When we are facing math where multiple steps involve the same values, we can use SIMD to speed up the process. This might be tricky and hard to read, but might also speed up the program.
+\subsubsection{Let the compiler do it}
+When specifyng -O3 -march=native, and your CPU supports SSSE3, GCC will use it where it finds it usefull.
+
+\renewcommand{\thesection}{Task \arabic{section}}
+\renewcommand{\thesubsection}{Task \arabic{section}.\arabic{subsection}}
+
+\section{Code optimization}
+\subsection{Optimizing Taylor series for Sinus approximation}
+
+\subsubsection{Less branches}
+One obvious optimization we can do\footnote{At first look, I thought the function \emph{factorial} did not need to return a double, but since its values are too large, integers would overflow, thus we need the double value.
+}, is that the \emph{factorial} could be done iterative with a loop, instead of recursive calls. This saves
+a lot of function calls, which contains a lot of stack- and register-maintenance. The \emph{slow\_sin} is doing 100 branches with different
+outcome at each repetition, this is bad for branch prediction. We can modify the code to instead of checking and doing two different operations,
+we can do the same thing each time. On my computer, these two optimizations gives the function
+some more than double speed\footnote{tested with \emph{time} and setting the sine-loop
+to 10000 instead of 100. Results was new function using 0.4 sec, old function using 0.9 sec. (Intel Core i7 930 @ 2.8GHz, GCC -O0)}.
+
+\begin{lstlisting}
+/* calculate n! */
+double factorial(int n)
+{
+    double answer = n;
+    for (int i = n-1; i > 1; i--)
+        answer *= i;
+    return answer;
+}
+/* calculate sin(x) using Taylor series expansion */
+double slow_sin(double x)
+{
+    double r=0; int i;
+    for(i=0;i<100;i++)
+    {
+	int sign = (i & 1) * -2 + 1;
+	r += pow(x, i*2+1) / factorial(i*2+1) * sign;
+    }
+return r;
+}
+\end{lstlisting}
+
+\subsubsection{Loop unrolling}
+
+Instead of doing the sign test for + or -, we could simply unroll the loop, being shure each even step is + and each odd step is -.
+We could unroll the loop as many times we want, effect is determined by cache size, since we want to keep the inner instructions in
+cache, instead of fetching them from a long distance for each entry. With this optimization, along with the optimized \emph{factorial}, speed is about 3x of the original\footnote{0.32 sec. on my machine, same configuration as
+previous test}.
+
+\begin{lstlisting}
+
+/* calculate sin(x) using Taylor series expansion */
+double slow_sin(double x)
+{
+    double r=0; int i;
+    for(i=0;i<100;i++)
+    {
+	r += pow(x, i*2+1) / factorial(i*2+1);
+	i++;
+	r -= pow(x, i*2+1) / factorial(i*2+1);
+    }
+return r;
+}
+\end{lstlisting}
+
+\subsubsection{Using threads}
+
+Since the result is not dependent of the order of the partial results, we can use pthreads, MPI or similar to split the problem into smaller problems. In practice, this slowed things down at my computer.
+
+\begin{lstlisting}
+...
+/* calculate sin(x) using Taylor series expansion */
+double slow_sin_new(double x, int start, int stride)
+{
+    double r=0; int i;
+    for(i=start;i<10000;i+stride)
+    {
+	r += pow(x, i*2+1) / factorial_new(i*2+1);
+	i++;
+	r -= pow(x, i*2+1) / factorial_new(i*2+1);
+    }
+return r;
+}
+...
+void* start_thread(void* rank)
+{
+    double* ans = malloc(sizeof(double));
+    *ans = slow_sin_new(input, (int)rank * 2, 15);
+    pthread_exit((void*)ans);
+}
+...
+int main()
+{
+    pthread_t threads[8];
+    for (int i = 0; i < 8; i++)
+        pthread_create(&threads[i], NULL, start_thread, (void*)i);
+    for (int i = 0; i < 8; i++)
+    {
+        double val;
+        pthread_join(threads[i], (void*)&val);
+        r += val;
+   }
+   printf("%f\n", r);
+}
+\end{lstlisting}
+
+\subsubsection{Using SSSE3}
+
+So instead of threads, we can use vectorization via SSSE3 or equal instruction set.
+This function uses pow and factorial, but we can also implement them inline with SSSE3 instructions. Speedup was disapointingly only double from original\footnote{0.45 seconds}, but this is most likely since I am calling
+pow and factorial and stores the result into special registers inbetween the other SSSE3 instructions. This can most likely be avoided by inlining these two functions with SSSE3 instructions\footnote{Pow can be sustituted with a multiplication with x for each step, and factorial can be a multiplication with i at each step.
+}.
+
+\begin{lstlisting}
+/* calculate sin(x) using Taylor series expansion */
+double slow_sin_new(double x)
+{
+    int i; double r = 0;
+    __m128d factor, res, part, cx, nx;
+    double xarr[2];
+    res = _mm_set_pd(0,0);
+
+    for(i=0;i<10000;i+=2)
+    {
+	factor = _mm_set_pd(factorial(i*2+1), factorial(i+2+3));
+	part = _mm_set_pd(pow(x, i*2+1), pow(x, i+2+3));
+	res = _mm_addsub_pd(res, part);
+    }
+    _mm_storeu_pd(xarr, res);
+    return xarr[0] + xarr[1];
+return r;
+}
+
+
+\end{lstlisting}
+
+
+\subsection{Loops and indexed access optimizations}
+As explained in Task 1 c) 3., this code access the a-array with the first index in the inner loop, which gives a large stride in the accessed data. This gives the cache a hard time keeping up, since accessed data is not
+aligned in memory the same way it is accessed. Set loop over \emph{j} as outer loop, and over \emph{i} as inner loop in order to speed up function. This loop could also benefit from being unrolled and/or vectorized.
+
+\end{document}
