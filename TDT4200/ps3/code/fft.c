@@ -4,7 +4,23 @@
 #include <fftw3.h>
 #include <math.h>
 
-#define PI 3.14159265358979323846
+#include <tmmintrin.h>
+
+#define PI  3.14159265358979323846
+#define DPI 6.28318530717958647692
+
+
+
+#define BYTETOBINARYPATTERN "%d%d%d%d%d%d%d%d"
+#define BYTETOBINARY(byte)  \
+      (byte & 0x80 ? 1 : 0), \
+  (byte & 0x40 ? 1 : 0), \
+  (byte & 0x20 ? 1 : 0), \
+  (byte & 0x10 ? 1 : 0), \
+  (byte & 0x08 ? 1 : 0), \
+  (byte & 0x04 ? 1 : 0), \
+  (byte & 0x02 ? 1 : 0), \
+  (byte & 0x01 ? 1 : 0) 
 
 // Timing function
 // rdtcs returns number of processor cycles
@@ -28,42 +44,75 @@ void my_fft(complex double * in, complex double * out, int n){
 
     // Keywords: inplace, SIMD, D&C
     // Few as possible: malloc, free, function call (and recursion)
+
+    // Found that Cooley-Tukey can be implemented in-place
+
+    // Wikipedia said "do bit reversal for Cooley-Tukey inplace FFT", something like this:
+    int j = 0;
+    for (int i = 0; i < n-1; i++)
+    {
+	if (i <= j)
+	{
+	    out[i] = in[j];
+	    out[j] = in[i];
+
+	}
+	int k = n >> 1;
+	while (k <= j)
+	{
+	    j -= k;
+	    k >>= 1;
+	}
+	j += k;
+    }
+    // Last number ain't affected by loop, so we set it here
+    out[n-1] = in[n-1];
+    
+    __m128d tr,ti,x,y,a;
    
-    if(N < 1)
-	return;
+    /*  /
+    / * / Do THE FFT calculations
+    /  */
+    int N = 1; // There are just 1 number at base case
+    int Nh;
+    int steps = log2(n) + 1;
+    while (--steps) // Do steps
+    {
+	Nh = N;
+	N <<= 1; // Each step doubles number of numbers
+	double num = 0;
+	for (int k = 0; k < Nh; ++k) // This is "combine"-step
+	{
+	    // Tried cos and sine approx. with Taylor, wasn't accurate enough, and became slow with added accuracy!
+	    complex double t = cos(num) + I * sin(num);
+//	    complex double t = exp(;
 
-    if(N == 1){
-	out[0] = in[0];
+
+	    tr = _mm_loaddup_pd((double*)&t);     // Load real(t) in both sides of register TR
+	    ti = _mm_loaddup_pd(((double*)&t)+1); // Load imag(t) in both sides of register TI
+
+	    // Calculate next input for sine and cosine
+	    num -= DPI/N;
+	    for (int i = k; i < n; i+=N) // With emulated "recursion"-step
+	    {
+		int odd_i = i + Nh;  // Index of odd array start
+		// Complex multiply without any checking for NaN or other __slow__ stuff (as glibc does)
+		y = _mm_load_pd((double*)&out[odd_i]);
+		a = _mm_mul_pd(tr,y);
+		y = _mm_shuffle_pd(y,y,1);  // Switch pos of imag and real for Y
+		y = _mm_mul_pd(ti,y);
+		a = _mm_addsub_pd(a,y);
+		y = _mm_loadu_pd((double*)&out[i]);
+
+		x = y - a;
+		_mm_storeu_pd((double*)&out[odd_i],x);
+
+		x = y + a;
+		_mm_storeu_pd((double*)&out[i],x);
+	    }
+	}
     }
-
-    //divide
-    complex double* even = get_even(in, N);
-    complex double* odd = get_odd(in, N);
-
-    complex double* even_out = (complex double*)malloc(sizeof(complex double)*N/2);
-    complex double* odd_out = (complex double*)malloc(sizeof(complex double)*N/2);
-
-    //conquer
-    my_fft_recursive(in, out, n, 0, 1);
-    my_fft_recursive(in, out, n, n/2, 1);
-
-    //combine
-    for(int k = 0; k < N/2; k++){
-	printf("K: %d N: %d K + N/2 %d\n", k, N, k + N/2);
-	printf("Odd[k] = %f, k = %d\n", odd[k], k);
-
-	complex double t = cos(-2*PI*k/N) + I * sin(-2*PI*k/N);
-	printf("T: %f + %f i\n", creal(t), cimag(t));
-	t = t * odd_out[k];
-	printf("T*ODD: %f + %f i\n", creal(t), cimag(t));
-	out[k] = even_out[k] + t;
-	out[k + N/2] = even_out[k] - t;
-    }
-
-    free(even);free(odd);free(even_out);free(odd_out);
- 
 }
-
 
 // Naive discreete Fourier transform
 // Time complexity: O(n^2)
@@ -122,17 +171,20 @@ void fft_naive(complex double * in, complex double * out, int N){
 
     //combine
     for(int k = 0; k < N/2; k++){
-	printf("K: %d N: %d K + N/2 %d\n", k, N, k + N/2);
-	printf("Odd[k] = %f, k = %d\n", odd[k], k);
+	//	printf("K: %d N: %d K + N/2 %d\n", k, N, k + N/2);
+	//	printf("Odd[k] = %f, k = %d\n", odd[k], k);
 
 	complex double t = cos(-2*PI*k/N) + I * sin(-2*PI*k/N);
-	printf("T: %f + %f i\n", creal(t), cimag(t));
+	//	printf("T: %f + %f i\n", creal(t), cimag(t));
 	t = t * odd_out[k];
-	printf("T*ODD: %f + %f i\n", creal(t), cimag(t));
+	//	printf("T*ODD: %f + %f i\n", creal(t), cimag(t));
 	out[k] = even_out[k] + t;
 	out[k + N/2] = even_out[k] - t;
     }
-
+    /*  for (int a = 0; a < N; a++)
+	printf("%f %f i\t", creal(out[a]), cimag(out[a]));
+	printf("\n");
+	*/
     free(even);free(odd);free(even_out);free(odd_out);
 }
 
