@@ -34,11 +34,6 @@ static unsigned long long rdtsctime() {
     return val;
 }
 
-void my_fft_recursive(complex double * in, complex double * out, int n, int offset, int stride)
-{
-
-}
-
 void my_fft(complex double * in, complex double * out, int n){
     //  Enter your FFT code here
 
