@@ -7,7 +7,7 @@
 #include <tmmintrin.h>
 
 #define PI  3.14159265358979323846
-#define DPI 6.28318530717958647692
+//#define DPI 6.28318530717958647692
 
 
 
@@ -34,7 +34,53 @@ static unsigned long long rdtsctime() {
     return val;
 }
 
-void my_fft(complex double * in, complex double * out, int n){
+complex double cmul_instrics(complex double a, complex double b)
+{
+    __m128d num1, num2, num3;
+    // Duplicates lower vector element into upper vector element.
+    // //
+    // num1: [x.real, x.real]
+     num1 = _mm_loaddup_pd((double*)&a);
+    // // Move y elements into a vector
+    // //
+    // num2: [y.img, y.real]
+     num2 = _mm_set_pd(cimag(b),creal(b));
+    // // Multiplies vector elements
+    // //
+    // num3: [(x.real*y.img), (x.real*y.real)]
+     num3 = _mm_mul_pd(num2, num1);
+    // //
+    // num1: [x.img, x.img]
+     num1 = _mm_loaddup_pd((double*)&a+1);
+    // // Swaps the vector elements
+    // //
+    // num2: [y.real, y.img]
+     num2 = _mm_shuffle_pd(num2, num2, 1);
+    // //
+    // 12
+    // num2: [(x.img*y.real), (x.img*y.img)]
+    //
+    num2 = _mm_mul_pd(num2, num1);
+    // Adds upper vector element while subtracting lower vector element
+    // //
+    // num3: [((x.real *y.img)+(x.img*y.real)),
+    // //
+    // ((x.real*y.real)-(x.img*y.img))]
+     num3 = _mm_addsub_pd(num3, num2);
+    // // Stores the elements of num3 into z
+    complex double z;
+     _mm_storeu_pd((double *)&z, num3);
+    //
+    return z;
+}
+
+complex double cmul_c(complex double a, complex double b)
+{
+    return (creal(a) * creal(b) - cimag(a) * cimag(b))  + (cimag(a) * creal(b)  + creal(a) * cimag(b)) * I;
+}
+
+void my_fft(complex double * in, complex double * out, int n)
+{
     //  Enter your FFT code here
 
     // Keywords: inplace, SIMD, D&C
@@ -63,7 +109,7 @@ void my_fft(complex double * in, complex double * out, int n){
     // Last number ain't affected by loop, so we set it here
     out[n-1] = in[n-1];
     
-    __m128d tr,ti,x,y,a;
+//    __m128d tr,ti,x,y,a;
    
     /*  /
     / * / Do THE FFT calculations
@@ -75,23 +121,30 @@ void my_fft(complex double * in, complex double * out, int n){
     {
 	Nh = N;
 	N <<= 1; // Each step doubles number of numbers
+        complex double t_base = cos(-2*PI/N) + I * sin(-2*PI/N);
+//	complex double t_base = cexp(-I*DPI/N);//exp(-I*2*PI*k*N/n);
+	complex double t = 1;//exp(-I*2*PI*k*N/n);
+	
+
 	double num = 0;
 	for (int k = 0; k < Nh; ++k) // This is "combine"-step
 	{
 	    // Tried cos and sine approx. with Taylor, wasn't accurate enough, and became slow with added accuracy!
-	    complex double t = cos(num) + I * sin(num);
+//	    complex double t = cos(num) + I * sin(num);
+//	    t *= t_base;//exp(-I*2*PI*k*N/n);
 //	    complex double t = exp(;
 
 
-	    tr = _mm_loaddup_pd((double*)&t);     // Load real(t) in both sides of register TR
-	    ti = _mm_loaddup_pd(((double*)&t)+1); // Load imag(t) in both sides of register TI
+//	    tr = _mm_loaddup_pd((double*)&t);     // Load real(t) in both sides of register TR
+//	    ti = _mm_loaddup_pd(((double*)&t)+1); // Load imag(t) in both sides of register TI
 
 	    // Calculate next input for sine and cosine
-	    num -= DPI/N;
+	    num -= 2*PI/N;
 	    for (int i = k; i < n; i+=N) // With emulated "recursion"-step
 	    {
 		int odd_i = i + Nh;  // Index of odd array start
 		// Complex multiply without any checking for NaN or other __slow__ stuff (as glibc does)
+		/*
 		y = _mm_load_pd((double*)&out[odd_i]);
 		a = _mm_mul_pd(tr,y);
 		y = _mm_shuffle_pd(y,y,1);  // Switch pos of imag and real for Y
@@ -104,9 +157,15 @@ void my_fft(complex double * in, complex double * out, int n){
 
 		x = y + a;
 		_mm_storeu_pd((double*)&out[i],x);
+		*/
+		complex double a = cmul_instrics(out[odd_i], t);
+		out[odd_i] = out[i] - a;
+		out[i] += a;
 	    }
+	    t = cmul_instrics(t_base,t);
 	}
     }
+    
 }
 
 // Naive discreete Fourier transform

@@ -1,5 +1,5 @@
 fft : fft.c
-	gcc -std=c99 -lm -lfftw3 -O3 fft.c -o fft -march=native
+	gcc -std=c99 -lm -lfftw3 -O3 fft.c -o fft -mssse3 -ffast-math -march=native
 
 
 .PHONY: clean
