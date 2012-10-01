@@ -89,6 +89,20 @@ void my_fft(complex double * in, complex double * out, int n)
     // Found that Cooley-Tukey can be implemented in-place
 
     // Wikipedia said "do bit reversal for Cooley-Tukey inplace FFT", something like this:
+/*
+    int L = n/2;
+    out[0] = in[0];
+    for (int q = 0; q < n; q++)
+    {
+        N /= 2;
+        for (int j = 0; j < L; j += 2)
+        {
+            out[L+j] = in[j + N];
+        }
+        L *= 2;
+    }
+
+*/
     int j = 0;
     for (int i = 0; i < n-1; i++)
     {
@@ -106,10 +120,11 @@ void my_fft(complex double * in, complex double * out, int n)
 	}
 	j += k;
     }
+    
     // Last number ain't affected by loop, so we set it here
     out[n-1] = in[n-1];
     
-//    __m128d tr,ti,x,y,a;
+    __m128d tr,ti,x,y,a;
    
     /*  /
     / * / Do THE FFT calculations
@@ -135,8 +150,8 @@ void my_fft(complex double * in, complex double * out, int n)
 //	    complex double t = exp(;
 
 
-//	    tr = _mm_loaddup_pd((double*)&t);     // Load real(t) in both sides of register TR
-//	    ti = _mm_loaddup_pd(((double*)&t)+1); // Load imag(t) in both sides of register TI
+	    tr = _mm_loaddup_pd((double*)&t);     // Load real(t) in both sides of register TR
+	    ti = _mm_loaddup_pd(((double*)&t)+1); // Load imag(t) in both sides of register TI
 
 	    // Calculate next input for sine and cosine
 	    num -= 2*PI/N;
@@ -144,7 +159,7 @@ void my_fft(complex double * in, complex double * out, int n)
 	    {
 		int odd_i = i + Nh;  // Index of odd array start
 		// Complex multiply without any checking for NaN or other __slow__ stuff (as glibc does)
-		/*
+		
 		y = _mm_load_pd((double*)&out[odd_i]);
 		a = _mm_mul_pd(tr,y);
 		y = _mm_shuffle_pd(y,y,1);  // Switch pos of imag and real for Y
@@ -157,12 +172,22 @@ void my_fft(complex double * in, complex double * out, int n)
 
 		x = y + a;
 		_mm_storeu_pd((double*)&out[i],x);
-		*/
-		complex double a = cmul_instrics(out[odd_i], t);
-		out[odd_i] = out[i] - a;
-		out[i] += a;
+		
+//		complex double a = cmul_instrics(out[odd_i], t);
+//		out[odd_i] = out[i] - a;
+//		out[i] += a;
 	    }
-	    t = cmul_instrics(t_base,t);
+            if (!((k & 0xffff000) && !(k & 0xfff)))
+            {
+                t = cmul_instrics(t, t_base);
+            }
+            else
+            {
+                t = cos(-2*PI*(k+1)/N) + I * sin(-2*PI*(k+1)/N);
+   //             printf("K %d is in if\n", k);
+            }
+
+//	    t = cmul_instrics(t_base,t);
 	}
     }
     
