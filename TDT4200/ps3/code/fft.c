@@ -4,6 +4,8 @@
 #include <fftw3.h>
 #include <math.h>
 
+#include <sys/time.h>
+
 #include <tmmintrin.h>
 
 #define PI  3.14159265358979323846
@@ -34,6 +36,11 @@ static unsigned long long rdtsctime() {
     return val;
 }
 
+/*
+ * This is an example algo. given by Intel for multiplying complex numbers
+ * with each part stored in separate arrays,
+ * modified to work with C99 Complex Numbers
+ */
 complex double cmul_instrics(complex double a, complex double b)
 {
     __m128d num1, num2, num3;
@@ -81,16 +88,17 @@ complex double cmul_c(complex double a, complex double b)
 
 void my_fft(complex double * in, complex double * out, int n)
 {
-    //  Enter your FFT code here
-
     // Keywords: inplace, SIMD, D&C
     // Few as possible: malloc, free, function call (and recursion)
 
-    // Found that Cooley-Tukey can be implemented in-place
-
-    // Wikipedia said "do bit reversal for Cooley-Tukey inplace FFT", something like this:
+    // The implemented algorithm is Cooley-Tukey, which can be implemented in-place
+    // Wikipedia said "do bit reversal for Cooley-Tukey inplace FFT", and we got
+    // a paper on Elster's algorithm, so I implemented it in C, modified to this task:
+    printf("Starting bit reversal\n");
+    struct timeval  tv, tv2, tv3;
+    gettimeofday(&tv, NULL);*
 /*
-    int L = n/2;
+     int L = n/2;
     out[0] = in[0];
     for (int q = 0; q < n; q++)
     {
@@ -103,6 +111,7 @@ void my_fft(complex double * in, complex double * out, int n)
     }
 
 */
+
     int j = 0;
     for (int i = 0; i < n-1; i++)
     {
@@ -120,7 +129,8 @@ void my_fft(complex double * in, complex double * out, int n)
 	}
 	j += k;
     }
-    
+    gettimeofday(&tv2, NULL);
+    printf("%d.%d Time on bit reversal\n", tv2.tv_sec - tv.tv_sec, tv2.tv_usec - tv.tv_usec);
     // Last number ain't affected by loop, so we set it here
     out[n-1] = in[n-1];
     
@@ -137,18 +147,12 @@ void my_fft(complex double * in, complex double * out, int n)
 	Nh = N;
 	N <<= 1; // Each step doubles number of numbers
         complex double t_base = cos(-2*PI/N) + I * sin(-2*PI/N);
-//	complex double t_base = cexp(-I*DPI/N);//exp(-I*2*PI*k*N/n);
-	complex double t = 1;//exp(-I*2*PI*k*N/n);
+	complex double t = 1;
 	
 
 	double num = 0;
 	for (int k = 0; k < Nh; ++k) // This is "combine"-step
 	{
-	    // Tried cos and sine approx. with Taylor, wasn't accurate enough, and became slow with added accuracy!
-//	    complex double t = cos(num) + I * sin(num);
-//	    t *= t_base;//exp(-I*2*PI*k*N/n);
-//	    complex double t = exp(;
-
 
 	    tr = _mm_loaddup_pd((double*)&t);     // Load real(t) in both sides of register TR
 	    ti = _mm_loaddup_pd(((double*)&t)+1); // Load imag(t) in both sides of register TI
@@ -159,7 +163,8 @@ void my_fft(complex double * in, complex double * out, int n)
 	    {
 		int odd_i = i + Nh;  // Index of odd array start
 		// Complex multiply without any checking for NaN or other __slow__ stuff (as glibc does)
-		
+		// This algorithm is a slightly modified version of the SSSE3 complex multiply algo. from
+                // the Intel SSSE3 example document
 		y = _mm_load_pd((double*)&out[odd_i]);
 		a = _mm_mul_pd(tr,y);
 		y = _mm_shuffle_pd(y,y,1);  // Switch pos of imag and real for Y
@@ -172,11 +177,9 @@ void my_fft(complex double * in, complex double * out, int n)
 
 		x = y + a;
 		_mm_storeu_pd((double*)&out[i],x);
-		
-//		complex double a = cmul_instrics(out[odd_i], t);
-//		out[odd_i] = out[i] - a;
-//		out[i] += a;
 	    }
+            // Sometimes the many multiplies of floats makes the algo. inaccurate,
+            // so we need to align it.
             if (!((k & 0xffff000) && !(k & 0xfff)))
             {
                 t = cmul_instrics(t, t_base);
@@ -184,13 +187,13 @@ void my_fft(complex double * in, complex double * out, int n)
             else
             {
                 t = cos(-2*PI*(k+1)/N) + I * sin(-2*PI*(k+1)/N);
-   //             printf("K %d is in if\n", k);
             }
-
-//	    t = cmul_instrics(t_base,t);
 	}
     }
-    
+    gettimeofday(&tv3, NULL);
+    printf("%d.%d Time on algo\n", tv3.tv_sec - tv2.tv_sec, tv3.tv_usec - tv2.tv_usec); 
+    printf("%d.%d Time on total\n", tv.tv_sec - tv2.tv_sec,tv.tv_usec - tv2.tv_usec); 
+
 }
 
 // Naive discreete Fourier transform
