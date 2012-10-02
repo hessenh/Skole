@@ -99,7 +99,7 @@ void my_fft(complex double * in, complex double * out, int n)
     else if (n < 262144)
         filter = 0xfff;
     else
-        filter = 0x3ff;
+        filter = 0x4ff;
 
     // Keywords: inplace, SIMD, D&C
     // Few as possible: malloc, free, function call (and recursion)
@@ -110,10 +110,24 @@ void my_fft(complex double * in, complex double * out, int n)
 //    printf("Starting bit reversal\n");
 //    struct timeval  tv, tv2, tv3;
 //    gettimeofday(&tv, NULL);
-    int N = n;
+    
+//#ifdef elster
     int* indexes = (int*) malloc(sizeof(int)*n);
-    for (int i = 0; i < n; i++)
-        indexes[i] = i;
+    indexes[0] = 0;
+    indexes[1] = n/2;
+    out[0] = in[0];
+    out[1] = in[n/2];
+    for (int L = 2; L < n; L += 2)
+    {
+        indexes[L] = indexes[L/2] >> 1;
+        out[L] = in[indexes[L]];
+
+        indexes[L+1] = indexes[L] ^ indexes[1];
+        out[L+1] = in[indexes[L+1]];
+//        out[indexes[L]] = in[L];
+//        out[indexes[L+1]] = in[L+1];
+    }
+/*
     int L = n/2;
     out[0] = in[0];
     for (int q = 0; q < n; q++)
@@ -126,10 +140,18 @@ void my_fft(complex double * in, complex double * out, int n)
 
         }
     }
+    
     for (int i = 0; i < n; i++)
-        printf("%d became %d\n", i, indexes[i]);
+    {
+//        out[i] = in[indexes[i]];
 
-/*
+//        printf("%d became %d\n", i, indexes[i]);
+    }
+    */
+//#endif
+//#ifndef elster
+ // Alternate bit reversal algo.
+ /*
     int j = 0;
     for (int i = 0; i < n-1; i++)
     {
@@ -147,7 +169,9 @@ void my_fft(complex double * in, complex double * out, int n)
 	}
 	j += k;
     }
-    */
+//#endif
+//
+*/
   //  gettimeofday(&tv2, NULL);
  //   printf("%d.%d Time on bit reversal\n", tv2.tv_sec - tv.tv_sec, tv2.tv_usec - tv.tv_usec);
     // Last number ain't affected by loop, so we set it here
@@ -158,7 +182,7 @@ void my_fft(complex double * in, complex double * out, int n)
     /*  /
     / * / Do THE FFT calculations
     /  */
-    N = 1; // There are just 1 number at base case
+    int N = 1; // There are just 1 number at base case
     int Nh;
     int steps = log2(n) + 1;
     while (--steps) // Do steps
