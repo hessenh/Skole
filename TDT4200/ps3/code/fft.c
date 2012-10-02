@@ -94,9 +94,9 @@ void my_fft(complex double * in, complex double * out, int n)
     // The implemented algorithm is Cooley-Tukey, which can be implemented in-place
     // Wikipedia said "do bit reversal for Cooley-Tukey inplace FFT", and we got
     // a paper on Elster's algorithm, so I implemented it in C, modified to this task:
-    printf("Starting bit reversal\n");
-    struct timeval  tv, tv2, tv3;
-    gettimeofday(&tv, NULL);*
+//    printf("Starting bit reversal\n");
+//    struct timeval  tv, tv2, tv3;
+//    gettimeofday(&tv, NULL);
 /*
      int L = n/2;
     out[0] = in[0];
@@ -129,8 +129,8 @@ void my_fft(complex double * in, complex double * out, int n)
 	}
 	j += k;
     }
-    gettimeofday(&tv2, NULL);
-    printf("%d.%d Time on bit reversal\n", tv2.tv_sec - tv.tv_sec, tv2.tv_usec - tv.tv_usec);
+  //  gettimeofday(&tv2, NULL);
+ //   printf("%d.%d Time on bit reversal\n", tv2.tv_sec - tv.tv_sec, tv2.tv_usec - tv.tv_usec);
     // Last number ain't affected by loop, so we set it here
     out[n-1] = in[n-1];
     
@@ -180,7 +180,7 @@ void my_fft(complex double * in, complex double * out, int n)
 	    }
             // Sometimes the many multiplies of floats makes the algo. inaccurate,
             // so we need to align it.
-            if (!((k & 0xffff000) && !(k & 0xfff)))
+            if (!((k & 0xffffc00) && !(k & 0x3ff)))
             {
                 t = cmul_instrics(t, t_base);
             }
@@ -190,9 +190,9 @@ void my_fft(complex double * in, complex double * out, int n)
             }
 	}
     }
-    gettimeofday(&tv3, NULL);
-    printf("%d.%d Time on algo\n", tv3.tv_sec - tv2.tv_sec, tv3.tv_usec - tv2.tv_usec); 
-    printf("%d.%d Time on total\n", tv.tv_sec - tv2.tv_sec,tv.tv_usec - tv2.tv_usec); 
+   // gettimeofday(&tv3, NULL);
+   // printf("%d.%d Time on algo\n", tv3.tv_sec - tv2.tv_sec, tv3.tv_usec - tv2.tv_usec); 
+   // printf("%d.%d Time on total\n", tv.tv_sec - tv2.tv_sec,tv.tv_usec - tv2.tv_usec); 
 
 }
 
