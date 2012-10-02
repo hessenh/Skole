@@ -4,7 +4,7 @@
 #include <fftw3.h>
 #include <math.h>
 
-#include <sys/time.h>
+//#include <sys/time.h>
 
 #include <tmmintrin.h>
 
@@ -12,7 +12,7 @@
 //#define DPI 6.28318530717958647692
 
 
-
+/*
 #define BYTETOBINARYPATTERN "%d%d%d%d%d%d%d%d"
 #define BYTETOBINARY(byte)  \
       (byte & 0x80 ? 1 : 0), \
@@ -23,7 +23,7 @@
   (byte & 0x04 ? 1 : 0), \
   (byte & 0x02 ? 1 : 0), \
   (byte & 0x01 ? 1 : 0) 
-
+*/
 // Timing function
 // rdtcs returns number of processor cycles
 static unsigned long long rdtsctime() {
@@ -88,18 +88,18 @@ complex double cmul_c(complex double a, complex double b)
 
 void my_fft(complex double * in, complex double * out, int n)
 {
+    // How often we must align cos and sine depends on input size
     int filter;
     if (n < 32768)
-        filter = 0xffffffff;
+        filter = 0x7fff;
     else if (n < 65536)
-        filter = 0xfffffff;
+        filter = 0x7fff;
     else if (n < 131072)
-        filter = 0xffffff;
+        filter = 0x1fff;
     else if (n < 262144)
-        filter = 0xfffff;
+        filter = 0xfff;
     else
         filter = 0x3ff;
-
 
     // Keywords: inplace, SIMD, D&C
     // Few as possible: malloc, free, function call (and recursion)
@@ -110,21 +110,26 @@ void my_fft(complex double * in, complex double * out, int n)
 //    printf("Starting bit reversal\n");
 //    struct timeval  tv, tv2, tv3;
 //    gettimeofday(&tv, NULL);
-/*
-     int L = n/2;
+    int N = n;
+    int* indexes = (int*) malloc(sizeof(int)*n);
+    for (int i = 0; i < n; i++)
+        indexes[i] = i;
+    int L = n/2;
     out[0] = in[0];
     for (int q = 0; q < n; q++)
     {
-        N /= 2;
-        for (int j = 0; j < L; j += 2)
+        for (int j = L/2; j <= L; j += 2)
         {
-            out[L+j] = in[j + N];
+            indexes[j] = indexes[j/2] << 1;
+            L /= 2;
+//            out[L+j] = in[j + N];
+
         }
-        L *= 2;
     }
+    for (int i = 0; i < n; i++)
+        printf("%d became %d\n", i, indexes[i]);
 
-*/
-
+/*
     int j = 0;
     for (int i = 0; i < n-1; i++)
     {
@@ -142,6 +147,7 @@ void my_fft(complex double * in, complex double * out, int n)
 	}
 	j += k;
     }
+    */
   //  gettimeofday(&tv2, NULL);
  //   printf("%d.%d Time on bit reversal\n", tv2.tv_sec - tv.tv_sec, tv2.tv_usec - tv.tv_usec);
     // Last number ain't affected by loop, so we set it here
@@ -152,7 +158,7 @@ void my_fft(complex double * in, complex double * out, int n)
     /*  /
     / * / Do THE FFT calculations
     /  */
-    int N = 1; // There are just 1 number at base case
+    N = 1; // There are just 1 number at base case
     int Nh;
     int steps = log2(n) + 1;
     while (--steps) // Do steps
@@ -193,14 +199,16 @@ void my_fft(complex double * in, complex double * out, int n)
 	    }
             // Sometimes the many multiplies of floats makes the algo. inaccurate,
             // so we need to align it.
-//            if (!((k & 0xffffc00) && !(k & 0x3ff)))
             if ((k & filter))
             {
-                t = cmul_instrics(t, t_base);
+                // Seems like the C-based version is faster then the instrics-version in this case
+                t = cmul_c(t, t_base);
             }
             else
             {
                 t = cos(-2*PI*(k+1)/N) + I * sin(-2*PI*(k+1)/N);
+//                t = cmul_c(t, t_base);
+//                t = polar(1,-2*PI*(k+1)/N);
             }
 	}
     }
