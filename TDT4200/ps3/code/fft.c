@@ -88,6 +88,19 @@ complex double cmul_c(complex double a, complex double b)
 
 void my_fft(complex double * in, complex double * out, int n)
 {
+    int filter;
+    if (n < 32768)
+        filter = 0xffffffff;
+    else if (n < 65536)
+        filter = 0xfffffff;
+    else if (n < 131072)
+        filter = 0xffffff;
+    else if (n < 262144)
+        filter = 0xfffff;
+    else
+        filter = 0x3ff;
+
+
     // Keywords: inplace, SIMD, D&C
     // Few as possible: malloc, free, function call (and recursion)
 
@@ -180,7 +193,8 @@ void my_fft(complex double * in, complex double * out, int n)
 	    }
             // Sometimes the many multiplies of floats makes the algo. inaccurate,
             // so we need to align it.
-            if (!((k & 0xffffc00) && !(k & 0x3ff)))
+//            if (!((k & 0xffffc00) && !(k & 0x3ff)))
+            if ((k & filter))
             {
                 t = cmul_instrics(t, t_base);
             }
