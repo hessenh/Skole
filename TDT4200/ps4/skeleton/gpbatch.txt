@@ -1,0 +1,5 @@
+set view map
+set term jpeg size 512, 512
+set size ratio 1
+set xrange [-1024:1024]
+set yrange [-1024:1024]
