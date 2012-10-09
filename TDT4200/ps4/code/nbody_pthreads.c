@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <pthread.h>
 
 #define G  0.6 //Gravitational constant  
 #define dT 0.2 //Length of timestep 
