@@ -122,18 +122,12 @@ vec2 compute_force(planet p, planet q){
     return force;
 }
 
-int main(int argc, char** argv){
-
-    parse_args(argc, argv);
-
-    read_planets();
-
-    forces = (vec2*)malloc(sizeof(vec2)*num_planets);
+void* loop(void* arg)
+{
     
     // Main loop
     for(int t = 0; t < num_timesteps; t++){
-
-        if(output == 1){
+      if(output == 1){
             write_planets(t, 1);
         }
         
@@ -164,7 +158,20 @@ int main(int argc, char** argv){
             planets[p].velocity.x += dT * forces[p].x / planets[p].mass;
             planets[p].velocity.y += dT * forces[p].y / planets[p].mass;
         }
-    }
+
+      }
+
+
+}
+
+int main(int argc, char** argv){
+
+    parse_args(argc, argv);
+
+    read_planets();
+
+    forces = (vec2*)malloc(sizeof(vec2)*num_planets);
+    loop(NULL);
 
     if(output == 0){
         write_planets(num_timesteps,0);
