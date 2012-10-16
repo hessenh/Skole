@@ -9,10 +9,10 @@ nbody: nbody.c
 	gcc -std=c99 -O3 -g -o nbody nbody.c -lm
 
 nbody_pthreads: nbody_pthreads.c
-	gcc -std=c99 -O3 -g -o nbody_pthreads nbody_pthreads.c -lm -lpthread
+	gcc -std=c99 -O3 -Wall -g -o nbody_pthreads nbody_pthreads.c -lm -lpthread
 	
 nbody_openmp: nbody_openmp.c
-	gcc -std=c99 -O3 -g -o nbody_openmp nbody_openmp.c -lm -fopenmp
+	gcc -std=c99 -O3 -Wall -g -o nbody_openmp nbody_openmp.c -lm -fopenmp
 
 genplanets: genplanets.c
 	gcc -std=c99 -o genplanets genplanets.c
