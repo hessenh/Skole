@@ -28,6 +28,7 @@ int num_timesteps;
 int output;
 
 vec2* forces;
+vec2** local_forces;
 planet* planets;
 
 
@@ -40,7 +41,7 @@ void parse_args(int argc, char** argv){
         printf("1 - One file for each timestep, with planet positions (for movie)\n");
         exit(-1);
     }
-    
+
     num_timesteps = strtol(argv[1], 0, 10);
     num_threads = strtol(argv[2], 0, 10);
     output = strtol(argv[3], 0, 10);
@@ -130,6 +131,13 @@ int main(int argc, char** argv){
     read_planets();
 
     forces = (vec2*)malloc(sizeof(vec2)*num_planets);
+    local_forces = (vec2**)malloc(sizeof(vec2*)*num_threads);
+    for (int i = 0; i < num_threads; i++)
+    {
+        local_forces[i] = (vec2*)malloc(sizeof(vec2)*num_planets);
+        for (int p = 0; p < num_planets; p++) 
+            local_forces[i][p].x = local_forces[i][p].y = 0;
+    }
 
     // Main loop
 #pragma omp parallel 
@@ -139,10 +147,14 @@ int main(int argc, char** argv){
         int num_threads = omp_get_num_threads(); // Case invalid num_threads specified by command line
         for(int t = 0; t < num_timesteps; t++)
         {
-            if(rank == 0 && output == 1){
-                write_planets(t, 1);
-            }
+#pragma omp single
+            {
+              //  printf("Timestep %d\n", t);
 
+                if(output == 1){
+                    write_planets(t, 1);
+                }
+            }
             // Clear forces
 
 #pragma omp for
@@ -157,13 +169,27 @@ int main(int argc, char** argv){
                 for(int q = p+1; q < num_planets; q++){
                     vec2 f = compute_force(planets[p], planets[q]);
                     //                printf("Computing %d - %d\n", p, q);
-                    forces[p].x += f.x;
-                    forces[p].y += f.y;
+                    local_forces[rank][p].x += f.x;
+                    local_forces[rank][p].y += f.y;
 
-                    forces[q].x -= f.x;
-                    forces[q].y -= f.y;
+                    local_forces[rank][q].x -= f.x;
+                    local_forces[rank][q].y -= f.y;
                 }
             }
+
+            // Apply updated forces
+            for (int i = 0; i < num_threads; i++)                                
+            {   
+#pragma omp for
+                for(int p = 0; p < num_planets; p++)
+                {
+                    forces[p].x += local_forces[i][p].x;
+                    local_forces[i][p].x = 0;
+                    forces[p].y += local_forces[i][p].y;
+                    local_forces[i][p].y = 0;
+                }
+            }    
+
 
             // Update positions and velocities
 #pragma omp for schedule(static,1)

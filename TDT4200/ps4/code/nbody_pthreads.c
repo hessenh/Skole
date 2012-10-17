@@ -6,7 +6,7 @@
 #define G  0.6 //Gravitational constant  
 #define dT 0.2 //Length of timestep 
 
-// New types
+// New typeshttp://www.vg.no/
 // Two dimensional vector
 typedef struct{
     double x;
@@ -38,6 +38,7 @@ planet* planets;
 void barrier() {
     pthread_mutex_lock(&mutex);
     counter++;
+
     if (counter == num_threads)
     {
         counter = 0;
@@ -152,21 +153,21 @@ void* loop(void* arg)
     else
         end_p = num_planets;
 
-    printf("Hello from rank %d, starting at %d, ending at %d\n", rank, start_p, end_p);
+//    printf("Hello from rank %d, starting at %d, ending at %d\n", rank, start_p, end_p);
 
     // Main loop
     for(int t = 0; t < num_timesteps; t++){
-        if(output == 1 && rank == 0){
-            write_planets(t, 1);
-        }
-        barrier();
+        
+        if (rank == 0 && output == 1){
+                write_planets(t, 1);
+            }
 
-        /* Clear forces
+        // Clear forces
         for(int i = start_p; i < end_p; i++){
             forces[i].x = 0;
             forces[i].y = 0;
         }
-        */
+
 
         // Update forces
         for(int p = start_p; p < end_p; p++){
@@ -183,16 +184,17 @@ void* loop(void* arg)
         barrier();
 
         // Apply updated forces
-        for(int p = start_p; p < end_p; p++)
+        for (int i = 0; i < num_threads; i++)
         {
-            forces[p].x = forces[p].y = 0;
-            for (int i = 0; i < num_threads; i++)
+            for(int p = start_p; p < end_p; p++)
             {
                 forces[p].x += local_forces[i][p].x;
+                local_forces[i][p].x = 0;
                 forces[p].y += local_forces[i][p].y;
+                local_forces[i][p].y = 0;
             }
         }
-        barrier();
+
         // Update positions and velocities
         for(int p = start_p; p < end_p; p++){
             planets[p].position.x += dT * planets[p].velocity.x;
@@ -201,6 +203,7 @@ void* loop(void* arg)
             planets[p].velocity.x += dT * forces[p].x / planets[p].mass;
             planets[p].velocity.y += dT * forces[p].y / planets[p].mass;
         }
+        barrier();
     }
     return NULL;
 }

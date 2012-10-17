@@ -131,7 +131,6 @@ int main(int argc, char** argv){
     
     // Main loop
     for(int t = 0; t < num_timesteps; t++){
-
         if(output == 1){
             write_planets(t, 1);
         }
