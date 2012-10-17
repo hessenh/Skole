@@ -1,0 +1,9 @@
+digraph {
+    rankdir=BT
+    thread1 -> thread0
+    thread2 -> thread0
+    thread3 -> thread1
+    thread4 -> thread1
+    thread5 -> thread2
+    thread6 -> thread2
+}

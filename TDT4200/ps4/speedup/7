@@ -1,0 +1,19 @@
+Running nbody
+
+real	0m1.034s
+user	0m1.030s
+sys	0m0.000s
+
+
+Running nbody_pthreads
+
+real	0m0.328s
+user	0m1.130s
+sys	0m0.030s
+
+
+Running nbody_openmp
+
+real	0m0.170s
+user	0m1.100s
+sys	0m0.010s

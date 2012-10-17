@@ -15,7 +15,7 @@ nbody_openmp: nbody_openmp.c
 	gcc -std=c99 -O3 -g -o nbody_openmp nbody_openmp.c -lm
 
 genplanets: genplanets.c
-	gcc -std=c99 -o genplanets genplanets.c
+	gcc -std=c99 -o genplanets genplanets.c -lm
 
 jpgs: ${JPGS}
 
@@ -25,7 +25,7 @@ planets.mp4: ${JPGS}
 	ffmpeg -y -r ${FPS} -b ${BITRATE} -i %4d.jpg planets.mp4 && ${MAKE} clean
 	
 %.jpg: %.dat
-	echo plot \"$*.dat\" using 1:2 with points | cat gpbatch.txt - | gnuplot > $*.jpg
+	gnuplot -e "infile='$*.dat'; outfile='$*.jpg'" gpbatch.txt
 	-rm -f $*.dat
 	
 clean:

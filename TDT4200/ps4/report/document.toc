@@ -1,0 +1,13 @@
+\contentsline {section}{\numberline {Task 1}Theory}{2}{section.1}
+\contentsline {subsection}{\numberline {1.}Differences between processes and threads}{2}{subsection.1.1}
+\contentsline {subsection}{\numberline {2.}OpenMP vs. POSIX Threads}{2}{subsection.1.2}
+\contentsline {subsubsection}{\numberline {b) 1.}Benefits of OpenMP}{2}{subsubsection.1.2.1}
+\contentsline {subsubsection}{\numberline {b) 2.}Benefits of POSIX Threads}{2}{subsubsection.1.2.2}
+\contentsline {subsection}{\numberline {3.}Mutex vs. Semaphore}{2}{subsection.1.3}
+\contentsline {subsection}{\numberline {4.}Reduction}{3}{subsection.1.4}
+\contentsline {subsection}{\numberline {5.}Race condition}{4}{subsection.1.5}
+\contentsline {subsection}{\numberline {6.}Thread safety}{4}{subsection.1.6}
+\contentsline {section}{\numberline {Task 2}Programming}{5}{section.2}
+\contentsline {subsection}{\numberline {1.}OpenMP}{5}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.}POSIX threads}{5}{subsection.2.2}
+\contentsline {subsection}{\numberline {3.}Speedup}{5}{subsection.2.3}
