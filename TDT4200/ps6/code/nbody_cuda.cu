@@ -4,6 +4,8 @@
 #include <cuda.h>
 #include <cuda_runtime.h>
 
+#include <sys/time.h>
+
 #define dT 0.2f
 #define G 0.6f
 #define BLOCK_SIZE 32
@@ -28,6 +30,12 @@ void parse_args(int argc, char** argv){
     }
     
     num_timesteps = strtol(argv[1], 0, 10);
+}
+
+double walltime ( void ) {
+    static struct timeval t;
+    gettimeofday ( &t, NULL );
+    return ( t.tv_sec + 1e-6 * t.tv_usec );
 }
 
 // Reads planets from planets.txt
@@ -153,6 +161,8 @@ int main(int argc, char** argv){
     // TODO 1. Allocate device memory, and transfer data to device 
     int error;
 
+    double start=walltime();
+    
     /* Allocate device memory, and point to it from local variable */
     error = cudaMalloc((void**)&planets_d, sizeof(float4)*num_planets);
     /* Everything OK? */
@@ -163,6 +173,8 @@ int main(int argc, char** argv){
     /* Everything OK? */
     if (error != cudaSuccess)
         printf("Malloc: %d\n", error);
+    
+    double mallocTime=walltime();
 
     /* We transfer memory like this */
     error = cudaMemcpy(planets_d, planets, sizeof(float4)*num_planets, cudaMemcpyHostToDevice);
@@ -174,6 +186,8 @@ int main(int argc, char** argv){
     /* and check for errors */
     if (error != cudaSuccess)
         printf("Copy to velocities to device: %d\n", error);
+
+    double memTime = walltime();
 
     // Calculating the number of blocks
     int num_blocks = num_planets/BLOCK_SIZE + ((num_planets%BLOCK_SIZE == 0) ? 0 : 1);
@@ -195,6 +209,7 @@ int main(int argc, char** argv){
         cudaThreadSynchronize();
 
     }
+    double calcTime = walltime();
 
     // TODO 3. Transfer data back to host
     error = cudaMemcpy(planets, planets_d, sizeof(float4)*num_planets, cudaMemcpyDeviceToHost);
@@ -210,6 +225,14 @@ int main(int argc, char** argv){
     cudaFree(planets_d);
     cudaFree(velocities_d);
 
+    double tranferBackTime = walltime();
+
+    cudaDeviceSynchronize();
+    printf("Malloc device time: %f\n", mallocTime - start);
+    printf("Copy to device time: %f\n", memTime - mallocTime);
+    printf("Calc time: %f\n", calcTime - memTime);
+    printf("Copy to host time: %f\n", tranferBackTime - calcTime);
+    printf("Total time: %f\n", walltime() - start);
     // Output
     write_planets(num_timesteps);
 }
