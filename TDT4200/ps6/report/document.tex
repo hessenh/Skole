@@ -1,0 +1,119 @@
+%%This is a very basic article template.
+%%There is just one section and two subsections.
+\documentclass[english,a4paper,numbers=noenddot]{article}
+
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{makeidx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{multirow}
+\usepackage{tocloft}
+\usepackage{textcomp}
+\usepackage{wrapfig}
+
+%\usepackage{times}
+%\renewcommand{\familydefault}{\sfdefault}
+
+\renewcommand{\cftsecaftersnumb}{\hspace{6em}}
+\renewcommand{\cftsubsecaftersnumb}{\hspace{6em}}
+\renewcommand{\cftsubsubsecaftersnumb}{\hspace{6em}}
+
+\makeindex
+
+\hypersetup{
+    %bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobats bookmarks
+    pdftoolbar=true,        % show Acrobats toolbar?
+    pdfmenubar=true,        % show Acrobats menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={TDT4200 Parallel Computing - Problem Set 6 - hvatum},    % title
+    pdfauthor={Stian Hvatum},     % author
+    pdfsubject={TDT4200 Parallel Computing},   % subject of the document
+    pdfcreator={Stian Hvatum},   % creator of the document
+    pdfproducer={Stian Hvatum}, % producer of the document
+    pdfnewwindow=true,      % links in new window
+    colorlinks,       % false: boxed links; true: colored links
+    linkcolor=black,          % color of internal links
+    citecolor=green,        % color of links to bibliography
+    filecolor=magenta,      % color of file links
+    urlcolor=cyan           % color of external links
+}
+
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+%\input{styles/xml}
+
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{\alph{subsubsection}.}
+
+\title{TDT4200 Parallel Computing\\
+\Huge Problem Set 6}
+\author{Stian Hvatum (hvatum)\\MTDT}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\section{Theory}
+\subsection{Miscellaneous theory}
+\subsubsection{}
+\begin{enumerate}
+\item Memory Management Overhead
+\item Memory Transfer Overhead
+\item Instruction Overhead
+\end{enumerate}
+
+\subsubsection{}
+A barrier is a kind of synchronization that will guarantee that all threads reach the barrier before any of them continue execution. On the other hand, mem\_fence is only a way to force the order of memory instructions. A mem\_fence does not provide any synchronization, but guarantees that all global memory reads and writes before the mem\_fence is completed before a thread leaves the mem\_fence, and that non of the global memory accesses after the mem\_fence is started before the mem\_fence is reached (in case of instruction reorder optimizations).
+
+\subsubsection{}
+CUDA does not support global synchronization because it is both expensive to build in hardware with a kernel count as high as GPUs, and it would reduce overall performance. Instead, the model is to break programs into multiple kernel calls, which can be synchronized.
+
+\subsubsection{}
+Data parallelism is a sort of SIMD-parallelism where multiple threads execute the same instructions on different data (data in parallel).
+
+Task parallelism is when threads works asynchronus with each other, maybe on different data, maybe on different instructions. The total work is shared amongst threads, and different threads may work on different parts of the problem, or may work on the same part, with or without synchronization. In other words, the different tasks of the program is executed in parallel.
+
+\subsubsection{}
+\begin{itemize}
+\item CUDA works only on CUDA-enabled hardware manufactured by NVidia, while OpenCL is hardware transparent.
+\item OpenCL works on true hetrogenous systems, and can issue kernels to multiple GPUs and CPUs, while CUDA again only works on the GPU, supported by the CPU.
+\item CUDA is provided with more mature high performance libraries than OpenCL.
+\end{itemize}
+
+\subsubsection{}
+\begin{tabular}{rcl}
+OpenCL work-items&--&CUDA Thread\\
+OpenCL work-group&--&CUDA Block\\
+\end{tabular}
+
+\subsubsection{}
+Amongst others, the following are not supported in OpenCL:
+\begin{itemize}
+\item Function pointers - This means that dynamically calling a function, like in OO-programming or simply for the case of different functions as case of program configuration is not available, and must be handled with something like if-else-blocks with ordinary function calls.
+\item Kernels can only return void - all functions declared with \texttt{\_\_kernel} can only return void, so one must use pointers for return values. Pointers though, are rather limited, and can not eg. point to other pointers or functions.
+\item Recursion - since recursion is not allowed, a lot of the popular algorithms that uses recursion must be rewritten to work with OpenCL.
+\item Standard headers - The library functions defined in a lot of the common header files for C99 is not allowed to be used with OpenCL, meaning that one must implement a lot of basic funtionallity manually instead of calling library routines.
+\end{itemize}
+\subsection{Reduction}
+\subsubsection{}
+Algorithm cascading is a way of combining results from multiple threads as a single result.
+In the reduction example, we let each thread do multiple reductions in a loop, such that the overhead of calling the kernel was reduces, as we needed fewer kernel calls.
+
+\subsubsection{}
+The overhead was most likely the loop maintaince code, such as index checking and updating.
+
+\subsubsection{}
+The loops where completly unrolled using C++-template parameters, such that the inner loop was differnt according to the targeted device parameters. In practical terms it works like a C precompiler \#ifdef on the blocksize before each unroll statement to unroll the loop completly.
+
+\section{CUDA Programming}
+\subsection{Implementation}
+See \ttfamily{nbody\_cuda.cu}
+\subsection{Report}
+
+
+\end{document}
