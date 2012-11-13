@@ -108,12 +108,48 @@ In the reduction example, we let each thread do multiple reductions in a loop, s
 The overhead was most likely the loop maintaince code, such as index checking and updating.
 
 \subsubsection{}
-The loops where completly unrolled using C++-template parameters, such that the inner loop was differnt according to the targeted device parameters. In practical terms it works like a C precompiler \#ifdef on the blocksize before each unroll statement to unroll the loop completly.
+The loops where completly unrolled using C++-template parameters, such that the inner loop was differnt according to the targeted device parameters. In practical terms it works like a C precompiler {\ttfamily \#ifdef} on the blocksize before each unroll statement to unroll the loop completly.
 
 \section{CUDA Programming}
 \subsection{Implementation}
-See \ttfamily{nbody\_cuda.cu}
+See {\ttfamily nbody\_cuda.cu}
 \subsection{Report}
+\subsubsection{}
+All speedups are calculated with blocksize 32, as this was the blocksize used in the provided example results.
 
+\begin{tabular}{l|lll}
+\input{speedup.tex}
+\end{tabular}
+
+\subsubsection{}
+Blocksize 16:\\
+Malloc device time: 0.046659\\
+Copy to device time: 0.000044\\
+Calc time: 10.145833\\
+Copy to host time: 0.000113\\
+Total time: 10.192702\\
+
+Blocksize 32:\\
+Malloc device time: 0.043659\\
+Copy to device time: 0.000044\\
+Calc time: 6.622094\\
+Copy to host time: 0.000106\\
+Total time: 6.665952\\
+
+Blocksize 64:\\
+Malloc device time: 0.044541\\
+Copy to device time: 0.000043\\
+Calc time: 3.513628\\
+Copy to host time: 0.000103\\
+Total time: 3.558365\\
+
+Blocksize 128:\\
+Malloc device time: 0.034862\\
+Copy to device time: 0.000045\\
+Calc time: 3.644199\\
+Copy to host time: 0.000108\\
+Total time: 3.679264\\
+
+We see that the code performs much better using a block size of 64 or 128. This is most likely due to more threads can access the memory more sequential than using fewer threads. Even though the warp size is 32, the synchthreads call will ensure that the shared memory is written in larger chunks when using larger block sizes. Even larger block sizes generates too much overhead, and we reach top at 64.
 
 \end{document}

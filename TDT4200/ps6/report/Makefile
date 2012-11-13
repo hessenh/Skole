@@ -1,7 +1,7 @@
 
 all: document.pdf
 
-document.pdf: document.tex
+document.pdf: document.tex speedup.tex
 	pdflatex document.tex
 	pdflatex document.tex
 
