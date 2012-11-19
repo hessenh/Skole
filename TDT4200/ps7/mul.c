@@ -177,6 +177,11 @@ int main() {
         if (CL_SUCCESS != err) clerror("Error creating buffer for B",err);
         cl_mem dev_C = clCreateBuffer(context, CL_MEM_READ_WRITE, SIZE * sizeof(float), NULL, &err);
         if (CL_SUCCESS != err) clerror("Error creating buffer for C",err);
+
+        err = clEnqueueWriteBuffer(q, dev_A, CL_TRUE, 0, SIZE*sizeof(cl_float), A, 0, NULL, NULL);
+        if (CL_SUCCESS != err) clerror("Error writing buffer for A",err);
+        err = clEnqueueWriteBuffer(q, dev_B, CL_TRUE, 0, SIZE*sizeof(cl_float), B, 0, NULL, NULL);
+        if (CL_SUCCESS != err) clerror("Error writing buffer for B",err);
         
 	/******* End of subtask 2 ***********************************************/
 	memtime += walltime();
@@ -185,36 +190,45 @@ int main() {
 	/******* Subtask 3: Launch kernel ***************************************/
 	/* Enter your code here */
 
-        err = clSetKernelArg(kernel,0,sizeof(dev_C), &dev_C); 
+        err = clSetKernelArg(kernel,0,sizeof(dev_C), &dev_C);
         if (CL_SUCCESS != err) clerror("Error setting kernel arg 0",err);
- 
-        err = clSetKernelArg(kernel,1,sizeof(dev_A), &dev_A); 
+
+        err = clSetKernelArg(kernel,1,sizeof(dev_A), &dev_A);
         if (CL_SUCCESS != err) clerror("Error setting kernel arg 1",err);
 
-       err = clSetKernelArg(kernel,2,sizeof(dev_B), &dev_B); 
+        err = clSetKernelArg(kernel,2,sizeof(dev_B), &dev_B);
         if (CL_SUCCESS != err) clerror("Error setting kernel arg 2",err);
 
         size_t globalws = SIZE;
-        err = clEnqueueNDRangeKernel(q, kernel, 3, NULL, &globalws, NULL, 0, NULL, NULL);
+        err = clEnqueueNDRangeKernel(q, kernel, 1, NULL, &globalws, NULL, 0, NULL, NULL);
         if (CL_SUCCESS != err) clerror("Error launcing kernel",err);
 
 	/******* End of subtask 3 ***********************************************/
 
 	/* Wait for kernels to finish */
 	err = clFinish(q);
-	if(CL_SUCCESS != err) clerror("Error waiting for kernel",err);	
+	if(CL_SUCCESS != err) clerror("Error waiting for kernel",err);
 	devtime += walltime();
 
 	memtime -= walltime();
 	/******* Subtask 4: Copy result to host *********************************/
 	/* Enter your code here */
-	/******* End of subtask 4 ***********************************************/
+	
+        err = clEnqueueReadBuffer(q, dev_C, CL_TRUE, 0, SIZE*sizeof(cl_float), resC, 0, NULL, NULL);
+	if(CL_SUCCESS != err) clerror("Error reading buffer from device",err);
+
+        /******* End of subtask 4 ***********************************************/
 	memtime += walltime();
 	
 	overheadtime -= walltime();
 	/******* Subtask 5: Free device memory **********************************/
 	/* Enter your code here */
-	/******* End of subtask 5 ***********************************************/
+	
+        clReleaseMemObject(dev_A);
+        clReleaseMemObject(dev_B);
+        clReleaseMemObject(dev_C);
+        
+        /******* End of subtask 5 ***********************************************/
 	overheadtime += walltime();
 
 	/* Free the remaining OpenCL resources */
