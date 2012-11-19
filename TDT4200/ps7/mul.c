@@ -171,12 +171,33 @@ int main() {
 	memtime -= walltime();
 	/******* Subtask 2: Create device memory buffers and copy A,B to device */
 	/* Enter your code here */
+        cl_mem dev_A = clCreateBuffer(context, CL_MEM_READ_WRITE, SIZE * sizeof(float), NULL, &err);
+        if (CL_SUCCESS != err) clerror("Error creating buffer for A",err);
+        cl_mem dev_B = clCreateBuffer(context, CL_MEM_READ_WRITE, SIZE * sizeof(float), NULL, &err);
+        if (CL_SUCCESS != err) clerror("Error creating buffer for B",err);
+        cl_mem dev_C = clCreateBuffer(context, CL_MEM_READ_WRITE, SIZE * sizeof(float), NULL, &err);
+        if (CL_SUCCESS != err) clerror("Error creating buffer for C",err);
+        
 	/******* End of subtask 2 ***********************************************/
 	memtime += walltime();
 
 	devtime -= walltime();
 	/******* Subtask 3: Launch kernel ***************************************/
 	/* Enter your code here */
+
+        err = clSetKernelArg(kernel,0,sizeof(dev_C), &dev_C); 
+        if (CL_SUCCESS != err) clerror("Error setting kernel arg 0",err);
+ 
+        err = clSetKernelArg(kernel,1,sizeof(dev_A), &dev_A); 
+        if (CL_SUCCESS != err) clerror("Error setting kernel arg 1",err);
+
+       err = clSetKernelArg(kernel,2,sizeof(dev_B), &dev_B); 
+        if (CL_SUCCESS != err) clerror("Error setting kernel arg 2",err);
+
+        size_t globalws = SIZE;
+        err = clEnqueueNDRangeKernel(q, kernel, 3, NULL, &globalws, NULL, 0, NULL, NULL);
+        if (CL_SUCCESS != err) clerror("Error launcing kernel",err);
+
 	/******* End of subtask 3 ***********************************************/
 
 	/* Wait for kernels to finish */
